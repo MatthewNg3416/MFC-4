@@ -211,8 +211,14 @@
     <Image Include="res\LogicSim2.ico" />
     <Image Include="res\LogicSim2Doc.ico" />
     <Image Include="res\Toolbar.bmp" />
+    <Image Include="res\toolbar1.bmp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
+  <ProjectExtensions>
+    <VisualStudio>
+      <UserProperties RESOURCE_FILE="LogicSim2.rc" />
+    </VisualStudio>
+  </ProjectExtensions>
 </Project>

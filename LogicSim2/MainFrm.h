@@ -32,12 +32,17 @@ public:
 protected:  // control bar embedded members
 	CToolBar          m_wndToolBar;
 	CStatusBar        m_wndStatusBar;
+	CToolBar		  m_gateToolBar;
 
 // Generated message map functions
 protected:
 	afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);
 	DECLARE_MESSAGE_MAP()
 
+public:
+	afx_msg void OnViewGatetoolbar();
+	BOOL m_bShowToolBar;
+	afx_msg void OnUpdateViewGatetoolbar(CCmdUI *pCmdUI);
 };
 
 

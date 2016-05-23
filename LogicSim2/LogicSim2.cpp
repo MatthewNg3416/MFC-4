@@ -98,11 +98,6 @@ BOOL CLogicSim2App::InitInstance()
 	return TRUE;
 }
 
-// CLogicSim2App message handlers
-
-
-// CAboutDlg dialog used for App About
-
 class CAboutDlg : public CDialogEx
 {
 public:
@@ -119,6 +114,8 @@ protected:
 // Implementation
 protected:
 	DECLARE_MESSAGE_MAP()
+public:
+
 };
 
 CAboutDlg::CAboutDlg() : CDialogEx(IDD_ABOUTBOX)
@@ -131,6 +128,7 @@ void CAboutDlg::DoDataExchange(CDataExchange* pDX)
 }
 
 BEGIN_MESSAGE_MAP(CAboutDlg, CDialogEx)
+
 END_MESSAGE_MAP()
 
 // App command to run the dialog
@@ -139,8 +137,3 @@ void CLogicSim2App::OnAppAbout()
 	CAboutDlg aboutDlg;
 	aboutDlg.DoModal();
 }
-
-// CLogicSim2App message handlers
-
-
-

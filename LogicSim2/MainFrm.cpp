@@ -17,6 +17,8 @@ IMPLEMENT_DYNCREATE(CMainFrame, CFrameWnd)
 
 BEGIN_MESSAGE_MAP(CMainFrame, CFrameWnd)
 	ON_WM_CREATE()
+	ON_COMMAND(ID_VIEW_GATETOOLBAR, &CMainFrame::OnViewGatetoolbar)
+	ON_UPDATE_COMMAND_UI(ID_VIEW_GATETOOLBAR, &CMainFrame::OnUpdateViewGatetoolbar)
 END_MESSAGE_MAP()
 
 static UINT indicators[] =
@@ -30,6 +32,7 @@ static UINT indicators[] =
 // CMainFrame construction/destruction
 
 CMainFrame::CMainFrame()
+	: m_bShowToolBar(FALSE)
 {
 	// TODO: add member initialization code here
 }
@@ -58,9 +61,19 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	m_wndStatusBar.SetIndicators(indicators, sizeof(indicators)/sizeof(UINT));
 
 	// TODO: Delete these three lines if you don't want the toolbar to be dockable
+	if (!m_gateToolBar.CreateEx(this, TBSTYLE_FLAT, WS_CHILD | WS_VISIBLE | CBRS_TOP
+		| CBRS_GRIPPER | CBRS_TOOLTIPS | CBRS_FLYBY | CBRS_SIZE_DYNAMIC) ||
+		!m_gateToolBar.LoadToolBar(IDR_TOOLBAR1))
+	{
+		TRACE0("Failed to create toolbar\n");
+		return -1;      // fail to create 
+	}
+
 	m_wndToolBar.EnableDocking(CBRS_ALIGN_ANY);
+	m_gateToolBar.EnableDocking(CBRS_ALIGN_ANY);
 	EnableDocking(CBRS_ALIGN_ANY);
 	DockControlBar(&m_wndToolBar);
+	DockControlBar(&m_gateToolBar);
 
 
 	return 0;
@@ -93,3 +106,29 @@ void CMainFrame::Dump(CDumpContext& dc) const
 
 // CMainFrame message handlers
 
+
+
+void CMainFrame::OnViewGatetoolbar()
+{
+	// TODO: Add your command handler code here
+	if (m_bShowToolBar) {
+		m_bShowToolBar = FALSE;
+		ShowControlBar(&m_gateToolBar, FALSE, FALSE); // 숨기기
+	}
+	else {
+		m_bShowToolBar = TRUE;
+		ShowControlBar(&m_gateToolBar, TRUE, FALSE); // 보이기
+	}
+
+}
+
+
+void CMainFrame::OnUpdateViewGatetoolbar(CCmdUI *pCmdUI)
+{
+	// TODO: Add your command update UI handler code here
+	BOOL visible = m_gateToolBar.IsWindowVisible();
+	if (visible) pCmdUI->SetCheck(TRUE);
+	else pCmdUI->SetCheck(FALSE);
+
+
+}

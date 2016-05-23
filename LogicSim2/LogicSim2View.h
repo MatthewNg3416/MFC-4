@@ -3,6 +3,8 @@
 //
 
 #pragma once
+#include "afxtempl.h"
+#include "atltypes.h"
 
 
 class CLogicSim2View : public CView
@@ -40,6 +42,23 @@ protected:
 // Generated message map functions
 protected:
 	DECLARE_MESSAGE_MAP()
+public:
+	CArray<CPoint, CPoint&> m_point;
+	afx_msg void OnMouseMove(UINT nFlags, CPoint point);
+	afx_msg void OnLButtonDown(UINT nFlags, CPoint point);
+	afx_msg void OnLButtonUp(UINT nFlags, CPoint point);
+	CPoint start;
+	CPoint old;
+	bool move;
+	int current;
+	afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);
+	int gate;
+	afx_msg void OnGateAnd();
+	afx_msg void OnGateOr();
+	afx_msg void OnGateNot();
+	afx_msg void OnGateNand();
+	afx_msg void OnGateNor();
+	afx_msg void OnGateXor();
 };
 
 #ifndef _DEBUG  // debug version in LogicSim2View.cpp
