@@ -15,7 +15,7 @@
 #ifdef _DEBUG
 #define new DEBUG_NEW
 #endif
-
+//This is test for git-hub
 struct AND {
 		CPoint point;
 		AND(){
