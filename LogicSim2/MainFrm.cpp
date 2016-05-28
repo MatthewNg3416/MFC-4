@@ -4,9 +4,9 @@
 
 #include "stdafx.h"
 #include "LogicSim2.h"
-
 #include "MainFrm.h"
-
+#include "LogicSim2View.h"
+#include "Tree.h"
 #ifdef _DEBUG
 #define new DEBUG_NEW
 #endif
@@ -131,4 +131,15 @@ void CMainFrame::OnUpdateViewGatetoolbar(CCmdUI *pCmdUI)
 	else pCmdUI->SetCheck(FALSE);
 
 
+}
+
+
+BOOL CMainFrame::OnCreateClient(LPCREATESTRUCT lpcs, CCreateContext* pContext)
+{
+	// TODO: 여기에 특수화된 코드를 추가 및/또는 기본 클래스를 호출합니다.
+	m_wndSplitter.CreateStatic(this, 1, 2);
+	m_wndSplitter.CreateView(0, 0, RUNTIME_CLASS(Tree), CSize(300, 300), pContext);
+	m_wndSplitter.CreateView(0, 1, RUNTIME_CLASS(CLogicSim2View), CSize(300, 300), pContext);
+	SetActiveView((CView*)m_wndSplitter.GetPane(0, 0));
+	return TRUE;
 }

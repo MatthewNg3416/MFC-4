@@ -11,134 +11,13 @@
 
 #include "LogicSim2Doc.h"
 #include "LogicSim2View.h"
-
+#include "Gate.h"
+#include <afxtempl.h>
 #ifdef _DEBUG
 #define new DEBUG_NEW
 #endif
 //This is test for git-hub
-struct AND {
-		CPoint point;
-		AND(){
-			point=CPoint(0,0);
-		}
-		AND(CPoint &point) {
-			this->point = point;
-		}
-		void Draw(CClientDC &dc) {
-			dc.MoveTo(point.x - 30, point.y + 30);
-			dc.AngleArc(point.x - 30, point.y, 30, 270, 180);
-			dc.LineTo(point.x - 60, point.y - 30);
-			dc.LineTo(point.x - 60, point.y + 30);
-			dc.LineTo(point.x - 30, point.y + 30);
-		}
-	};
 
-	struct NOT {
-		CPoint point;
-		NOT(CPoint &point) {
-			this->point = point;
-		}
-		void Draw(CClientDC &dc) {
-			dc.Ellipse(point.x - 10, point.y - 5, point.x, point.y + 5);
-			dc.MoveTo(point.x - 10, point.y);
-			dc.LineTo(point.x - 30, point.y - 10);
-			dc.LineTo(point.x - 30, point.y + 10);
-			dc.LineTo(point.x - 10, point.y);
-		}
-	};
-
-	struct OR {
-		CPoint point;
-		CPoint arr[3][4];
-		OR(CPoint &point) {
-			this->point = point;
-			
-			arr[0][0].x = point.x;
-			arr[0][0].y = point.y;
-			arr[0][1].x = point.x - 10;
-			arr[0][1].y = point.y - 10;
-			arr[0][2].x = point.x - 30;
-			arr[0][2].y = point.y - 20;
-			arr[0][3].x = point.x - 60;
-			arr[0][3].y = point.y - 30;
-
-			arr[1][0].x = point.x;
-			arr[1][0].y = point.y;
-			arr[1][1].x = point.x - 10;
-			arr[1][1].y = point.y + 10;
-			arr[1][2].x = point.x - 30;
-			arr[1][2].y = point.y + 20;
-			arr[1][3].x = point.x - 60;
-			arr[1][3].y = point.y + 30;
-
-			arr[2][0].x = point.x - 60;
-			arr[2][0].y = point.y - 30;
-			arr[2][1].x = point.x - 40;
-			arr[2][1].y = point.y - 20;
-			arr[2][2].x = point.x - 40;
-			arr[2][2].y = point.y + 20;
-			arr[2][3].x = point.x - 60;
-			arr[2][3].y = point.y + 30;
-		}
-		void Draw(CClientDC &dc) {
-			for (int i = 0; i < 3; i++) {
-				dc.PolyBezier(arr[i], 4);
-			}
-		}
-	};
-	
-	struct NAND {
-		AND *and;
-		CPoint point;
-
-		NAND(CPoint &point) {
-			CPoint temp = point - CPoint(10, 0);
-			and=new AND(temp);
-			this->point = point;
-		}
-		void Draw(CClientDC &dc) {
-			dc.Ellipse(point.x - 10, point.y - 5, point.x, point.y + 5);
-			and->Draw(dc);
-		}
-	};
-
-	struct NOR {
-		OR *or;
-		CPoint point;
-
-		NOR(CPoint &point) {
-			CPoint temp = point - CPoint(10, 0);
-			or = new OR(temp);
-			this->point = point;
-		}
-		void Draw(CClientDC &dc) {
-			dc.Ellipse(point.x - 10, point.y - 5, point.x, point.y + 5);
-			or->Draw(dc);
-		}
-	};
-	
-	struct XOR{
-		OR * or;
-		CPoint point;
-		CPoint arr[4];
-
-		XOR(CPoint &point){
-			or = new OR(point);
-			this->point = point;
-			arr[0].x = point.x - 70;
-			arr[0].y = point.y - 30;
-			arr[1].x = point.x - 50;
-			arr[1].y = point.y - 20;
-			arr[2].x = point.x - 50;
-			arr[2].y = point.y + 20;
-			arr[3].x = point.x - 70;
-			arr[3].y = point.y + 30;
-		}
-		void Draw(CClientDC &dc) {
-			or ->Draw(dc);
-			dc.PolyBezier(arr, 4);
-		}
-	};
 // CLogicSim2View
 
 IMPLEMENT_DYNCREATE(CLogicSim2View, CView)
@@ -158,6 +37,8 @@ BEGIN_MESSAGE_MAP(CLogicSim2View, CView)
 	ON_COMMAND(ID_GATE_NAND, &CLogicSim2View::OnGateNand)
 	ON_COMMAND(ID_GATE_NOR, &CLogicSim2View::OnGateNor)
 	ON_COMMAND(ID_GATE_XOR, &CLogicSim2View::OnGateXor)
+	ON_WM_LBUTTONDBLCLK()
+	ON_WM_CHAR()
 END_MESSAGE_MAP()
 
 // CLogicSim2View construction/destruction
@@ -330,6 +211,7 @@ void CLogicSim2View::OnLButtonDown(UINT nFlags, CPoint point)
 
 void CLogicSim2View::OnLButtonUp(UINT nFlags, CPoint point)
 {
+	list.SetSize(5);
 	// TODO: Add your message handler code here and/or call default
 	if (current != -1) {
 		CClientDC dc(this);
@@ -339,6 +221,7 @@ void CLogicSim2View::OnLButtonUp(UINT nFlags, CPoint point)
 		if (gate == 0) {
 			AND and (point);
 			and.Draw(dc);
+			list[0] = and;
 		}
 		else if (gate == 1) {
 			OR or (point);
@@ -434,4 +317,35 @@ void CLogicSim2View::OnGateXor()
 	gate = 5;
 	current = 1;
 	move = true;
+}
+
+
+void CLogicSim2View::OnLButtonDblClk(UINT nFlags, CPoint point)
+{
+	// TODO: 여기에 메시지 처리기 코드를 추가 및/또는 기본값을 호출합니다.
+	CClientDC dc(this);
+	CFont font;
+	font.CreatePointFont(150, _T("궁서"));
+	dc.SelectObject(&font);
+
+	// 현재까지 입력된 글자들을 화면에 출력한다.
+	Gate temp = list[0];
+	if (point.x > temp.point.x - 60 && point.x<temp.point.x&&point.y>temp.point.y - 30 && point.y < temp.point.y + 30) {
+		CreateSolidCaret(10, 20); // 캐럿을 생성한다.
+		SetCaretPos(CPoint(temp.point.x-40,temp.point.y+40)); // 캐럿의 위치를 설정한다.
+		ShowCaret(); // 캐럿을 화면에 보인다.
+		dc.TextOutW(temp.point.x - 30, temp.point.y + 40, temp.name);
+	}
+	CView::OnLButtonDblClk(nFlags, point);
+}
+
+
+void CLogicSim2View::OnChar(UINT nChar, UINT nRepCnt, UINT nFlags)
+{
+	// TODO: 여기에 메시지 처리기 코드를 추가 및/또는 기본값을 호출합니다.
+	Gate& temp = list[0];
+	if(nChar !=_T('\n'))
+		temp.name.AppendChar(nChar);
+	InvalidateRect(CRect(CPoint(100,100), temp.point + CPoint(30, 40)));
+	CView::OnChar(nChar, nRepCnt, nFlags);
 }

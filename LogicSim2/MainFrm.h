@@ -42,7 +42,10 @@ protected:
 public:
 	afx_msg void OnViewGatetoolbar();
 	BOOL m_bShowToolBar;
-	afx_msg void OnUpdateViewGatetoolbar(CCmdUI *pCmdUI);
+	afx_msg void OnUpdateViewGatetoolbar(CCmdUI *pCmdUI); 
+	CSplitterWnd m_wndSplitter;
+
+	virtual BOOL OnCreateClient(LPCREATESTRUCT lpcs, CCreateContext* pContext);
 };
 
 

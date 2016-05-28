@@ -5,7 +5,8 @@
 #pragma once
 #include "afxtempl.h"
 #include "atltypes.h"
-
+#include "Gate.h"
+#include "LogicSim2Doc.h"
 
 class CLogicSim2View : public CView
 {
@@ -15,7 +16,7 @@ protected: // create from serialization only
 
 // Attributes
 public:
-	CLogicSim2Doc* GetDocument() const;
+	 CLogicSim2Doc* GetDocument() const;
 
 // Operations
 public:
@@ -51,6 +52,7 @@ public:
 	CPoint old;
 	bool move;
 	int current;
+	CArray<Gate, Gate&> list;
 	afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);
 	int gate;
 	afx_msg void OnGateAnd();
@@ -59,6 +61,8 @@ public:
 	afx_msg void OnGateNand();
 	afx_msg void OnGateNor();
 	afx_msg void OnGateXor();
+	afx_msg void OnLButtonDblClk(UINT nFlags, CPoint point);
+	afx_msg void OnChar(UINT nChar, UINT nRepCnt, UINT nFlags);
 };
 
 #ifndef _DEBUG  // debug version in LogicSim2View.cpp
