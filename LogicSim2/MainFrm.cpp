@@ -140,6 +140,6 @@ BOOL CMainFrame::OnCreateClient(LPCREATESTRUCT lpcs, CCreateContext* pContext)
 	m_wndSplitter.CreateStatic(this, 1, 2);
 	m_wndSplitter.CreateView(0, 0, RUNTIME_CLASS(Tree), CSize(300, 300), pContext);
 	m_wndSplitter.CreateView(0, 1, RUNTIME_CLASS(CLogicSim2View), CSize(300, 300), pContext);
-	SetActiveView((CView*)m_wndSplitter.GetPane(0, 0));
+	SetActiveView((CView*)m_wndSplitter.GetPane(0, 1));
 	return TRUE;
 }

@@ -51,6 +51,7 @@ CLogicSim2View::CLogicSim2View()
 	, gate(0)
 {
 	// TODO: add construction code here
+	list.SetSize(5);
 
 }
 
@@ -136,67 +137,71 @@ void CLogicSim2View::OnMouseMove(UINT nFlags, CPoint point)
 {
 	// TODO: Add your message handler code here and/or call default
 	CClientDC dc(this);
-	
+	int x = point.x / 10;
+	int y = point.y / 10;
+
+	x = x * 10;
+	y = y * 10;
 	if (current!=-1 && move) {
 		dc.SelectStockObject(NULL_BRUSH);
 		dc.SetROP2(R2_NOT);
 			if (gate == 0) {
 				AND and (CPoint(start.x, start.y));
 				and.Draw(dc);
-				and.point.x += point.x - start.x;
-				and.point.y += point.y - start.y;
-				start.x = point.x;
-				start.y = point.y;
+				and.point.x += x - start.x;
+				and.point.y += y-start.y;
+				start.x = x;
+				start.y = y;
 				and.Draw(dc);
 			}
 		
 			else if (gate == 1) {
 				OR or (CPoint(start.x, start.y));
 				or .Draw(dc);
-				or .point.x += point.x - start.x;
-				or .point.y += point.y - start.y;
-				start.x = point.x;
-				start.y = point.y;
+				or .point.x += x - start.x;
+				or .point.y += y - start.y;
+				start.x = x;
+				start.y = y;
 				or .Draw(dc);
 			}
 			else if (gate == 2) {
 				NOT not (CPoint(start.x, start.y));
 				not.Draw(dc);
-				not.point.x += point.x - start.x;
-				not.point.y += point.y - start.y;
-				start.x = point.x;
-				start.y = point.y;
+				not.point.x += x - start.x;
+				not.point.y += y - start.y;
+				start.x = x;
+				start.y = y;
 				not.Draw(dc);
 			}
 			else if (gate == 3) {
 				NAND nand(CPoint(start.x, start.y));
 				nand.Draw(dc);
-				nand.point.x += point.x - start.x;
-				nand.point.y += point.y - start.y;
-				start.x = point.x;
-				start.y = point.y;
+				nand.point.x += x - start.x;
+				nand.point.y += y - start.y;
+				start.x = x;
+				start.y = y;
 				nand.Draw(dc);
 			}
 			else if (gate == 4) {
 				NOR nor(CPoint(start.x, start.y));
 				nor.Draw(dc);
-				nor.point.x += point.x - start.x;
-				nor.point.y += point.y - start.y;
-				start.x = point.x;
-				start.y = point.y;
+				nor.point.x += x - start.x;
+				nor.point.y += y - start.y;
+				start.x = x;
+				start.y = y;
 				nor.Draw(dc);
 			}
 			else if (gate == 5) {
-			XOR xor (CPoint(start.x, start.y));
-			xor.Draw(dc);
-			xor.point.x += point.x - start.x;
-			xor.point.y += point.y - start.y;
-			start.x = point.x;
-			start.y = point.y;
-			xor.Draw(dc);
+				XOR xor (CPoint(start.x, start.y));
+				xor.Draw(dc);
+				xor.point.x += x - start.x;
+				xor.point.y += y - start.y;
+				start.x = x;
+				start.y = y;
+				xor.Draw(dc);
 			}
 	}
-
+		
 	CView::OnMouseMove(nFlags, point);
 }
 
@@ -204,14 +209,17 @@ void CLogicSim2View::OnMouseMove(UINT nFlags, CPoint point)
 void CLogicSim2View::OnLButtonDown(UINT nFlags, CPoint point)
 {
 	// TODO: Add your message handler code here and/or call default
-
 	CView::OnLButtonDown(nFlags, point);
 }
 
 
 void CLogicSim2View::OnLButtonUp(UINT nFlags, CPoint point)
 {
-	list.SetSize(5);
+	int x = point.x / 10;
+	int y = point.y / 10;
+
+	x = x * 10;
+	y = y * 10;
 	// TODO: Add your message handler code here and/or call default
 	if (current != -1) {
 		CClientDC dc(this);
@@ -219,28 +227,29 @@ void CLogicSim2View::OnLButtonUp(UINT nFlags, CPoint point)
 		dc.SetROP2(R2_COPYPEN);
 
 		if (gate == 0) {
-			AND and (point);
+			AND and (CPoint(x,y));
 			and.Draw(dc);
 			list[0] = and;
 		}
 		else if (gate == 1) {
-			OR or (point);
+			OR or (CPoint(x, y));
 			or .Draw(dc);
+			list[0] = or ;
 		}
 		else if (gate == 2) {
-			NOT not(point);
+			NOT not(CPoint(x, y));
 			not.Draw(dc);
 		}
 		else if (gate == 3) {
-				NAND nand(point);
+				NAND nand(CPoint(x, y));
 				nand.Draw(dc);
 		}
 		else if (gate == 4) {
-				NOR nor(point);
+				NOR nor(CPoint(x, y));
 				nor.Draw(dc);
 			}
 		else if (gate == 5) {
-			XOR xor (point);
+			XOR xor (CPoint(x, y));
 			xor.Draw(dc);
 			} 
 		current = -1;
