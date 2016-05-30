@@ -3,6 +3,10 @@
 //
 
 #pragma once
+#include "afxext.h"
+#include "LogicSim2View.h"
+#include "Tree.h"
+#include "OptionView.h"
 
 class CMainFrame : public CFrameWnd
 {
@@ -16,7 +20,9 @@ public:
 
 // Operations
 public:
-
+	CLogicSim2View* m_main;
+	Tree*			m_tree;
+	OptionView*		m_option;
 // Overrides
 public:
 	virtual BOOL PreCreateWindow(CREATESTRUCT& cs);
@@ -33,6 +39,7 @@ protected:  // control bar embedded members
 	CToolBar          m_wndToolBar;
 	CStatusBar        m_wndStatusBar;
 	CToolBar		  m_gateToolBar;
+	
 
 // Generated message map functions
 protected:
@@ -46,6 +53,7 @@ public:
 	CSplitterWnd m_wndSplitter;
 
 	virtual BOOL OnCreateClient(LPCREATESTRUCT lpcs, CCreateContext* pContext);
+	CSplitterWnd m_subSplitter;
 };
 
 

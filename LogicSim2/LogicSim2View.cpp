@@ -37,8 +37,8 @@ BEGIN_MESSAGE_MAP(CLogicSim2View, CView)
 	ON_COMMAND(ID_GATE_NAND, &CLogicSim2View::OnGateNand)
 	ON_COMMAND(ID_GATE_NOR, &CLogicSim2View::OnGateNor)
 	ON_COMMAND(ID_GATE_XOR, &CLogicSim2View::OnGateXor)
-	ON_WM_LBUTTONDBLCLK()
-	ON_WM_CHAR()
+//	ON_WM_LBUTTONDBLCLK()
+//	ON_WM_CHAR()
 END_MESSAGE_MAP()
 
 // CLogicSim2View construction/destruction
@@ -49,10 +49,14 @@ CLogicSim2View::CLogicSim2View()
 	, move(false)
 	, current(0)
 	, gate(0)
+	, lineDraw(false)
+	, isClicked(false)
+	, lineStart(0)
+	, lineEnd(0)
 {
 	// TODO: add construction code here
-	list.SetSize(5);
-
+	list.SetSize(3000);
+	line.SetSize(3000);
 }
 
 CLogicSim2View::~CLogicSim2View()
@@ -71,11 +75,12 @@ BOOL CLogicSim2View::PreCreateWindow(CREATESTRUCT& cs)
 
 void CLogicSim2View::OnDraw(CDC* pDC)
 {
+	
 	CLogicSim2Doc* pDoc = GetDocument();
 	ASSERT_VALID(pDoc);
 	CRect rect;
 	GetWindowRect(&rect);
-	m_point.SetSize(0);
+	m_point.SetSize(20000);
 	for (int i = 10; i < rect.Width(); i += 10) {
 
 		for (int j = 10; j < rect.Height(); j += 10) {
@@ -83,9 +88,16 @@ void CLogicSim2View::OnDraw(CDC* pDC)
 			m_point.Add(CPoint(i, j));
 		}
 	}
+	if (lineDraw == true && isClicked == true) {
+		CPen myPen(PS_SOLID, 2, RGB(200, 200, 200));
+		pDC->SelectObject(&myPen);
+		pDC->MoveTo(lineStart);
+		pDC->LineTo(lineEnd.x, lineStart.y);
+		pDC->MoveTo(lineEnd.x, lineStart.y);
+		pDC->LineTo(lineEnd);
+	}
 	if (!pDoc)
 		return;
-
 	// TODO: add draw code for native data here
 }
 
@@ -201,6 +213,11 @@ void CLogicSim2View::OnMouseMove(UINT nFlags, CPoint point)
 				xor.Draw(dc);
 			}
 	}
+	lineEnd = CPoint(x, y);
+	
+	if (lineDraw) {
+		Invalidate();
+	}
 		
 	CView::OnMouseMove(nFlags, point);
 }
@@ -208,6 +225,16 @@ void CLogicSim2View::OnMouseMove(UINT nFlags, CPoint point)
 
 void CLogicSim2View::OnLButtonDown(UINT nFlags, CPoint point)
 {
+	CPoint temp;
+	for (int i = 0; i < list.GetCount(); i++) {
+			temp = list[i].point;
+		if (temp.x - 4 < point.x&&temp.x + 4 > point.x&&temp.y - 4 < point.y&&temp.y + 4 > point.y) {
+			lineDraw = true;
+			isClicked = true;
+			lineStart = temp;
+		}
+	}
+
 	// TODO: Add your message handler code here and/or call default
 	CView::OnLButtonDown(nFlags, point);
 }
@@ -215,48 +242,70 @@ void CLogicSim2View::OnLButtonDown(UINT nFlags, CPoint point)
 
 void CLogicSim2View::OnLButtonUp(UINT nFlags, CPoint point)
 {
+	CClientDC dc(this);
 	int x = point.x / 10;
 	int y = point.y / 10;
-
+	static int i = 0;
+	static int j = 0;
 	x = x * 10;
 	y = y * 10;
 	// TODO: Add your message handler code here and/or call default
 	if (current != -1) {
-		CClientDC dc(this);
 		dc.SelectStockObject(NULL_BRUSH);
 		dc.SetROP2(R2_COPYPEN);
 
 		if (gate == 0) {
 			AND and (CPoint(x,y));
 			and.Draw(dc);
-			list[0] = and;
+			list[i]=and;
+			i++;
 		}
 		else if (gate == 1) {
 			OR or (CPoint(x, y));
 			or .Draw(dc);
-			list[0] = or ;
+			list.Add(or );
 		}
 		else if (gate == 2) {
 			NOT not(CPoint(x, y));
 			not.Draw(dc);
+			list.Add(not);
 		}
 		else if (gate == 3) {
 				NAND nand(CPoint(x, y));
 				nand.Draw(dc);
+				list.Add(nand);
 		}
 		else if (gate == 4) {
 				NOR nor(CPoint(x, y));
 				nor.Draw(dc);
+				list.Add(nor);
 			}
 		else if (gate == 5) {
 			XOR xor (CPoint(x, y));
 			xor.Draw(dc);
+			list.Add(xor);
 			} 
 		current = -1;
 		move = false;
 		gate = -1;
 		start.x = 0;
 		start.y = 0;
+	}
+	lineEnd = CPoint(x, y);
+	if (lineDraw) {
+		line[j]=(lineStart, lineEnd);
+		lineDraw = false;
+		Invalidate(false);
+		j++;
+	}
+	if (isClicked==true) {
+		CPen myPen(PS_SOLID, 2, RGB(200, 100, 100));
+		dc.SelectObject(&myPen);
+		dc.MoveTo(lineStart);
+		dc.LineTo(lineEnd.x, lineStart.y);
+		dc.MoveTo(lineEnd.x, lineStart.y);
+		dc.LineTo(lineEnd);
+		isClicked = false;
 	}
 	CView::OnLButtonUp(nFlags, point);
 }
@@ -329,32 +378,32 @@ void CLogicSim2View::OnGateXor()
 }
 
 
-void CLogicSim2View::OnLButtonDblClk(UINT nFlags, CPoint point)
-{
-	// TODO: 여기에 메시지 처리기 코드를 추가 및/또는 기본값을 호출합니다.
-	CClientDC dc(this);
-	CFont font;
-	font.CreatePointFont(150, _T("궁서"));
-	dc.SelectObject(&font);
+//void CLogicSim2View::OnLButtonDblClk(UINT nFlags, CPoint point)
+//{
+//	// TODO: 여기에 메시지 처리기 코드를 추가 및/또는 기본값을 호출합니다.
+//	CClientDC dc(this);
+//	CFont font;
+//	font.CreatePointFont(150, _T("궁서"));
+//	dc.SelectObject(&font);
+//
+//	// 현재까지 입력된 글자들을 화면에 출력한다.
+//	Gate temp = list[0];
+//	if (point.x > temp.point.x - 60 && point.x<temp.point.x&&point.y>temp.point.y - 30 && point.y < temp.point.y + 30) {
+//		CreateSolidCaret(10, 20); // 캐럿을 생성한다.
+//		SetCaretPos(CPoint(temp.point.x-40,temp.point.y+40)); // 캐럿의 위치를 설정한다.
+//		ShowCaret(); // 캐럿을 화면에 보인다.
+//		dc.TextOutW(temp.point.x - 30, temp.point.y + 40, temp.name);
+//	}
+//	CView::OnLButtonDblClk(nFlags, point);
+//}
 
-	// 현재까지 입력된 글자들을 화면에 출력한다.
-	Gate temp = list[0];
-	if (point.x > temp.point.x - 60 && point.x<temp.point.x&&point.y>temp.point.y - 30 && point.y < temp.point.y + 30) {
-		CreateSolidCaret(10, 20); // 캐럿을 생성한다.
-		SetCaretPos(CPoint(temp.point.x-40,temp.point.y+40)); // 캐럿의 위치를 설정한다.
-		ShowCaret(); // 캐럿을 화면에 보인다.
-		dc.TextOutW(temp.point.x - 30, temp.point.y + 40, temp.name);
-	}
-	CView::OnLButtonDblClk(nFlags, point);
-}
 
-
-void CLogicSim2View::OnChar(UINT nChar, UINT nRepCnt, UINT nFlags)
-{
-	// TODO: 여기에 메시지 처리기 코드를 추가 및/또는 기본값을 호출합니다.
-	Gate& temp = list[0];
-	if(nChar !=_T('\n'))
-		temp.name.AppendChar(nChar);
-	InvalidateRect(CRect(CPoint(100,100), temp.point + CPoint(30, 40)));
-	CView::OnChar(nChar, nRepCnt, nFlags);
-}
+//void CLogicSim2View::OnChar(UINT nChar, UINT nRepCnt, UINT nFlags)
+//{
+//	// TODO: 여기에 메시지 처리기 코드를 추가 및/또는 기본값을 호출합니다.
+//	Gate& temp = list[0];
+//	if(nChar !=_T('\n'))
+//		temp.name.AppendChar(nChar);
+//	InvalidateRect(CRect(CPoint(100,100), temp.point + CPoint(30, 40)));
+//	CView::OnChar(nChar, nRepCnt, nFlags);
+//}

@@ -7,6 +7,7 @@
 #include "MainFrm.h"
 #include "LogicSim2View.h"
 #include "Tree.h"
+#include "OptionView.h"
 #ifdef _DEBUG
 #define new DEBUG_NEW
 #endif
@@ -138,8 +139,18 @@ BOOL CMainFrame::OnCreateClient(LPCREATESTRUCT lpcs, CCreateContext* pContext)
 {
 	// TODO: 여기에 특수화된 코드를 추가 및/또는 기본 클래스를 호출합니다.
 	m_wndSplitter.CreateStatic(this, 1, 2);
-	m_wndSplitter.CreateView(0, 0, RUNTIME_CLASS(Tree), CSize(300, 300), pContext);
-	m_wndSplitter.CreateView(0, 1, RUNTIME_CLASS(CLogicSim2View), CSize(300, 300), pContext);
+	m_subSplitter.CreateStatic(&m_wndSplitter, 2, 1);
+
+	m_subSplitter.CreateView(0, 0, RUNTIME_CLASS(Tree), CSize(300, 300), pContext);
+	m_subSplitter.CreateView(1, 0, RUNTIME_CLASS(OptionView), CSize(300, 300), pContext);
+	m_wndSplitter.CreateView(0, 1, RUNTIME_CLASS(CLogicSim2View), CSize(500, 500), pContext);
 	SetActiveView((CView*)m_wndSplitter.GetPane(0, 1));
+
+	m_main = (CLogicSim2View*)m_wndSplitter.GetPane(0, 1);
+	m_tree = (Tree*)m_subSplitter.GetPane(0, 0);
+	m_option = (OptionView*)m_subSplitter.GetPane(1, 0);
+
+	m_wndSplitter.SetColumnInfo(0, 300, 100);
+	m_subSplitter.SetRowInfo(0, 350, 100);
 	return TRUE;
 }

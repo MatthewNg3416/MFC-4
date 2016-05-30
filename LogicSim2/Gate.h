@@ -3,11 +3,18 @@
 
 class Gate {
 public:
+	CPoint input[2];
+	CPoint output[2];
 	CPoint point;
 	CString name;
 	Gate() {
 		point = CPoint(0, 0);
+		input[2] = { (0,0),(0,0) };
+		output[2] = { (0,0),(0,0) };
 		name = "";
+	}
+	Gate(CPoint point) {
+		this->point = point;
 	}
 public:
 	virtual void Draw(CClientDC &dc) {}
@@ -21,12 +28,15 @@ public:
 	AND(CPoint &point) {
 		this->point = point;
 	}
-	void Draw(CClientDC &dc) {
+	void Draw(CClientDC& dc) {
 		dc.MoveTo(point.x - 30, point.y + 30);
 		dc.AngleArc(point.x - 30, point.y, 30, 270, 180);
 		dc.LineTo(point.x - 60, point.y - 30);
 		dc.LineTo(point.x - 60, point.y + 30);
 		dc.LineTo(point.x - 30, point.y + 30);
+		input[0] = CPoint(point.x - 60, point.y - 10);
+		input[1] = CPoint(point.x - 60, point.y + 10);
+		output[0] = point;
 	}
 };
 
@@ -41,6 +51,8 @@ public:
 		dc.LineTo(point.x - 30, point.y - 10);
 		dc.LineTo(point.x - 30, point.y + 10);
 		dc.LineTo(point.x - 10, point.y);
+		input[0] = CPoint(point.x - 30, point.y);
+		output[0] = point;
 	}
 };
 
@@ -81,6 +93,9 @@ public:
 		for (int i = 0; i < 3; i++) {
 			dc.PolyBezier(arr[i], 4);
 		}
+		input[0] = CPoint(point.x - 50, point.y - 10);
+		input[1] = CPoint(point.x - 50, point.y + 10);
+		output[0] = point;
 	}
 };
 
@@ -95,6 +110,9 @@ public:
 	void Draw(CClientDC &dc) {
 		dc.Ellipse(point.x - 10, point.y - 5, point.x, point.y + 5);
 		and->Draw(dc);
+		input[0] = CPoint(point.x - 70, point.y - 10);
+		input[1] = CPoint(point.x - 70, point.y + 10);
+		output[0] = point;
 	}
 };
 
@@ -109,6 +127,9 @@ public:
 	void Draw(CClientDC &dc) {
 		dc.Ellipse(point.x - 10, point.y - 5, point.x, point.y + 5);
 		or ->Draw(dc);
+		input[0] = CPoint(point.x - 60, point.y - 10);
+		input[1] = CPoint(point.x - 60, point.y + 10);
+		output[0] = point;
 	}
 };
 
@@ -131,5 +152,8 @@ public:
 	void Draw(CClientDC &dc) {
 		or ->Draw(dc);
 		dc.PolyBezier(arr, 4);
+		input[0] = CPoint(point.x - 60, point.y - 10);
+		input[1] = CPoint(point.x - 60, point.y + 10);
+		output[0] = point;
 	}
 };

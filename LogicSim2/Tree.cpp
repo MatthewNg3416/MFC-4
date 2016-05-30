@@ -4,7 +4,7 @@
 #include "stdafx.h"
 #include "LogicSim2.h"
 #include "Tree.h"
-
+#include "MainFrm.h"
 
 // Tree
 
@@ -20,6 +20,7 @@ Tree::~Tree()
 }
 
 BEGIN_MESSAGE_MAP(Tree, CTreeView)
+	ON_NOTIFY_REFLECT(TVN_SELCHANGED, &Tree::OnTvnSelchanged)
 END_MESSAGE_MAP()
 
 
@@ -55,12 +56,12 @@ void Tree::OnInitialUpdate()
 	il.Detach();
 
 	//level 1
-	HTREEITEM hProgram = tree.InsertItem(_T("프로그램"), NULL, NULL, TVI_ROOT, TVI_LAST);
+	HTREEITEM hProgram = tree.InsertItem(_T("프로그램"), NULL, 0, TVI_ROOT, TVI_LAST);
 
 	//level 2
-	HTREEITEM hLogicGate = tree.InsertItem(_T("Gate"), NULL, NULL, hProgram, TVI_LAST);
-	HTREEITEM hFlipFlop = tree.InsertItem(_T("Flip-Flop"), NULL, NULL, hProgram, TVI_LAST);
-	HTREEITEM hInputOutput = tree.InsertItem(_T("Input/Output"), NULL, NULL, hProgram, TVI_LAST);
+	HTREEITEM hLogicGate = tree.InsertItem(_T("Gate"), NULL, 0, hProgram, TVI_LAST);
+	HTREEITEM hFlipFlop = tree.InsertItem(_T("Flip-Flop"), NULL, 0, hProgram, TVI_LAST);
+	HTREEITEM hInputOutput = tree.InsertItem(_T("Input/Output"), NULL, 0, hProgram, TVI_LAST);
 
 	//level 3
 	HTREEITEM hGates[6];
@@ -73,7 +74,7 @@ void Tree::OnInitialUpdate()
 	CString InOuts[] = { _T("Switch") ,_T("Lamp") ,_T("Clock") ,_T("7-Segment") };
 
 	for (int i = 0 ; i < 6; i++) {
-		hGates[i] = tree.InsertItem(gates[i], i, i, hLogicGate, TVI_LAST);
+		hGates[i] = tree.InsertItem(gates[i], i+1, i+1, hLogicGate, TVI_LAST);
 	}
 
 	for (int i = 0; i < 3; i++) {
@@ -94,4 +95,23 @@ BOOL Tree::PreCreateWindow(CREATESTRUCT& cs)
 	cs.style |= TVS_LINESATROOT;
 	cs.style |= TVS_TRACKSELECT;
 	return CTreeView::PreCreateWindow(cs);
+}
+
+
+void Tree::OnTvnSelchanged(NMHDR *pNMHDR, LRESULT *pResult)
+{
+	LPNMTREEVIEW pNMTreeView = reinterpret_cast<LPNMTREEVIEW>(pNMHDR);
+	// TODO: Add your control notification handler code here
+
+	CTreeCtrl& tree = GetTreeCtrl();
+	HTREEITEM hItem = tree.GetSelectedItem();
+	CMainFrame *pFrame = (CMainFrame *)AfxGetMainWnd();
+	int nImage, nSelectedImage;
+
+	tree.GetItemImage(hItem, nImage, nSelectedImage);
+	pFrame->m_main->gate = nImage-1;
+	pFrame->m_main->current = 1;
+	pFrame->m_main->move = true;
+
+	*pResult = 0;
 }

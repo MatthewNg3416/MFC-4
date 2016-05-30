@@ -44,7 +44,7 @@ protected:
 protected:
 	DECLARE_MESSAGE_MAP()
 public:
-	CArray<CPoint, CPoint&> m_point;
+	CArray<CPoint, CPoint> m_point;
 	afx_msg void OnMouseMove(UINT nFlags, CPoint point);
 	afx_msg void OnLButtonDown(UINT nFlags, CPoint point);
 	afx_msg void OnLButtonUp(UINT nFlags, CPoint point);
@@ -52,7 +52,7 @@ public:
 	CPoint old;
 	bool move;
 	int current;
-	CArray<Gate, Gate&> list;
+	CArray<Gate, Gate> list;
 	afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);
 	int gate;
 	afx_msg void OnGateAnd();
@@ -61,8 +61,13 @@ public:
 	afx_msg void OnGateNand();
 	afx_msg void OnGateNor();
 	afx_msg void OnGateXor();
-	afx_msg void OnLButtonDblClk(UINT nFlags, CPoint point);
-	afx_msg void OnChar(UINT nChar, UINT nRepCnt, UINT nFlags);
+//	afx_msg void OnLButtonDblClk(UINT nFlags, CPoint point);
+//	afx_msg void OnChar(UINT nChar, UINT nRepCnt, UINT nFlags);
+	CArray<CPoint, CPoint> line;
+	bool lineDraw;
+	bool isClicked;
+	CPoint lineStart;
+	CPoint lineEnd;
 };
 
 #ifndef _DEBUG  // debug version in LogicSim2View.cpp
