@@ -40,6 +40,10 @@ BEGIN_MESSAGE_MAP(CLogicSim2View, CView)
 //	ON_WM_LBUTTONDBLCLK()
 //	ON_WM_CHAR()
 ON_WM_RBUTTONDOWN()
+ON_COMMAND(ID_FLOP_D_FF, &CLogicSim2View::OnFlopDFf)
+ON_COMMAND(ID_FLOP_JK_FF, &CLogicSim2View::OnFlopJkFf)
+ON_COMMAND(ID_FLOP_T_FF, &CLogicSim2View::OnFlopTFf)
+ON_COMMAND(ID_INOUT_SWITCH, &CLogicSim2View::OnInoutSwitch)
 END_MESSAGE_MAP()
 
 // CLogicSim2View construction/destruction
@@ -160,12 +164,12 @@ void CLogicSim2View::OnMouseMove(UINT nFlags, CPoint point)
 		dc.SetROP2(R2_NOT);
 			if (gate == 0) {
 				AND and (CPoint(start.x, start.y));
-				and.Draw(dc,1);
+				and.Draw(dc, G_way);
 				and.point.x += x - start.x;
 				and.point.y += y-start.y;
 				start.x = x;
 				start.y = y;
-				and.Draw(dc,1);
+				and.Draw(dc, G_way);
 			}
 		
 			else if (gate == 1) {
@@ -213,6 +217,42 @@ void CLogicSim2View::OnMouseMove(UINT nFlags, CPoint point)
 				start.y = y;
 				xor.Draw(dc, G_way);
 			}
+			else if (gate == 6) {
+				D_FF d_ff(CPoint(start.x, start.y));
+				d_ff.Draw(dc, G_way);
+				d_ff.point.x += x - start.x;
+				d_ff.point.y += y - start.y;
+				start.x = x;
+				start.y = y;
+				d_ff.Draw(dc, G_way);
+			}
+			else if (gate == 7) {
+				JK_FF jk_ff(CPoint(start.x, start.y));
+				jk_ff.Draw(dc, G_way);
+				jk_ff.point.x += x - start.x;
+				jk_ff.point.y += y - start.y;
+				start.x = x;
+				start.y = y;
+				jk_ff.Draw(dc, G_way);
+			}
+			else if (gate == 8) {
+				T_FF t_ff(CPoint(start.x, start.y));
+				t_ff.Draw(dc, G_way);
+				t_ff.point.x += x - start.x;
+				t_ff.point.y += y - start.y;
+				start.x = x;
+				start.y = y;
+				t_ff.Draw(dc, G_way);
+			}
+			else if (gate == 9) {
+				Bit_switch bit_switch(CPoint(start.x, start.y));
+				bit_switch.Draw(dc, G_way);
+				bit_switch.point.x += x - start.x;
+				bit_switch.point.y += y - start.y;
+				start.x = x;
+				start.y = y;
+				bit_switch.Draw(dc, G_way);
+			}
 	}
 	lineEnd = CPoint(x, y);
 	
@@ -257,7 +297,7 @@ void CLogicSim2View::OnLButtonUp(UINT nFlags, CPoint point)
 
 		if (gate == 0) {
 			AND and (CPoint(x,y));
-			and.Draw(dc,1);
+			and.Draw(dc, G_way);
 			list[i]=and;
 			i++;
 		}
@@ -286,6 +326,30 @@ void CLogicSim2View::OnLButtonUp(UINT nFlags, CPoint point)
 			xor.Draw(dc, G_way);
 			list.Add(xor);
 			} 
+		else if (gate == 6) {
+			D_FF d_ff(CPoint(x, y));
+			d_ff.Draw(dc, G_way);
+			d_ff.Drawstr(dc, G_way);
+			list.Add(d_ff);
+		}
+		else if (gate == 7) {
+			JK_FF jk_ff(CPoint(x, y));
+			jk_ff.Draw(dc, G_way);
+			jk_ff.Drawstr(dc, G_way);
+			list.Add(jk_ff);
+		}
+		else if (gate == 8) {
+			T_FF t_ff(CPoint(x, y));
+			t_ff.Draw(dc, G_way);
+			t_ff.Drawstr(dc, G_way);
+			list.Add(t_ff);
+		}
+		else if (gate == 9) {
+			Bit_switch bit_switch(CPoint(x, y));
+			bit_switch.Draw(dc, G_way);
+			bit_switch.Drawstr(dc, G_way);
+			list.Add(bit_switch);
+		}
 		current = -1;
 		move = false;
 		gate = -1;
@@ -422,4 +486,44 @@ void CLogicSim2View::OnRButtonDown(UINT nFlags, CPoint point)
 	}
 
 	CView::OnRButtonDown(nFlags, point);
+}
+
+
+void CLogicSim2View::OnFlopDFf()
+{
+	// TODO: 여기에 명령 처리기 코드를 추가합니다.
+
+	gate = 6;
+	current = 1;
+	move = true;
+}
+
+
+void CLogicSim2View::OnFlopJkFf()
+{
+	// TODO: 여기에 명령 처리기 코드를 추가합니다.
+
+	gate = 7;
+	current = 1;
+	move = true;
+}
+
+
+void CLogicSim2View::OnFlopTFf()
+{
+	// TODO: 여기에 명령 처리기 코드를 추가합니다.
+
+	gate = 8;
+	current = 1;
+	move = true;
+}
+
+
+void CLogicSim2View::OnInoutSwitch()
+{
+	// TODO: 여기에 명령 처리기 코드를 추가합니다.
+
+	gate = 9;
+	current = 1;
+	move = true;
 }

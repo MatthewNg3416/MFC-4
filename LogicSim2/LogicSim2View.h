@@ -70,6 +70,10 @@ public:
 	CPoint lineStart;
 	CPoint lineEnd;
 	afx_msg void OnRButtonDown(UINT nFlags, CPoint point);
+	afx_msg void OnFlopDFf();
+	afx_msg void OnFlopJkFf();
+	afx_msg void OnFlopTFf();
+	afx_msg void OnInoutSwitch();
 };
 
 #ifndef _DEBUG  // debug version in LogicSim2View.cpp
