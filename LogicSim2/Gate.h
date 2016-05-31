@@ -1,6 +1,6 @@
 #pragma once
 #include "stdafx.h"
-
+//test
 class Gate {
 public:
 	CPoint input[2];
