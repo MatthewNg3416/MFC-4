@@ -13,6 +13,8 @@
 #include "LogicSim2View.h"
 #include "Gate.h"
 #include <afxtempl.h>
+#include "MainFrm.h"
+
 #ifdef _DEBUG
 #define new DEBUG_NEW
 #endif
@@ -226,12 +228,21 @@ void CLogicSim2View::OnMouseMove(UINT nFlags, CPoint point)
 void CLogicSim2View::OnLButtonDown(UINT nFlags, CPoint point)
 {
 	CPoint temp;
+	CMainFrame *pFrame = (CMainFrame *)AfxGetMainWnd();
+	CClientDC dc(this);
+
 	for (int i = 0; i < list.GetCount(); i++) {
 			temp = list[i].point;
 		if (temp.x - 4 < point.x&&temp.x + 4 > point.x&&temp.y - 4 < point.y&&temp.y + 4 > point.y) {
 			lineDraw = true;
 			isClicked = true;
 			lineStart = temp;
+		}
+		if (temp.x - 30 < point.x&&temp.x + 4 > point.x&&temp.y - 15 < point.y&&temp.y + 15 > point.y) {
+			pFrame->m_option->m_edit.SetWindowTextW(list[i].label);
+			pFrame->m_option->SetDlgItemTextW(IDC_STATIC4, list[i].name);
+			pFrame->m_option->temp = list[i];
+			dc.TextOutW(temp.x - 30, temp.y - 40,list[i].label);
 		}
 	}
 
@@ -263,12 +274,14 @@ void CLogicSim2View::OnLButtonUp(UINT nFlags, CPoint point)
 		else if (gate == 1) {
 			OR or (CPoint(x, y));
 			or .Draw(dc);
-			list.Add(or );
+			list[i]=or;
+			i++;
 		}
 		else if (gate == 2) {
 			NOT not(CPoint(x, y));
 			not.Draw(dc);
-			list.Add(not);
+			list[i] = not ;
+			i++;
 		}
 		else if (gate == 3) {
 				NAND nand(CPoint(x, y));

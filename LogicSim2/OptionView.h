@@ -1,5 +1,6 @@
 #pragma once
-
+#include "afxwin.h"
+#include "Gate.h"
 
 
 // OptionView form view
@@ -27,6 +28,10 @@ protected:
 	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
 
 	DECLARE_MESSAGE_MAP()
+public:
+	afx_msg void OnEnChangeEdit1();
+	CEdit m_edit;
+	Gate temp;
 };
 
 

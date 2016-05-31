@@ -8,6 +8,9 @@
 #define IDR_TOOLBAR1                    310
 #define IDD_OPTIONVIEW                  311
 #define IDB_BITMAP1                     312
+#define IDC_COMBO1                      1002
+#define IDC_EDIT1                       1003
+#define IDC_STATIC4                     1008
 #define ID_GATE_AND                     32771
 #define ID_GATE_OR                      32772
 #define ID_GATE_NOT                     32773
@@ -20,9 +23,9 @@
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        313
+#define _APS_NEXT_RESOURCE_VALUE        315
 #define _APS_NEXT_COMMAND_VALUE         32785
-#define _APS_NEXT_CONTROL_VALUE         1000
+#define _APS_NEXT_CONTROL_VALUE         1009
 #define _APS_NEXT_SYMED_VALUE           312
 #endif
 #endif

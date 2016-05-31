@@ -112,6 +112,6 @@ void Tree::OnTvnSelchanged(NMHDR *pNMHDR, LRESULT *pResult)
 	pFrame->m_main->gate = nImage-1;
 	pFrame->m_main->current = 1;
 	pFrame->m_main->move = true;
-
+	pFrame->m_option->SetDlgItemTextW(IDC_STATIC4,tree.GetItemText(hItem));
 	*pResult = 0;
 }

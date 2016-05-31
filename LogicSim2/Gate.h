@@ -1,7 +1,6 @@
 #pragma once
 #include "stdafx.h"
 #include "math.h"
-
 #define PI 3.14159265359
 
 class Gate {
@@ -10,11 +9,12 @@ public:
 	CPoint output[2];
 	CPoint point;
 	CString name;
+	CString label=_T("Input Label");
+
 	Gate() {
 		point = CPoint(0, 0);
 		input[2] = { (0,0),(0,0) };
 		output[2] = { (0,0),(0,0) };
-		name = "";
 	}
 	Gate(CPoint point) {
 		this->point = point;
@@ -27,9 +27,11 @@ class AND : public Gate {
 public:
 	AND() {
 		Gate::Gate();
+		name = _T("AND");
 	}
 	AND(CPoint &point) {
 		this->point = point;
+		name = _T("AND");
 	}
 	void Draw(CClientDC& dc, double i) {
 		int j = i;
@@ -55,8 +57,13 @@ public:
 
 class NOT : public Gate {
 public:
+	NOT() {
+		Gate::Gate();
+		name = _T("NOT");
+	}
 	NOT(CPoint &point) {
 		this->point = point;
+		name = _T("NOT");
 	}
 	void Draw(CClientDC &dc) {
 		dc.Ellipse(point.x - 10, point.y - 5, point.x, point.y + 5);
@@ -74,6 +81,7 @@ class OR : public Gate {
 public:
 	OR(CPoint &point) {
 		this->point = point;
+		name = _T("OR");
 
 		arr[0][0].x = point.x;
 		arr[0][0].y = point.y;
@@ -119,6 +127,7 @@ public:
 		CPoint temp = point - CPoint(10, 0);
 		and = new AND(temp);
 		this->point = point;
+		name = _T("NAND");
 	}
 	void Draw(CClientDC &dc) {
 		dc.Ellipse(point.x - 10, point.y - 5, point.x, point.y + 5);
@@ -136,6 +145,7 @@ public:
 		CPoint temp = point - CPoint(10, 0);
 		or = new OR(temp);
 		this->point = point;
+		name = _T("NOR");
 	}
 	void Draw(CClientDC &dc) {
 		dc.Ellipse(point.x - 10, point.y - 5, point.x, point.y + 5);
@@ -153,6 +163,7 @@ public:
 	XOR(CPoint &point) {
 		or = new OR(point);
 		this->point = point;
+		name = _T("XOR");
 		arr[0].x = point.x - 70;
 		arr[0].y = point.y - 30;
 		arr[1].x = point.x - 50;
