@@ -1,6 +1,9 @@
 #pragma once
 #include "stdafx.h"
-//test
+#include "math.h"
+
+#define PI 3.14159265359
+
 class Gate {
 public:
 	CPoint input[2];
@@ -28,14 +31,24 @@ public:
 	AND(CPoint &point) {
 		this->point = point;
 	}
-	void Draw(CClientDC& dc) {
-		dc.MoveTo(point.x - 30, point.y + 30);
-		dc.AngleArc(point.x - 30, point.y, 30, 270, 180);
-		dc.LineTo(point.x - 60, point.y - 30);
-		dc.LineTo(point.x - 60, point.y + 30);
-		dc.LineTo(point.x - 30, point.y + 30);
-		input[0] = CPoint(point.x - 60, point.y - 10);
-		input[1] = CPoint(point.x - 60, point.y + 10);
+	void Draw(CClientDC& dc, double i) {
+		int j = i;
+		i = PI / 2 * i;
+		int a, b;
+		a = -30; b = 30;
+		dc.MoveTo(point.x + (a*int(cos(i)) - b*int(sin(i))), point.y + (a*int(sin(i)) + b*int(cos(i))));
+		a = -30; b = 0;
+		dc.AngleArc(point.x + (a*int(cos(i)) - b*int(sin(i))), point.y + (a*int(sin(i)) + b*int(cos(i))), 30, 270 - (int)(j * 90), 180);
+		a = -60; b = -30;
+		dc.LineTo(point.x + (a*int(cos(i)) - b*int(sin(i))), point.y + (a*int(sin(i)) + b*int(cos(i))));
+		a = -60; b = 30;
+		dc.LineTo(point.x + (a*int(cos(i)) - b*int(sin(i))), point.y + (a*int(sin(i)) + b*int(cos(i))));
+		a = -30; b = 30;
+		dc.LineTo(point.x + (a*int(cos(i)) - b*int(sin(i))), point.y + (a*int(sin(i)) + b*int(cos(i))));
+		a = -60; b = -10;
+		input[0] = CPoint(point.x + (a*int(cos(i)) - b*int(sin(i))), point.y + (a*int(sin(i)) + b*int(cos(i))));
+		a = -60; b = 10;
+		input[1] = CPoint(point.x + (a*int(cos(i)) - b*int(sin(i))), point.y + (a*int(sin(i)) + b*int(cos(i))));
 		output[0] = point;
 	}
 };
@@ -109,7 +122,7 @@ public:
 	}
 	void Draw(CClientDC &dc) {
 		dc.Ellipse(point.x - 10, point.y - 5, point.x, point.y + 5);
-		and->Draw(dc);
+		and->Draw(dc,1);
 		input[0] = CPoint(point.x - 70, point.y - 10);
 		input[1] = CPoint(point.x - 70, point.y + 10);
 		output[0] = point;

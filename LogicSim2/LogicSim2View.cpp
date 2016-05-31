@@ -159,12 +159,12 @@ void CLogicSim2View::OnMouseMove(UINT nFlags, CPoint point)
 		dc.SetROP2(R2_NOT);
 			if (gate == 0) {
 				AND and (CPoint(start.x, start.y));
-				and.Draw(dc);
+				and.Draw(dc,1);
 				and.point.x += x - start.x;
 				and.point.y += y-start.y;
 				start.x = x;
 				start.y = y;
-				and.Draw(dc);
+				and.Draw(dc,1);
 			}
 		
 			else if (gate == 1) {
@@ -256,7 +256,7 @@ void CLogicSim2View::OnLButtonUp(UINT nFlags, CPoint point)
 
 		if (gate == 0) {
 			AND and (CPoint(x,y));
-			and.Draw(dc);
+			and.Draw(dc,1);
 			list[i]=and;
 			i++;
 		}
