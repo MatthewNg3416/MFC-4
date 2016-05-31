@@ -39,6 +39,7 @@ BEGIN_MESSAGE_MAP(CLogicSim2View, CView)
 	ON_COMMAND(ID_GATE_XOR, &CLogicSim2View::OnGateXor)
 //	ON_WM_LBUTTONDBLCLK()
 //	ON_WM_CHAR()
+ON_WM_RBUTTONDOWN()
 END_MESSAGE_MAP()
 
 // CLogicSim2View construction/destruction
@@ -168,49 +169,49 @@ void CLogicSim2View::OnMouseMove(UINT nFlags, CPoint point)
 			}
 		
 			else if (gate == 1) {
-				OR or (CPoint(start.x, start.y));
-				or .Draw(dc);
+				OR or (CPoint(start.x, start.y),G_way);
+				or .Draw(dc, G_way);
 				or .point.x += x - start.x;
 				or .point.y += y - start.y;
 				start.x = x;
 				start.y = y;
-				or .Draw(dc);
+				or .Draw(dc, G_way);
 			}
 			else if (gate == 2) {
 				NOT not (CPoint(start.x, start.y));
-				not.Draw(dc);
+				not.Draw(dc, G_way);
 				not.point.x += x - start.x;
 				not.point.y += y - start.y;
 				start.x = x;
 				start.y = y;
-				not.Draw(dc);
+				not.Draw(dc, G_way);
 			}
 			else if (gate == 3) {
-				NAND nand(CPoint(start.x, start.y));
-				nand.Draw(dc);
+				NAND nand(CPoint(start.x, start.y), G_way);
+				nand.Draw(dc, G_way);
 				nand.point.x += x - start.x;
 				nand.point.y += y - start.y;
 				start.x = x;
 				start.y = y;
-				nand.Draw(dc);
+				nand.Draw(dc, G_way);
 			}
 			else if (gate == 4) {
-				NOR nor(CPoint(start.x, start.y));
-				nor.Draw(dc);
+				NOR nor(CPoint(start.x, start.y), G_way);
+				nor.Draw(dc, G_way);
 				nor.point.x += x - start.x;
 				nor.point.y += y - start.y;
 				start.x = x;
 				start.y = y;
-				nor.Draw(dc);
+				nor.Draw(dc, G_way);
 			}
 			else if (gate == 5) {
-				XOR xor (CPoint(start.x, start.y));
-				xor.Draw(dc);
+				XOR xor (CPoint(start.x, start.y), G_way);
+				xor.Draw(dc, G_way);
 				xor.point.x += x - start.x;
 				xor.point.y += y - start.y;
 				start.x = x;
 				start.y = y;
-				xor.Draw(dc);
+				xor.Draw(dc, G_way);
 			}
 	}
 	lineEnd = CPoint(x, y);
@@ -261,28 +262,28 @@ void CLogicSim2View::OnLButtonUp(UINT nFlags, CPoint point)
 			i++;
 		}
 		else if (gate == 1) {
-			OR or (CPoint(x, y));
-			or .Draw(dc);
+			OR or (CPoint(x, y), G_way);
+			or .Draw(dc, G_way);
 			list.Add(or );
 		}
 		else if (gate == 2) {
 			NOT not(CPoint(x, y));
-			not.Draw(dc);
+			not.Draw(dc, G_way);
 			list.Add(not);
 		}
 		else if (gate == 3) {
-				NAND nand(CPoint(x, y));
-				nand.Draw(dc);
+				NAND nand(CPoint(x, y), G_way);
+				nand.Draw(dc, G_way);
 				list.Add(nand);
 		}
 		else if (gate == 4) {
-				NOR nor(CPoint(x, y));
-				nor.Draw(dc);
+				NOR nor(CPoint(x, y), G_way);
+				nor.Draw(dc, G_way);
 				list.Add(nor);
 			}
 		else if (gate == 5) {
-			XOR xor (CPoint(x, y));
-			xor.Draw(dc);
+			XOR xor (CPoint(x, y), G_way);
+			xor.Draw(dc, G_way);
 			list.Add(xor);
 			} 
 		current = -1;
@@ -407,3 +408,18 @@ void CLogicSim2View::OnGateXor()
 //	InvalidateRect(CRect(CPoint(100,100), temp.point + CPoint(30, 40)));
 //	CView::OnChar(nChar, nRepCnt, nFlags);
 //}
+
+
+void CLogicSim2View::OnRButtonDown(UINT nFlags, CPoint point)
+{
+	// TODO: 여기에 메시지 처리기 코드를 추가 및/또는 기본값을 호출합니다.
+
+	if (G_way < 3) {
+		G_way++;	//게이트방향 전환
+	}
+	else {
+		G_way = 0;
+	}
+
+	CView::OnRButtonDown(nFlags, point);
+}
