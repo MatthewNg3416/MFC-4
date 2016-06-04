@@ -90,8 +90,9 @@ class OR : public Gate {
 	CPoint arr[3][4];
 public:
 	OR(CPoint &point, double i) {
+		i = PI / 2 * i;
 		this->point = point;
-
+		int a, b;
 		arr[0][0].x = point.x;
 		arr[0][0].y = point.y;
 		a = -10; b = -10;
@@ -156,11 +157,12 @@ public:
 		name = _T("NAND");
 	}
 	void Draw(CClientDC &dc, double i) {
+		int j = i;
 		i = PI / 2 * i;
 		int a, b, c, d;
 		a = -10; b = -5; c = 0; d = 5;
 		dc.Ellipse(point.x + (a*int(cos(i)) - b*int(sin(i))), point.y + (a*int(sin(i)) + b*int(cos(i))), point.x + (c*int(cos(i)) - d*int(sin(i))), point.y + (c*int(sin(i)) + d*int(cos(i))));
-		and->Draw(dc, i);
+		and->Draw(dc, j);
 		a = -70; b = -10;
 		input[0] = CPoint((a*int(cos(i)) - b*int(sin(i))), (a*int(sin(i)) + b*int(cos(i))));
 		a = -70; b = 10;
@@ -173,11 +175,12 @@ class NOR : public Gate {
 	OR * or ;
 public:
 	NOR(CPoint &point, double i) {
+		int j = i;
 		i = PI / 2 * i;
 		int a, b;
 		a = 10; b = 0;
 		CPoint temp = point - CPoint((a*int(cos(i)) - b*int(sin(i))), (a*int(sin(i)) + b*int(cos(i))));
-		or = new OR(temp, 1);
+		or = new OR(temp, j);
 		this->point = point;
 		name = _T("NOR");
 	}

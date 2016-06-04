@@ -309,57 +309,56 @@ void CLogicSim2View::OnLButtonUp(UINT nFlags, CPoint point)
 		if (gate == 0) {
 			AND and (CPoint(x,y));
 			and.Draw(dc, G_way);
-			list[i]=and;
-			i++;
+			list[i++]=and;
 		}
 		else if (gate == 1) {
-			OR or (CPoint(x, y));
-			or .Draw(dc);
-			list.Add(or );
+			OR or (CPoint(x, y), G_way);
+			or .Draw(dc, G_way);
+			list[i++] = or ;
 		}
 		else if (gate == 2) {
 			NOT not(CPoint(x, y));
-			not.Draw(dc);
-			list.Add(not);
+			not.Draw(dc, G_way);
+			list[i++] = not;
 		}
 		else if (gate == 3) {
-				NAND nand(CPoint(x, y), G_way);
-				nand.Draw(dc, G_way);
-				list.Add(nand);
+			NAND nand(CPoint(x, y), G_way);
+			nand.Draw(dc, G_way);
+			list[i++] = nand;
 		}
 		else if (gate == 4) {
-				NOR nor(CPoint(x, y), G_way);
-				nor.Draw(dc, G_way);
-				list.Add(nor);
+			NOR nor(CPoint(x, y), G_way);
+			nor.Draw(dc, G_way);
+			list[i++] = nor;
 			}
 		else if (gate == 5) {
 			XOR xor (CPoint(x, y), G_way);
 			xor.Draw(dc, G_way);
-			list.Add(xor);
+			list[i++] = xor;
 			} 
 		else if (gate == 6) {
 			D_FF d_ff(CPoint(x, y));
 			d_ff.Draw(dc, G_way);
 			d_ff.Drawstr(dc, G_way);
-			list.Add(d_ff);
+			list[i++] = d_ff;
 		}
 		else if (gate == 7) {
 			JK_FF jk_ff(CPoint(x, y));
 			jk_ff.Draw(dc, G_way);
 			jk_ff.Drawstr(dc, G_way);
-			list.Add(jk_ff);
+			list[i++] = jk_ff;
 		}
 		else if (gate == 8) {
 			T_FF t_ff(CPoint(x, y));
 			t_ff.Draw(dc, G_way);
 			t_ff.Drawstr(dc, G_way);
-			list.Add(t_ff);
+			list[i++] = t_ff;
 		}
 		else if (gate == 9) {
 			Bit_switch bit_switch(CPoint(x, y));
 			bit_switch.Draw(dc, G_way);
 			bit_switch.Drawstr(dc, G_way);
-			list.Add(bit_switch);
+			list[i++] = bit_switch;
 		}
 		current = -1;
 		move = false;
@@ -488,12 +487,13 @@ void CLogicSim2View::OnGateXor()
 void CLogicSim2View::OnRButtonDown(UINT nFlags, CPoint point)
 {
 	// TODO: 여기에 메시지 처리기 코드를 추가 및/또는 기본값을 호출합니다.
-
-	if (G_way < 3) {
-		G_way++;	//게이트방향 전환
-	}
-	else {
-		G_way = 0;
+	if (current != -1 && move) {
+		if (G_way < 3) {
+			G_way++;	//게이트방향 전환
+		}
+		else {
+			G_way = 0;
+		}
 	}
 
 	CView::OnRButtonDown(nFlags, point);
