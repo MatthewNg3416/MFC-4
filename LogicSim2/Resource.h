@@ -1,6 +1,6 @@
 //{{NO_DEPENDENCIES}}
-// Microsoft Visual C++ generated include file.
-// Used by LogicSim2.rc
+// Microsoft Visual C++에서 생성한 포함 파일입니다.
+// LogicSim2.rc에서 사용되고 있습니다.
 //
 #define IDD_ABOUTBOX                    100
 #define IDR_MAINFRAME                   128
@@ -19,6 +19,8 @@
 #define ID_GATE_XOR                     32776
 #define ID_VIEW_GATETOOLBAR             32784
 #define ID_FLOP_D_FF                    32785
+#define ID_BUTTON32786                  32786
+#define ID_Seven_seg                    32786
 #define ID_FLOP_JK_FF                   32787
 #define ID_FLOP_T_FF                    32788
 #define ID_BUTTON32789                  32789
@@ -29,7 +31,7 @@
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        314
-#define _APS_NEXT_COMMAND_VALUE         32785
+#define _APS_NEXT_COMMAND_VALUE         32787
 #define _APS_NEXT_CONTROL_VALUE         1000
 #define _APS_NEXT_SYMED_VALUE           312
 #endif

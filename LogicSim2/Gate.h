@@ -6,11 +6,12 @@
 
 class Gate {
 public:
-	CPoint input[3];
-	CPoint output[2];
+	CPoint input[7];
+	CPoint output[7];
 	CPoint point;
 	CString name;
 	CString label=_T("");
+	int way;
 
 	Gate() {
 		point = CPoint(0, 0);
@@ -453,5 +454,82 @@ public:
 		else
 			str.Format(_T("0"));
 		dc.TextOut(point.x - 14, point.y - 7, str);
+	}
+};
+
+class Seven_seg : public Gate {
+public:
+	bool in[8];
+public:
+	Seven_seg(CPoint &point) {
+		this->point = point;
+	}
+	void Draw(CClientDC &dc, double i) {
+		i = PI / 2 * i;
+		int a, b, c, d;
+
+		a = -40; b = -10; c = 0; d = 70;
+		dc.Rectangle(point.x + (a*int(cos(i)) - b*int(sin(i))), point.y + (a*int(sin(i)) + b*int(cos(i))), point.x + (c*int(cos(i)) - d*int(sin(i))), point.y + (c*int(sin(i)) + d*int(cos(i))));
+
+		CBrush black_brush = RGB(0, 0, 0);
+		dc.SelectObject(black_brush);
+		if (in[0]) {
+			a = -40; b = -10; c = -5; d = 5;
+			dc.Rectangle(point.x + (a*int(cos(i)) - b*int(sin(i))), point.y + (a*int(sin(i)) + b*int(cos(i))), point.x + (c*int(cos(i)) - d*int(sin(i))), point.y + (c*int(sin(i)) + d*int(cos(i))));
+		}
+		if (in[1]) {
+			a = -15; b = 5; c = -5; d = 25;
+			dc.Rectangle(point.x + (a*int(cos(i)) - b*int(sin(i))), point.y + (a*int(sin(i)) + b*int(cos(i))), point.x + (c*int(cos(i)) - d*int(sin(i))), point.y + (c*int(sin(i)) + d*int(cos(i))));
+		}
+		if (in[2]) {
+			a = -15; b = 35; c = -5; d = 55;
+			dc.Rectangle(point.x + (a*int(cos(i)) - b*int(sin(i))), point.y + (a*int(sin(i)) + b*int(cos(i))), point.x + (c*int(cos(i)) - d*int(sin(i))), point.y + (c*int(sin(i)) + d*int(cos(i))));
+		}
+		if (in[3]) {
+			a = -35; b = 55; c = -5; d = 65;
+			dc.Rectangle(point.x + (a*int(cos(i)) - b*int(sin(i))), point.y + (a*int(sin(i)) + b*int(cos(i))), point.x + (c*int(cos(i)) - d*int(sin(i))), point.y + (c*int(sin(i)) + d*int(cos(i))));
+		}
+		if (in[4]) {
+			a = -35; b = 35; c = -25; d = 55;
+			dc.Rectangle(point.x + (a*int(cos(i)) - b*int(sin(i))), point.y + (a*int(sin(i)) + b*int(cos(i))), point.x + (c*int(cos(i)) - d*int(sin(i))), point.y + (c*int(sin(i)) + d*int(cos(i))));
+		}
+		if (in[5]) {
+			a = -35; b = 5; c = -25; d = 25;
+			dc.Rectangle(point.x + (a*int(cos(i)) - b*int(sin(i))), point.y + (a*int(sin(i)) + b*int(cos(i))), point.x + (c*int(cos(i)) - d*int(sin(i))), point.y + (c*int(sin(i)) + d*int(cos(i))));
+		}
+		if (in[6]) {
+			a = -35; b = 25; c = -5; d = 35;
+			dc.Rectangle(point.x + (a*int(cos(i)) - b*int(sin(i))), point.y + (a*int(sin(i)) + b*int(cos(i))), point.x + (c*int(cos(i)) - d*int(sin(i))), point.y + (c*int(sin(i)) + d*int(cos(i))));
+		}
+		black_brush.DeleteObject();
+
+		a = -40; b = -10;
+		input[0] = CPoint(point.x + (a*int(cos(i)) - b*int(sin(i))), point.y + (a*int(sin(i)) + b*int(cos(i))));
+		a = -40; b = 0;
+		input[1] = CPoint(point.x + (a*int(cos(i)) - b*int(sin(i))), point.y + (a*int(sin(i)) + b*int(cos(i))));
+		a = -40; b = 10;
+		input[2] = CPoint(point.x + (a*int(cos(i)) - b*int(sin(i))), point.y + (a*int(sin(i)) + b*int(cos(i))));
+		a = -40; b = 20;
+		input[3] = CPoint(point.x + (a*int(cos(i)) - b*int(sin(i))), point.y + (a*int(sin(i)) + b*int(cos(i))));
+		a = -40; b = 30;
+		input[4] = CPoint(point.x + (a*int(cos(i)) - b*int(sin(i))), point.y + (a*int(sin(i)) + b*int(cos(i))));
+		a = -40; b = 40;
+		input[5] = CPoint(point.x + (a*int(cos(i)) - b*int(sin(i))), point.y + (a*int(sin(i)) + b*int(cos(i))));
+		a = -40; b = 50;
+		input[6] = CPoint(point.x + (a*int(cos(i)) - b*int(sin(i))), point.y + (a*int(sin(i)) + b*int(cos(i))));
+
+		a = 0; b = -10;
+		output[0] = CPoint(point.x + (a*int(cos(i)) - b*int(sin(i))), point.y + (a*int(sin(i)) + b*int(cos(i))));
+		output[1] = point;
+		a = 0; b = 10;
+		output[2] = CPoint(point.x + (a*int(cos(i)) - b*int(sin(i))), point.y + (a*int(sin(i)) + b*int(cos(i))));
+		a = 0; b = 20;
+		output[3] = CPoint(point.x + (a*int(cos(i)) - b*int(sin(i))), point.y + (a*int(sin(i)) + b*int(cos(i))));
+		a = 0; b = 30;
+		output[4] = CPoint(point.x + (a*int(cos(i)) - b*int(sin(i))), point.y + (a*int(sin(i)) + b*int(cos(i))));
+		a = 0; b = 40;
+		output[5] = CPoint(point.x + (a*int(cos(i)) - b*int(sin(i))), point.y + (a*int(sin(i)) + b*int(cos(i))));
+		a = 0; b = 50;
+		output[6] = CPoint(point.x + (a*int(cos(i)) - b*int(sin(i))), point.y + (a*int(sin(i)) + b*int(cos(i))));
 	}
 };

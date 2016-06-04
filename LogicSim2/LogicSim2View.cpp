@@ -46,6 +46,7 @@ ON_COMMAND(ID_FLOP_D_FF, &CLogicSim2View::OnFlopDFf)
 ON_COMMAND(ID_FLOP_JK_FF, &CLogicSim2View::OnFlopJkFf)
 ON_COMMAND(ID_FLOP_T_FF, &CLogicSim2View::OnFlopTFf)
 ON_COMMAND(ID_INOUT_SWITCH, &CLogicSim2View::OnInoutSwitch)
+ON_COMMAND(ID_Seven_seg, &CLogicSim2View::OnSevenSeg)
 END_MESSAGE_MAP()
 
 // CLogicSim2View construction/destruction
@@ -280,6 +281,15 @@ void CLogicSim2View::OnMouseMove(UINT nFlags, CPoint point)
 				start.y = y;
 				bit_switch.Draw(dc, G_way);
 			}
+			else if (gate == 10) {
+				Seven_seg seven(CPoint(start.x, start.y));
+				seven.Draw(dc, G_way);
+				seven.point.x += x - start.x;
+				seven.point.y += y - start.y;
+				start.x = x;
+				start.y = y;
+				seven.Draw(dc, G_way);
+			}
 	}
 	lineEnd = CPoint(x, y);
 	
@@ -341,36 +351,42 @@ void CLogicSim2View::OnLButtonUp(UINT nFlags, CPoint point)
 		if (gate == 0) {
 			AND *and = new AND(CPoint(x,y));
 			and->Draw(dc, G_way);
+			and->way = G_way;
 			list.Add(*and);
 			ptrlist.Add(and);
 		}
 		else if (gate == 1) {
 			OR* or =new OR(CPoint(x, y), G_way);
 			or ->Draw(dc, G_way);
+			or->way = G_way;
 			list.Add(*or );
 			ptrlist.Add(or);
 		}
 		else if (gate == 2) {
 			NOT* not= new NOT(CPoint(x, y));
 			not->Draw(dc, G_way);
+			not->way = G_way;
 			list.Add(*not);
 			ptrlist.Add(not);
 		}
 		else if (gate == 3) {
 			NAND* nand = new NAND(CPoint(x, y), G_way);
 			nand->Draw(dc, G_way);
+			nand->way = G_way;
 			list.Add(*nand);
 			ptrlist.Add(nand);
 		}
 		else if (gate == 4) {
 			NOR* nor = new NOR(CPoint(x, y), G_way);
 			nor->Draw(dc, G_way);
+			nor->way = G_way;
 			list.Add(*nor);
 			ptrlist.Add(nor);
 			}
 		else if (gate == 5) {
 			XOR* xor = new XOR(CPoint(x, y), G_way);
 			xor->Draw(dc, G_way);
+			xor->way = G_way;
 			list.Add(*xor);
 			ptrlist.Add(xor);
 			} 
@@ -378,6 +394,7 @@ void CLogicSim2View::OnLButtonUp(UINT nFlags, CPoint point)
 			D_FF* d_ff = new D_FF(CPoint(x, y));
 			d_ff->Draw(dc, G_way);
 			d_ff->Drawstr(dc, G_way);
+			d_ff->way = G_way;
 			list.Add(*d_ff);
 			ptrlist.Add(d_ff);
 		}
@@ -385,6 +402,7 @@ void CLogicSim2View::OnLButtonUp(UINT nFlags, CPoint point)
 			JK_FF* jk_ff=new JK_FF(CPoint(x, y));
 			jk_ff->Draw(dc, G_way);
 			jk_ff->Drawstr(dc, G_way);
+			jk_ff->way = G_way;
 			list.Add(*jk_ff);
 			ptrlist.Add(jk_ff);
 		}
@@ -392,6 +410,7 @@ void CLogicSim2View::OnLButtonUp(UINT nFlags, CPoint point)
 			T_FF* t_ff=new T_FF(CPoint(x, y));
 			t_ff->Draw(dc, G_way);
 			t_ff->Drawstr(dc, G_way);
+			t_ff->way = G_way;
 			list.Add(*t_ff);
 			ptrlist.Add(t_ff);
 		}
@@ -399,8 +418,16 @@ void CLogicSim2View::OnLButtonUp(UINT nFlags, CPoint point)
 			Bit_switch* bit_switch = new Bit_switch(CPoint(x, y));
 			bit_switch->Draw(dc, G_way);
 			bit_switch->Drawstr(dc, G_way);
+			bit_switch->way = G_way;
 			list.Add(*bit_switch);
 			ptrlist.Add(bit_switch);
+		}
+		else if (gate == 10) {
+			Seven_seg* seven = new Seven_seg(CPoint(x, y));
+			seven->Draw(dc, G_way);
+			seven->way = G_way;
+			list.Add(*seven);
+			ptrlist.Add(seven);
 		}
 		current = -1;
 		move = false;
@@ -549,6 +576,16 @@ void CLogicSim2View::OnInoutSwitch()
 	// TODO: 여기에 명령 처리기 코드를 추가합니다.
 
 	gate = 9;
+	current = 1;
+	move = true;
+}
+
+
+void CLogicSim2View::OnSevenSeg()
+{
+	// TODO: 여기에 명령 처리기 코드를 추가합니다.
+
+	gate = 10;
 	current = 1;
 	move = true;
 }
