@@ -61,9 +61,11 @@ CLogicSim2View::CLogicSim2View()
 	, lineStart(0)
 	, lineEnd(0)
 {
+	list.SetSize(0);
+	line.SetSize(0);
+	ptrlist.SetSize(0);
 	// TODO: add construction code here
-	list.SetSize(3000);
-	line.SetSize(3000);
+
 }
 
 CLogicSim2View::~CLogicSim2View()
@@ -88,6 +90,9 @@ void CLogicSim2View::OnDraw(CDC* pDC)
 	CRect rect;
 	GetWindowRect(&rect);
 	m_point.SetSize(20000);
+	CClientDC dc(this);
+	CString str;
+
 	for (int i = 10; i < rect.Width(); i += 10) {
 
 		for (int j = 10; j < rect.Height(); j += 10) {
@@ -102,6 +107,23 @@ void CLogicSim2View::OnDraw(CDC* pDC)
 		pDC->LineTo(lineEnd.x, lineStart.y);
 		pDC->MoveTo(lineEnd.x, lineStart.y);
 		pDC->LineTo(lineEnd);
+	}
+	str.Format(_T("%d"), ptrlist.GetCount());
+	pDC->TextOutW(200, 200, str);
+	for (int i = 0; i < ptrlist.GetCount(); i++) {
+			Gate* temp = (Gate*)ptrlist.GetAt(i);
+			temp->Draw(dc, G_way);
+			
+	}
+	if (!line.IsEmpty()) {
+		for (int k = 0; k + 1 < line.GetCount(); k++) {
+			CPen myPen(PS_SOLID, 2, RGB(200, 100, 100));
+			pDC->SelectObject(&myPen);
+			pDC->MoveTo(line[k]);
+			pDC->LineTo(line[k + 1].x, line[k].y);
+			pDC->MoveTo(line[k + 1].x, line[k].y);
+			pDC->LineTo(line[k + 1]);
+		}
 	}
 	if (!pDoc)
 		return;
@@ -286,6 +308,13 @@ void CLogicSim2View::OnLButtonDown(UINT nFlags, CPoint point)
 			dc.TextOutW(temp.x - 30, temp.y - 40,list[i].label);
 		}
 	}
+	for (int i = 0; i < line.GetCount(); i++) {
+		if (point.x-3< line[i].x && point.x+3>line[i].x && point.y-3<line[i].y && point.y+3> line[i].y) {
+			lineDraw = true;
+			isClicked = true;
+			lineStart = line[i];
+		}
+	}
 
 	// TODO: Add your message handler code here and/or call default
 	CView::OnLButtonDown(nFlags, point);
@@ -307,58 +336,68 @@ void CLogicSim2View::OnLButtonUp(UINT nFlags, CPoint point)
 		dc.SetROP2(R2_COPYPEN);
 
 		if (gate == 0) {
-			AND and (CPoint(x,y));
-			and.Draw(dc, G_way);
-			list[i++]=and;
+			AND *and = new AND(CPoint(x,y));
+			and->Draw(dc, G_way);
+			list.Add(*and);
+			ptrlist.Add(and);
 		}
 		else if (gate == 1) {
-			OR or (CPoint(x, y), G_way);
-			or .Draw(dc, G_way);
-			list[i++] = or ;
+			OR* or =new OR(CPoint(x, y), G_way);
+			or ->Draw(dc, G_way);
+			list.Add(*or );
+			ptrlist.Add(or);
 		}
 		else if (gate == 2) {
-			NOT not(CPoint(x, y));
-			not.Draw(dc, G_way);
-			list[i++] = not;
+			NOT* not= new NOT(CPoint(x, y));
+			not->Draw(dc, G_way);
+			list.Add(*not);
+			ptrlist.Add(not);
 		}
 		else if (gate == 3) {
-			NAND nand(CPoint(x, y), G_way);
-			nand.Draw(dc, G_way);
-			list[i++] = nand;
+			NAND* nand = new NAND(CPoint(x, y), G_way);
+			nand->Draw(dc, G_way);
+			list.Add(*nand);
+			ptrlist.Add(nand);
 		}
 		else if (gate == 4) {
-			NOR nor(CPoint(x, y), G_way);
-			nor.Draw(dc, G_way);
-			list[i++] = nor;
+			NOR* nor = new NOR(CPoint(x, y), G_way);
+			nor->Draw(dc, G_way);
+			list.Add(*nor);
+			ptrlist.Add(nor);
 			}
 		else if (gate == 5) {
-			XOR xor (CPoint(x, y), G_way);
-			xor.Draw(dc, G_way);
-			list[i++] = xor;
+			XOR* xor = new XOR(CPoint(x, y), G_way);
+			xor->Draw(dc, G_way);
+			list.Add(*xor);
+			ptrlist.Add(xor);
 			} 
 		else if (gate == 6) {
-			D_FF d_ff(CPoint(x, y));
-			d_ff.Draw(dc, G_way);
-			d_ff.Drawstr(dc, G_way);
-			list[i++] = d_ff;
+			D_FF* d_ff = new D_FF(CPoint(x, y));
+			d_ff->Draw(dc, G_way);
+			d_ff->Drawstr(dc, G_way);
+			list.Add(*d_ff);
+			ptrlist.Add(d_ff);
 		}
 		else if (gate == 7) {
-			JK_FF jk_ff(CPoint(x, y));
-			jk_ff.Draw(dc, G_way);
-			jk_ff.Drawstr(dc, G_way);
-			list[i++] = jk_ff;
+			JK_FF* jk_ff=new JK_FF(CPoint(x, y));
+			jk_ff->Draw(dc, G_way);
+			jk_ff->Drawstr(dc, G_way);
+			list.Add(*jk_ff);
+			ptrlist.Add(jk_ff);
 		}
 		else if (gate == 8) {
-			T_FF t_ff(CPoint(x, y));
-			t_ff.Draw(dc, G_way);
-			t_ff.Drawstr(dc, G_way);
-			list[i++] = t_ff;
+			T_FF* t_ff=new T_FF(CPoint(x, y));
+			t_ff->Draw(dc, G_way);
+			t_ff->Drawstr(dc, G_way);
+			list.Add(*t_ff);
+			ptrlist.Add(t_ff);
 		}
 		else if (gate == 9) {
-			Bit_switch bit_switch(CPoint(x, y));
-			bit_switch.Draw(dc, G_way);
-			bit_switch.Drawstr(dc, G_way);
-			list[i++] = bit_switch;
+			Bit_switch* bit_switch = new Bit_switch(CPoint(x, y));
+			bit_switch->Draw(dc, G_way);
+			bit_switch->Drawstr(dc, G_way);
+			list.Add(*bit_switch);
+			ptrlist.Add(bit_switch);
 		}
 		current = -1;
 		move = false;
@@ -368,11 +407,12 @@ void CLogicSim2View::OnLButtonUp(UINT nFlags, CPoint point)
 	}
 	lineEnd = CPoint(x, y);
 	if (lineDraw) {
-		line[j]=(lineStart, lineEnd);
+		line.Add(lineStart);
+		line.Add(lineEnd);
 		lineDraw = false;
-		Invalidate(false);
-		j++;
+		Invalidate(FALSE);
 	}
+
 	if (isClicked==true) {
 		CPen myPen(PS_SOLID, 2, RGB(200, 100, 100));
 		dc.SelectObject(&myPen);
@@ -384,6 +424,23 @@ void CLogicSim2View::OnLButtonUp(UINT nFlags, CPoint point)
 	}
 	CView::OnLButtonUp(nFlags, point);
 }
+
+
+void CLogicSim2View::OnRButtonDown(UINT nFlags, CPoint point)
+{
+	// TODO: 여기에 메시지 처리기 코드를 추가 및/또는 기본값을 호출합니다.
+	if (current != -1 && move) {
+		if (G_way < 3) {
+			G_way++;	//게이트방향 전환
+		}
+		else {
+			G_way = 0;
+		}
+	}
+
+	CView::OnRButtonDown(nFlags, point);
+}
+
 
 
 int CLogicSim2View::OnCreate(LPCREATESTRUCT lpCreateStruct)
@@ -452,52 +509,6 @@ void CLogicSim2View::OnGateXor()
 	move = true;
 }
 
-
-//void CLogicSim2View::OnLButtonDblClk(UINT nFlags, CPoint point)
-//{
-//	// TODO: 여기에 메시지 처리기 코드를 추가 및/또는 기본값을 호출합니다.
-//	CClientDC dc(this);
-//	CFont font;
-//	font.CreatePointFont(150, _T("궁서"));
-//	dc.SelectObject(&font);
-//
-//	// 현재까지 입력된 글자들을 화면에 출력한다.
-//	Gate temp = list[0];
-//	if (point.x > temp.point.x - 60 && point.x<temp.point.x&&point.y>temp.point.y - 30 && point.y < temp.point.y + 30) {
-//		CreateSolidCaret(10, 20); // 캐럿을 생성한다.
-//		SetCaretPos(CPoint(temp.point.x-40,temp.point.y+40)); // 캐럿의 위치를 설정한다.
-//		ShowCaret(); // 캐럿을 화면에 보인다.
-//		dc.TextOutW(temp.point.x - 30, temp.point.y + 40, temp.name);
-//	}
-//	CView::OnLButtonDblClk(nFlags, point);
-//}
-
-
-//void CLogicSim2View::OnChar(UINT nChar, UINT nRepCnt, UINT nFlags)
-//{
-//	// TODO: 여기에 메시지 처리기 코드를 추가 및/또는 기본값을 호출합니다.
-//	Gate& temp = list[0];
-//	if(nChar !=_T('\n'))
-//		temp.name.AppendChar(nChar);
-//	InvalidateRect(CRect(CPoint(100,100), temp.point + CPoint(30, 40)));
-//	CView::OnChar(nChar, nRepCnt, nFlags);
-//}
-
-
-void CLogicSim2View::OnRButtonDown(UINT nFlags, CPoint point)
-{
-	// TODO: 여기에 메시지 처리기 코드를 추가 및/또는 기본값을 호출합니다.
-	if (current != -1 && move) {
-		if (G_way < 3) {
-			G_way++;	//게이트방향 전환
-		}
-		else {
-			G_way = 0;
-		}
-	}
-
-	CView::OnRButtonDown(nFlags, point);
-}
 
 
 void CLogicSim2View::OnFlopDFf()

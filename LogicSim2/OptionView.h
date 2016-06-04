@@ -32,6 +32,9 @@ public:
 	afx_msg void OnEnChangeEdit1();
 	CEdit m_edit;
 	Gate temp;
+	afx_msg void OnCbnSelchangeCombo1();
+	virtual void OnInitialUpdate();
+	CComboBox m_combo;
 };
 
 

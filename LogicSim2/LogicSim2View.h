@@ -54,6 +54,7 @@ public:
 	bool move;
 	int current;
 	CArray<Gate, Gate> list;
+	CPtrArray ptrlist;
 	afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);
 	int gate;
 	afx_msg void OnGateAnd();

@@ -3,13 +3,14 @@
 #include "math.h"
 #define PI 3.14159265359
 
+
 class Gate {
 public:
 	CPoint input[3];
 	CPoint output[2];
 	CPoint point;
 	CString name;
-	CString label=_T("Input Label");
+	CString label;
 
 	Gate() {
 		point = CPoint(0, 0);
@@ -21,8 +22,7 @@ public:
 		this->point = point;
 	}
 public:
-	virtual void Draw(CClientDC &dc) {}
-
+	virtual void Draw(CClientDC &dc, double i){}
 };
 
 class AND : public Gate {
@@ -93,6 +93,7 @@ public:
 		i = PI / 2 * i;
 		this->point = point;
 		int a, b;
+		name = _T("OR");
 		arr[0][0].x = point.x;
 		arr[0][0].y = point.y;
 		a = -10; b = -10;
@@ -213,6 +214,7 @@ public:
 		arr[2].y = point.y + 20;
 		arr[3].x = point.x - 70;
 		arr[3].y = point.y + 30;
+		name = _T("XOR");
 	}
 	void Draw(CClientDC &dc, double i) {
 		or ->Draw(dc,i);
@@ -233,6 +235,7 @@ public:
 public:
 	D_FF(CPoint &point) {
 		this->point = point;
+		name = _T("D_FF");
 	}
 	void Draw(CClientDC &dc, double i) {
 		i = PI / 2 * i;
