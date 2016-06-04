@@ -471,10 +471,10 @@ public:
 		a = -40; b = -10; c = 0; d = 70;
 		dc.Rectangle(point.x + (a*int(cos(i)) - b*int(sin(i))), point.y + (a*int(sin(i)) + b*int(cos(i))), point.x + (c*int(cos(i)) - d*int(sin(i))), point.y + (c*int(sin(i)) + d*int(cos(i))));
 
-		CBrush black_brush = RGB(0, 0, 0);
-		dc.SelectObject(black_brush);
+		//CBrush black_brush = RGB(0, 0, 0);
+		//dc.SelectObject(black_brush);
 		if (in[0]) {
-			a = -40; b = -10; c = -5; d = 5;
+			a = -35; b = -5; c = -5; d = 5;
 			dc.Rectangle(point.x + (a*int(cos(i)) - b*int(sin(i))), point.y + (a*int(sin(i)) + b*int(cos(i))), point.x + (c*int(cos(i)) - d*int(sin(i))), point.y + (c*int(sin(i)) + d*int(cos(i))));
 		}
 		if (in[1]) {
@@ -501,7 +501,7 @@ public:
 			a = -35; b = 25; c = -5; d = 35;
 			dc.Rectangle(point.x + (a*int(cos(i)) - b*int(sin(i))), point.y + (a*int(sin(i)) + b*int(cos(i))), point.x + (c*int(cos(i)) - d*int(sin(i))), point.y + (c*int(sin(i)) + d*int(cos(i))));
 		}
-		black_brush.DeleteObject();
+		//black_brush.DeleteObject();
 
 		a = -40; b = -10;
 		input[0] = CPoint(point.x + (a*int(cos(i)) - b*int(sin(i))), point.y + (a*int(sin(i)) + b*int(cos(i))));
