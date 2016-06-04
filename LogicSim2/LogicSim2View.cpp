@@ -113,6 +113,9 @@ void CLogicSim2View::OnDraw(CDC* pDC)
 	for (int i = 0; i < ptrlist.GetCount(); i++) {
 			Gate* temp = (Gate*)ptrlist.GetAt(i);
 			temp->Draw(dc, G_way);
+			if (list[i].label!=_T("")) {
+				dc.TextOutW(list[i].point.x - 30, list[i].point.y - 40, list[i].label);
+			}
 			
 	}
 	if (!line.IsEmpty()) {

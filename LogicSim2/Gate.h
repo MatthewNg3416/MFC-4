@@ -10,7 +10,7 @@ public:
 	CPoint output[2];
 	CPoint point;
 	CString name;
-	CString label;
+	CString label=_T("");
 
 	Gate() {
 		point = CPoint(0, 0);

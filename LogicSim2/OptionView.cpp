@@ -67,6 +67,7 @@ void OptionView::OnEnChangeEdit1()
 	for (int i = 0; i < count; i++) {
 		if (temp.point == pFrame->m_main->list[i].point) {
 			pFrame->m_main->list[i].label = temp.label;
+			
 		}
 	}
 	
