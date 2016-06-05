@@ -68,7 +68,7 @@ CLogicSim2View::CLogicSim2View()
 	, lineStart(0)
 	, lineEnd(0)
 	, flag(false)
-	, pre(0)
+	, pre(-1)
 {
 	list.SetSize(0);
 	line.SetSize(0);
@@ -198,7 +198,7 @@ void CLogicSim2View::OnMouseMove(UINT nFlags, CPoint point)
 		dc.SelectStockObject(NULL_BRUSH);
 		dc.SetROP2(R2_NOT);
 			if (gate == 0) {
-				AND and (CPoint(start.x, start.y));
+				AND and (CPoint(start.x, start.y),G_way);
 				if (flag) {
 					and.Draw(dc, pre);
 					and.Draw(dc, G_way);
@@ -243,9 +243,11 @@ void CLogicSim2View::OnMouseMove(UINT nFlags, CPoint point)
 			else if (gate == 3) {
 				NAND nand(CPoint(start.x, start.y), G_way);
 				if (flag) {
+					nand.c_flag = true;
 					nand.Draw(dc, pre);
 					nand.Draw(dc, G_way);
 					flag = false;
+					nand.c_flag = false;
 				}
 				nand.Draw(dc, G_way);
 				nand.point.x += x - start.x;
@@ -431,7 +433,7 @@ void CLogicSim2View::OnLButtonUp(UINT nFlags, CPoint point)
 		dc.SetROP2(R2_COPYPEN);
 
 		if (gate == 0) {
-			AND *and = new AND(CPoint(x,y));
+			AND *and = new AND(CPoint(x,y),G_way);
 			and->Draw(dc, G_way);
 			and->way = G_way;
 			list.Add(*and);

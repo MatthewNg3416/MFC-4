@@ -17,6 +17,7 @@ public:
 	bool isclock = false;
 	int clock = 1;
 	bool start_clock = false;
+	bool c_flag = false;
 
 	Gate() {
 		point = CPoint(0, 0);
@@ -39,7 +40,7 @@ public:
 		Gate::Gate();
 		name = _T("AND");
 	}
-	AND(CPoint &point) {
+	AND(CPoint &point, double i) {
 		this->point = point;
 		name = _T("AND");
 	}
@@ -157,11 +158,12 @@ class NAND : public Gate {
 	AND *and;
 public:
 	NAND(CPoint &point, double i) {
+		int j = i;
 		i = PI / 2 * i;
 		int a, b;
 		a = 10; b = 0;
 		CPoint temp = point - CPoint((a*int(cos(i)) - b*int(sin(i))), (a*int(sin(i)) + b*int(cos(i))));
-		and = new AND(temp);
+		and = new AND(temp,j);
 		this->point = point;
 		name = _T("NAND");
 	}
@@ -171,7 +173,8 @@ public:
 		int a, b, c, d;
 		a = -10; b = -5; c = 0; d = 5;
 		dc.Ellipse(point.x + (a*int(cos(i)) - b*int(sin(i))), point.y + (a*int(sin(i)) + b*int(cos(i))), point.x + (c*int(cos(i)) - d*int(sin(i))), point.y + (c*int(sin(i)) + d*int(cos(i))));
-		and->Draw(dc, j);
+		if(!c_flag)
+			and->Draw(dc, j);
 		a = -70; b = -10;
 		input[0] = CPoint((a*int(cos(i)) - b*int(sin(i))), (a*int(sin(i)) + b*int(cos(i))));
 		a = -70; b = 10;
@@ -194,6 +197,7 @@ public:
 		name = _T("NOR");
 	}
 	void Draw(CClientDC &dc, double i) {
+		int j = i;
 		i = PI / 2 * i;
 		int a, b, c, d;
 		a = -10; b = -5; c = 0; d = 5;
@@ -212,16 +216,23 @@ class XOR : public Gate {
 	CPoint arr[4];
 public:
 	XOR(CPoint &point, double i) {
+		int a, b;
 		or = new OR(point, i);
 		this->point = point;
-		arr[0].x = point.x - 70;
-		arr[0].y = point.y - 30;
-		arr[1].x = point.x - 50;
-		arr[1].y = point.y - 20;
-		arr[2].x = point.x - 50;
-		arr[2].y = point.y + 20;
-		arr[3].x = point.x - 70;
-		arr[3].y = point.y + 30;
+		i = PI / 2 * i;
+
+		a = -70; b = -30;
+		arr[0].x = point.x + (a*int(cos(i)) - b*int(sin(i)));
+		arr[0].y = point.y + (a*int(sin(i)) + b*int(cos(i)));
+		a = -50; b = -20;
+		arr[1].x = point.x + (a*int(cos(i)) - b*int(sin(i)));
+		arr[1].y = point.y + (a*int(sin(i)) + b*int(cos(i)));
+		a = -50; b = 20;
+		arr[2].x = point.x + (a*int(cos(i)) - b*int(sin(i)));
+		arr[2].y = point.y + (a*int(sin(i)) + b*int(cos(i)));
+		a = -70; b = 30;
+		arr[3].x = point.x + (a*int(cos(i)) - b*int(sin(i)));
+		arr[3].y = point.y + (a*int(sin(i)) + b*int(cos(i)));
 		name = _T("XOR");
 	}
 	void Draw(CClientDC &dc, double i) {
