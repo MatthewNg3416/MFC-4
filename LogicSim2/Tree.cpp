@@ -56,12 +56,12 @@ void Tree::OnInitialUpdate()
 	il.Detach();
 
 	//level 1
-	HTREEITEM hProgram = tree.InsertItem(_T("프로그램"), NULL, 0, TVI_ROOT, TVI_LAST);
+	HTREEITEM hProgram = tree.InsertItem(_T("프로그램"), 0, NULL, TVI_ROOT, TVI_LAST);
 
 	//level 2
-	HTREEITEM hLogicGate = tree.InsertItem(_T("Gate"), NULL, 0, hProgram, TVI_LAST);
-	HTREEITEM hFlipFlop = tree.InsertItem(_T("Flip-Flop"), NULL, 0, hProgram, TVI_LAST);
-	HTREEITEM hInputOutput = tree.InsertItem(_T("Input/Output"), NULL, 0, hProgram, TVI_LAST);
+	HTREEITEM hLogicGate = tree.InsertItem(_T("Gate"), 0, NULL, hProgram, TVI_LAST);
+	HTREEITEM hFlipFlop = tree.InsertItem(_T("Flip-Flop"), 0, NULL, hProgram, TVI_LAST);
+	HTREEITEM hInputOutput = tree.InsertItem(_T("Input/Output"), 0, NULL, hProgram, TVI_LAST);
 
 	//level 3
 	HTREEITEM hGates[6];
@@ -71,18 +71,18 @@ void Tree::OnInitialUpdate()
 	CString Flops[] = { _T("D-FF"),_T("JK-FF"),_T("T-FF") };
 
 	HTREEITEM hInOut[4];
-	CString InOuts[] = { _T("Switch") ,_T("Lamp") ,_T("Clock") ,_T("7-Segment") };
+	CString InOuts[] = { _T("Switch") ,_T("Lamp")  ,_T("7-Segment"),_T("Clock") };
 
 	for (int i = 0 ; i < 6; i++) {
 		hGates[i] = tree.InsertItem(gates[i], i+1, i+1, hLogicGate, TVI_LAST);
 	}
 
 	for (int i = 0; i < 3; i++) {
-		hFlops[i] = tree.InsertItem(Flops[i], i, i, hFlipFlop, TVI_LAST);
+		hFlops[i] = tree.InsertItem(Flops[i], i+7, i+7, hFlipFlop, TVI_LAST);
 	}
 
 	for (int i = 0; i < 4; i++) {
-		hInOut[i] = tree.InsertItem(InOuts[i], i, i, hInputOutput, TVI_LAST);
+		hInOut[i] = tree.InsertItem(InOuts[i], i+10, i+10, hInputOutput, TVI_LAST);
 	}
 }
 

@@ -288,7 +288,7 @@ void CLogicSim2View::OnMouseMove(UINT nFlags, CPoint point)
 				start.y = y;
 				bit_switch.Draw(dc, G_way);
 			}
-			else if (gate == 10) {
+			else if (gate == 11) {
 				Seven_seg seven(CPoint(start.x, start.y));
 				seven.Draw(dc, G_way);
 				seven.point.x += x - start.x;
@@ -297,7 +297,7 @@ void CLogicSim2View::OnMouseMove(UINT nFlags, CPoint point)
 				start.y = y;
 				seven.Draw(dc, G_way);
 			}
-			else if (gate == 11) {
+			else if (gate == 12) {
 				Bit_clock clock(CPoint(start.x, start.y));
 				clock.Draw(dc, G_way);
 				clock.point.x += x - start.x;
@@ -306,7 +306,7 @@ void CLogicSim2View::OnMouseMove(UINT nFlags, CPoint point)
 				start.y = y;
 				clock.Draw(dc, G_way);
 			}
-			else if (gate == 12) {
+			else if (gate == 10) {
 				Out_switch out_switch(CPoint(start.x, start.y));
 				out_switch.Draw(dc, G_way);
 				out_switch.point.x += x - start.x;
@@ -450,14 +450,14 @@ void CLogicSim2View::OnLButtonUp(UINT nFlags, CPoint point)
 			list.Add(*bit_switch);
 			ptrlist.Add(bit_switch);
 		}
-		else if (gate == 10) {
+		else if (gate == 11) {
 			Seven_seg* seven = new Seven_seg(CPoint(x, y));
 			seven->Draw(dc, G_way);
 			seven->way = G_way;
 			list.Add(*seven);
 			ptrlist.Add(seven);
 		}
-		else if (gate == 11) {
+		else if (gate == 12) {
 			Bit_clock* clock = new Bit_clock(CPoint(x, y));
 			clock->Draw(dc, G_way);
 			clock->way = G_way;
@@ -465,7 +465,7 @@ void CLogicSim2View::OnLButtonUp(UINT nFlags, CPoint point)
 			list.Add(*clock);
 			ptrlist.Add(clock);
 		}
-		else if (gate == 12) {
+		else if (gate == 10) {
 			Out_switch* out_switch = new Out_switch(CPoint(x, y));
 			out_switch->Draw(dc, G_way);
 			out_switch->Drawstr(dc, G_way);
@@ -647,7 +647,7 @@ void CLogicSim2View::OnSevenSeg()
 {
 	// TODO: 여기에 명령 처리기 코드를 추가합니다.
 
-	gate = 10;
+	gate = 11;
 	current = 1;
 	move = true;
 }
@@ -657,7 +657,7 @@ void CLogicSim2View::OnBitClock()
 {
 	// TODO: 여기에 명령 처리기 코드를 추가합니다.
 
-	gate = 11;
+	gate = 12;
 	current = 1;
 	move = true;
 }
@@ -666,7 +666,7 @@ void CLogicSim2View::OnOutSwitch()
 {
 	// TODO: 여기에 명령 처리기 코드를 추가합니다.
 
-	gate = 12;
+	gate = 10;
 	current = 1;
 	move = true;
 }
