@@ -177,9 +177,9 @@ public:
 		if(!c_flag)
 			and->Draw(dc, j);
 		a = -70; b = -10;
-		input[0] = CPoint((a*int(cos(i)) - b*int(sin(i))), (a*int(sin(i)) + b*int(cos(i))));
+		input[0] = CPoint(point.x+(a*int(cos(i)) - b*int(sin(i))),point.y + (a*int(sin(i)) + b*int(cos(i))));
 		a = -70; b = 10;
-		input[1] = CPoint((a*int(cos(i)) - b*int(sin(i))), (a*int(sin(i)) + b*int(cos(i))));
+		input[1] = CPoint(point.x+(a*int(cos(i)) - b*int(sin(i))),point.y+ (a*int(sin(i)) + b*int(cos(i))));
 		output[0] = point;
 	}
 };
@@ -205,9 +205,9 @@ public:
 		dc.Ellipse(point.x + (a*int(cos(i)) - b*int(sin(i))), point.y + (a*int(sin(i)) + b*int(cos(i))), point.x + (c*int(cos(i)) - d*int(sin(i))), point.y + (c*int(sin(i)) + d*int(cos(i))));
 		or ->Draw(dc,i);
 		a = -60; b = -10;
-		input[0] = CPoint((a*int(cos(i)) - b*int(sin(i))), (a*int(sin(i)) + b*int(cos(i))));
+		input[0] = CPoint(point.x+(a*int(cos(i)) - b*int(sin(i))), point.y+(a*int(sin(i)) + b*int(cos(i))));
 		a = -60; b = 10;
-		input[1] = CPoint((a*int(cos(i)) - b*int(sin(i))), (a*int(sin(i)) + b*int(cos(i))));
+		input[1] = CPoint(point.x+(a*int(cos(i)) - b*int(sin(i))), point.y+(a*int(sin(i)) + b*int(cos(i))));
 		output[0] = point;
 	}
 };
@@ -242,9 +242,9 @@ public:
 		i = PI / 2 * i;
 		int a, b;
 		a = -60; b = -10;
-		input[0] = CPoint((a*int(cos(i)) - b*int(sin(i))), (a*int(sin(i)) + b*int(cos(i))));
+		input[0] = CPoint(point.x+(a*int(cos(i)) - b*int(sin(i))), point.y+(a*int(sin(i)) + b*int(cos(i))));
 		a = -60; b = 10;
-		input[1] = CPoint((a*int(cos(i)) - b*int(sin(i))), (a*int(sin(i)) + b*int(cos(i))));
+		input[1] = CPoint(point.x+(a*int(cos(i)) - b*int(sin(i))), point.y+(a*int(sin(i)) + b*int(cos(i))));
 		output[0] = point;
 	}
 };

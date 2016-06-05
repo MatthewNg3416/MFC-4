@@ -405,6 +405,16 @@ void CLogicSim2View::OnLButtonDown(UINT nFlags, CPoint point)
 					lineStart = ptr->output[1];
 				}
 			}
+			if (ptr->input[0].x - 4 < point.x&&ptr->input[0].x + 4 > point.x&&ptr->input[0].y - 4 < point.y&&ptr->input[0].y + 4 > point.y) {
+				lineDraw = true;
+				isClicked = true;
+				lineStart = ptr->input[0];
+			}
+			if (ptr->input[1].x - 4 < point.x&&ptr->input[1].x + 4 > point.x&&ptr->input[1].y - 4 < point.y&&ptr->input[1].y + 4 > point.y) {
+				lineDraw = true;
+				isClicked = true;
+				lineStart = ptr->input[1];
+			}
 		if (temp.x - 30 < point.x&&temp.x + 4 > point.x&&temp.y - 15 < point.y&&temp.y + 15 > point.y) {
 			Gate* li=(Gate*)ptrlist.GetAt(i);
 			pFrame->m_option->m_edit.SetWindowTextW(list[i].label);
