@@ -115,8 +115,6 @@ void CLogicSim2View::OnDraw(CDC* pDC)
 		pDC->MoveTo(lineEnd.x, lineStart.y);
 		pDC->LineTo(lineEnd);
 	}
-	str.Format(_T("%d"), ptrlist.GetCount());
-	pDC->TextOutW(200, 200, str);
 	for (int i = 0; i < ptrlist.GetCount(); i++) {
 			Gate* temp = (Gate*)ptrlist.GetAt(i);
 			temp->Draw(dc, temp->way);
@@ -504,25 +502,27 @@ void CLogicSim2View::OnLButtonUp(UINT nFlags, CPoint point)
 void CLogicSim2View::OnRButtonDown(UINT nFlags, CPoint point)
 {
 	// TODO: 여기에 메시지 처리기 코드를 추가 및/또는 기본값을 호출합니다.
-	CPoint temp;
+	CPoint temp_p;
 	CClientDC dc(this);
-	for (int i = 0; i < list.GetCount(); i++) {
-		temp = list[i].point;
-		if (temp.x - 30 < point.x&&temp.x + 4 > point.x&&temp.y - 15 < point.y&&temp.y + 15 > point.y) {
-			if (list[i].isbit) {
-				if (list[i].bit_flag)
-					list[i].bit_flag = false;
+
+	for (int i = 0; i < ptrlist.GetCount(); i++) {
+		Gate* temp = (Gate*)ptrlist.GetAt(i);
+		temp_p = temp->point;
+		if (temp_p.x - 30 < point.x&&temp_p.x + 4 > point.x&&temp_p.y - 15 < point.y&&temp_p.y + 15 > point.y) {
+			if (temp->isbit) {
+				if (temp->bit_flag)
+					temp->bit_flag = false;
 				else
-					list[i].bit_flag = true;
-				list[i].Drawstr(dc, list[i].way);
+					temp->bit_flag = true;
+				temp->Drawstr(dc, temp->way);
 			}
-			else if (list[i].isclock) {
-				if (list[i].start_clock) {
-					list[i].start_clock = true;
-					SetTimer(0, 1000 / list[i].clock, NULL);
+			else if (temp->isclock) {
+				if (!temp->start_clock) {
+					temp->start_clock = true;
+					SetTimer(0, (1000 / temp->clock), NULL);
 				}
 				else {
-					list[i].start_clock = false;
+					temp->start_clock = false;
 					KillTimer(0);
 				}
 			}
@@ -675,16 +675,16 @@ void CLogicSim2View::OnTimer(UINT_PTR nIDEvent)
 {
 	// TODO: 여기에 메시지 처리기 코드를 추가 및/또는 기본값을 호출합니다.
 	CClientDC dc(this);
-	for (int i = 0; i < list.GetCount(); i++) {
-		if(list[i].isclock){
-			if (list[i].bit_flag)
-				list[i].bit_flag = false;
+	for (int i = 0; i < ptrlist.GetCount(); i++) {
+		Gate* temp = (Gate*)ptrlist.GetAt(i);
+		if(temp->isclock){
+			if (temp->bit_flag)
+				temp->bit_flag = false;
 			else
-				list[i].bit_flag = true;
-			list[i].Drawstr(dc, list[i].way);
+				temp->bit_flag = true;
+			temp->Drawstr(dc, temp->way);
 		}
 	}
-
 	//Invalidate();
 
 	CView::OnTimer(nIDEvent);

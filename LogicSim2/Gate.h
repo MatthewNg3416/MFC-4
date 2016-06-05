@@ -456,10 +456,12 @@ public:
 	}
 	void Drawstr(CClientDC &dc, double i) {
 		CString str;
-		if (bit_flag)
+		if (bit_flag) {
 			str.Format(_T("1"));
-		else
+		}
+		else {
 			str.Format(_T("0"));
+		}
 		dc.TextOut(point.x - 14, point.y - 7, str);
 	}
 };
