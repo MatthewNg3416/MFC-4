@@ -279,10 +279,10 @@ public:
 
 		a = -40; b = 0;
 		input[0] = CPoint(point.x + (a*int(cos(i)) - b*int(sin(i))), point.y + (a*int(sin(i)) + b*int(cos(i))));
-		a = -40; b = 20;
+		a = -40; b = 40;
 		input[1] = CPoint(point.x + (a*int(cos(i)) - b*int(sin(i))), point.y + (a*int(sin(i)) + b*int(cos(i))));
 		output[0] = point;
-		a = 0; b = 20;
+		a = 0; b = 40;
 		output[1] = CPoint(point.x + (a*int(cos(i)) - b*int(sin(i))), point.y + (a*int(sin(i)) + b*int(cos(i))));
 	}
 	void Drawstr(CClientDC &dc, double i) {
@@ -347,12 +347,12 @@ public:
 
 		a = -40; b = 0;
 		input[0] = CPoint(point.x + (a*int(cos(i)) - b*int(sin(i))), point.y + (a*int(sin(i)) + b*int(cos(i))));
-		a = -40; b = 10;
-		input[1] = CPoint(point.x + (a*int(cos(i)) - b*int(sin(i))), point.y + (a*int(sin(i)) + b*int(cos(i))));
 		a = -40; b = 20;
+		input[1] = CPoint(point.x + (a*int(cos(i)) - b*int(sin(i))), point.y + (a*int(sin(i)) + b*int(cos(i))));
+		a = -40; b = 40;
 		input[2] = CPoint(point.x + (a*int(cos(i)) - b*int(sin(i))), point.y + (a*int(sin(i)) + b*int(cos(i))));
 		output[0] = point;
-		a = 0; b = 20;
+		a = 0; b = 40;
 		output[1] = CPoint(point.x + (a*int(cos(i)) - b*int(sin(i))), point.y + (a*int(sin(i)) + b*int(cos(i))));
 	}
 	void Drawstr(CClientDC &dc, double i) {
@@ -420,10 +420,10 @@ public:
 
 		a = -40; b = 0;
 		input[0] = CPoint(point.x + (a*int(cos(i)) - b*int(sin(i))), point.y + (a*int(sin(i)) + b*int(cos(i))));
-		a = -40; b = 20;
+		a = -40; b = 40;
 		input[1] = CPoint(point.x + (a*int(cos(i)) - b*int(sin(i))), point.y + (a*int(sin(i)) + b*int(cos(i))));
 		output[0] = point;
-		a = 0; b = 20;
+		a = 0; b = 40;
 		output[1] = CPoint(point.x + (a*int(cos(i)) - b*int(sin(i))), point.y + (a*int(sin(i)) + b*int(cos(i))));
 	}
 	void Drawstr(CClientDC &dc, double i) {
