@@ -81,6 +81,8 @@ public:
 	afx_msg void OnOutSwitch();
 	afx_msg void OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags);
 	afx_msg void OnLButtonDblClk(UINT nFlags, CPoint point);
+	bool flag=false;
+	double pre;
 };
 
 #ifndef _DEBUG  // debug version in LogicSim2View.cpp

@@ -67,6 +67,8 @@ CLogicSim2View::CLogicSim2View()
 	, isClicked(false)
 	, lineStart(0)
 	, lineEnd(0)
+	, flag(false)
+	, pre(0)
 {
 	list.SetSize(0);
 	line.SetSize(0);
@@ -197,6 +199,11 @@ void CLogicSim2View::OnMouseMove(UINT nFlags, CPoint point)
 		dc.SetROP2(R2_NOT);
 			if (gate == 0) {
 				AND and (CPoint(start.x, start.y));
+				if (flag) {
+					and.Draw(dc, pre);
+					and.Draw(dc, G_way);
+					flag = false;
+				}
 				and.Draw(dc, G_way);
 				and.point.x += x - start.x;
 				and.point.y += y-start.y;
@@ -207,6 +214,11 @@ void CLogicSim2View::OnMouseMove(UINT nFlags, CPoint point)
 		
 			else if (gate == 1) {
 				OR or (CPoint(start.x, start.y),G_way);
+				if (flag) {
+					or.Draw(dc, pre);
+					or.Draw(dc, G_way);
+					flag = false;
+				}
 				or .Draw(dc, G_way);
 				or .point.x += x - start.x;
 				or .point.y += y - start.y;
@@ -216,6 +228,11 @@ void CLogicSim2View::OnMouseMove(UINT nFlags, CPoint point)
 			}
 			else if (gate == 2) {
 				NOT not (CPoint(start.x, start.y));
+				if (flag) {
+					not.Draw(dc, pre);
+					not.Draw(dc, G_way);
+					flag = false;
+				}
 				not.Draw(dc, G_way);
 				not.point.x += x - start.x;
 				not.point.y += y - start.y;
@@ -225,6 +242,11 @@ void CLogicSim2View::OnMouseMove(UINT nFlags, CPoint point)
 			}
 			else if (gate == 3) {
 				NAND nand(CPoint(start.x, start.y), G_way);
+				if (flag) {
+					nand.Draw(dc, pre);
+					nand.Draw(dc, G_way);
+					flag = false;
+				}
 				nand.Draw(dc, G_way);
 				nand.point.x += x - start.x;
 				nand.point.y += y - start.y;
@@ -234,6 +256,11 @@ void CLogicSim2View::OnMouseMove(UINT nFlags, CPoint point)
 			}
 			else if (gate == 4) {
 				NOR nor(CPoint(start.x, start.y), G_way);
+				if (flag) {
+					nor.Draw(dc, pre);
+					nor.Draw(dc, G_way);
+					flag = false;
+				}
 				nor.Draw(dc, G_way);
 				nor.point.x += x - start.x;
 				nor.point.y += y - start.y;
@@ -243,6 +270,11 @@ void CLogicSim2View::OnMouseMove(UINT nFlags, CPoint point)
 			}
 			else if (gate == 5) {
 				XOR xor (CPoint(start.x, start.y), G_way);
+				if (flag) {
+					xor.Draw(dc, pre);
+					xor.Draw(dc, G_way);
+					flag = false;
+				}
 				xor.Draw(dc, G_way);
 				xor.point.x += x - start.x;
 				xor.point.y += y - start.y;
@@ -252,6 +284,11 @@ void CLogicSim2View::OnMouseMove(UINT nFlags, CPoint point)
 			}
 			else if (gate == 6) {
 				D_FF d_ff(CPoint(start.x, start.y));
+				if (flag) {
+					d_ff.Draw(dc, pre);
+					d_ff.Draw(dc, G_way);
+					flag = false;
+				}
 				d_ff.Draw(dc, G_way);
 				d_ff.point.x += x - start.x;
 				d_ff.point.y += y - start.y;
@@ -261,6 +298,11 @@ void CLogicSim2View::OnMouseMove(UINT nFlags, CPoint point)
 			}
 			else if (gate == 7) {
 				JK_FF jk_ff(CPoint(start.x, start.y));
+				if (flag) {
+					jk_ff.Draw(dc, pre);
+					jk_ff.Draw(dc, G_way);
+					flag = false;
+				}
 				jk_ff.Draw(dc, G_way);
 				jk_ff.point.x += x - start.x;
 				jk_ff.point.y += y - start.y;
@@ -270,6 +312,11 @@ void CLogicSim2View::OnMouseMove(UINT nFlags, CPoint point)
 			}
 			else if (gate == 8) {
 				T_FF t_ff(CPoint(start.x, start.y));
+				if (flag) {
+					t_ff.Draw(dc, pre);
+					t_ff.Draw(dc, G_way);
+					flag = false;
+				}
 				t_ff.Draw(dc, G_way);
 				t_ff.point.x += x - start.x;
 				t_ff.point.y += y - start.y;
@@ -279,6 +326,11 @@ void CLogicSim2View::OnMouseMove(UINT nFlags, CPoint point)
 			}
 			else if (gate == 9) {
 				Bit_switch bit_switch(CPoint(start.x, start.y));
+				if (flag) {
+					bit_switch.Draw(dc, pre);
+					bit_switch.Draw(dc, G_way);
+					flag = false;
+				}
 				bit_switch.Draw(dc, G_way);
 				bit_switch.point.x += x - start.x;
 				bit_switch.point.y += y - start.y;
@@ -288,6 +340,11 @@ void CLogicSim2View::OnMouseMove(UINT nFlags, CPoint point)
 			}
 			else if (gate == 11) {
 				Seven_seg seven(CPoint(start.x, start.y));
+				if (flag) {
+					seven.Draw(dc, pre);
+					seven.Draw(dc, G_way);
+					flag = false;
+				}
 				seven.Draw(dc, G_way);
 				seven.point.x += x - start.x;
 				seven.point.y += y - start.y;
@@ -701,6 +758,8 @@ void CLogicSim2View::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 	switch (nChar) {
 	case 'C':
 		if (current != -1 && move) {
+			flag = true;
+			pre = G_way;
 			if (G_way < 3) {
 				G_way++;	//게이트방향 전환
 			}
