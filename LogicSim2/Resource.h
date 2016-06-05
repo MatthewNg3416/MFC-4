@@ -8,6 +8,7 @@
 #define IDR_TOOLBAR1                    310
 #define IDD_OPTIONVIEW                  311
 #define IDB_BITMAP1                     312
+#define IDD_DIALOG1                     314
 #define IDC_COMBO1                      1002
 #define IDC_EDIT1                       1003
 #define IDC_STATIC4                     1008
@@ -26,14 +27,13 @@
 #define ID_INOUT_SWITCH                 32789
 #define ID_IN_SWITCH                    32789
 #define ID_BIT_CLOCK                    32790
-#define ID_BUTTON32794                  32794
 #define ID_OUT_SWITCH                   32795
 
 // Next default values for new objects
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        314
+#define _APS_NEXT_RESOURCE_VALUE        316
 #define _APS_NEXT_COMMAND_VALUE         32796
 #define _APS_NEXT_CONTROL_VALUE         1000
 #define _APS_NEXT_SYMED_VALUE           312

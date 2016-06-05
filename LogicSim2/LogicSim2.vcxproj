@@ -181,6 +181,7 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="clock_Dlg.h" />
     <ClInclude Include="Gate.h" />
     <ClInclude Include="LogicSim2.h" />
     <ClInclude Include="LogicSim2Doc.h" />
@@ -193,6 +194,7 @@
     <ClInclude Include="Tree.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="clock_Dlg.cpp" />
     <ClCompile Include="LogicSim2.cpp" />
     <ClCompile Include="LogicSim2Doc.cpp" />
     <ClCompile Include="LogicSim2View.cpp" />

@@ -14,6 +14,7 @@
 #include "Gate.h"
 #include <afxtempl.h>
 #include "MainFrm.h"
+#include "clock_Dlg.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -50,6 +51,8 @@ ON_COMMAND(ID_Seven_seg, &CLogicSim2View::OnSevenSeg)
 ON_COMMAND(ID_BIT_CLOCK, &CLogicSim2View::OnBitClock)
 ON_WM_TIMER()
 ON_COMMAND(ID_OUT_SWITCH, &CLogicSim2View::OnOutSwitch)
+ON_WM_KEYDOWN()
+ON_WM_LBUTTONDBLCLK()
 END_MESSAGE_MAP()
 
 // CLogicSim2View construction/destruction
@@ -501,15 +504,6 @@ void CLogicSim2View::OnLButtonUp(UINT nFlags, CPoint point)
 void CLogicSim2View::OnRButtonDown(UINT nFlags, CPoint point)
 {
 	// TODO: 여기에 메시지 처리기 코드를 추가 및/또는 기본값을 호출합니다.
-	if (current != -1 && move) {
-		if (G_way < 3) {
-			G_way++;	//게이트방향 전환
-		}
-		else {
-			G_way = 0;
-		}
-	}
-	
 	CPoint temp;
 
 	for (int i = 0; i < list.GetCount(); i++) {
@@ -697,3 +691,50 @@ void CLogicSim2View::OnTimer(UINT_PTR nIDEvent)
 
 
 
+
+
+void CLogicSim2View::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
+{
+	// TODO: 여기에 메시지 처리기 코드를 추가 및/또는 기본값을 호출합니다.
+
+	switch (nChar) {
+	case 'C':
+		if (current != -1 && move) {
+			if (G_way < 3) {
+				G_way++;	//게이트방향 전환
+			}
+			else {
+				G_way = 0;
+			}
+		}
+	}
+
+	CView::OnKeyDown(nChar, nRepCnt, nFlags);
+}
+
+
+void CLogicSim2View::OnLButtonDblClk(UINT nFlags, CPoint point)
+{
+	// TODO: 여기에 메시지 처리기 코드를 추가 및/또는 기본값을 호출합니다.
+
+	CPoint temp;
+
+	for (int i = 0; i < list.GetCount(); i++) {
+		temp = list[i].point;
+		if (temp.x - 30 < point.x&&temp.x + 4 > point.x&&temp.y - 15 < point.y&&temp.y + 15 > point.y) {
+			if (list[i].isclock) {
+				clock_Dlg dlg;
+				dlg.i = list[i].clock;
+
+				int result = dlg.DoModal();
+				if (result == IDOK) {
+					list[i].clock = dlg.i;
+				}
+				//Invalidate();
+			}
+		}
+	}
+	Invalidate();
+
+	CView::OnLButtonDblClk(nFlags, point);
+}
