@@ -505,16 +505,16 @@ void CLogicSim2View::OnRButtonDown(UINT nFlags, CPoint point)
 {
 	// TODO: 여기에 메시지 처리기 코드를 추가 및/또는 기본값을 호출합니다.
 	CPoint temp;
-
+	CClientDC dc(this);
 	for (int i = 0; i < list.GetCount(); i++) {
 		temp = list[i].point;
 		if (temp.x - 30 < point.x&&temp.x + 4 > point.x&&temp.y - 15 < point.y&&temp.y + 15 > point.y) {
 			if (list[i].isbit) {
-				CString str;
-				str = _T("str");
-				list[i].bit_flag = true;
-				//Invalidate();		//스위치 재출력 코드 구현
-				//dc.TextOut(point.x - 14, point.y - 7, str);
+				if (list[i].bit_flag)
+					list[i].bit_flag = false;
+				else
+					list[i].bit_flag = true;
+				list[i].Drawstr(dc, list[i].way);
 			}
 			else if (list[i].isclock) {
 				if (list[i].start_clock) {
@@ -529,7 +529,7 @@ void CLogicSim2View::OnRButtonDown(UINT nFlags, CPoint point)
 
 		}
 	}
-	Invalidate();
+	//Invalidate();
 	CView::OnRButtonDown(nFlags, point);
 }
 
@@ -674,17 +674,18 @@ void CLogicSim2View::OnOutSwitch()
 void CLogicSim2View::OnTimer(UINT_PTR nIDEvent)
 {
 	// TODO: 여기에 메시지 처리기 코드를 추가 및/또는 기본값을 호출합니다.
-
+	CClientDC dc(this);
 	for (int i = 0; i < list.GetCount(); i++) {
 		if(list[i].isclock){
 			if (list[i].bit_flag)
 				list[i].bit_flag = false;
 			else
 				list[i].bit_flag = true;
+			list[i].Drawstr(dc, list[i].way);
 		}
 	}
 
-	Invalidate();
+	//Invalidate();
 
 	CView::OnTimer(nIDEvent);
 }

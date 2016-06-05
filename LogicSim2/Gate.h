@@ -562,7 +562,7 @@ public:
 			str.Format(_T("1"));
 		else
 			str.Format(_T("0"));
-		dc.TextOut(point.x - 14, point.y + 3, str);
+		dc.TextOut(point.x - 14, point.y - 7, str);
 	}
 };
 
