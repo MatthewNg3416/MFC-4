@@ -47,6 +47,9 @@ ON_COMMAND(ID_FLOP_JK_FF, &CLogicSim2View::OnFlopJkFf)
 ON_COMMAND(ID_FLOP_T_FF, &CLogicSim2View::OnFlopTFf)
 ON_COMMAND(ID_INOUT_SWITCH, &CLogicSim2View::OnInoutSwitch)
 ON_COMMAND(ID_Seven_seg, &CLogicSim2View::OnSevenSeg)
+ON_COMMAND(ID_BIT_CLOCK, &CLogicSim2View::OnBitClock)
+ON_WM_TIMER()
+ON_COMMAND(ID_OUT_SWITCH, &CLogicSim2View::OnOutSwitch)
 END_MESSAGE_MAP()
 
 // CLogicSim2View construction/destruction
@@ -291,6 +294,24 @@ void CLogicSim2View::OnMouseMove(UINT nFlags, CPoint point)
 				start.y = y;
 				seven.Draw(dc, G_way);
 			}
+			else if (gate == 11) {
+				Bit_clock clock(CPoint(start.x, start.y));
+				clock.Draw(dc, G_way);
+				clock.point.x += x - start.x;
+				clock.point.y += y - start.y;
+				start.x = x;
+				start.y = y;
+				clock.Draw(dc, G_way);
+			}
+			else if (gate == 12) {
+				Out_switch out_switch(CPoint(start.x, start.y));
+				out_switch.Draw(dc, G_way);
+				out_switch.point.x += x - start.x;
+				out_switch.point.y += y - start.y;
+				start.x = x;
+				start.y = y;
+				out_switch.Draw(dc, G_way);
+			}
 	}
 	lineEnd = CPoint(x, y);
 	
@@ -432,6 +453,23 @@ void CLogicSim2View::OnLButtonUp(UINT nFlags, CPoint point)
 			list.Add(*seven);
 			ptrlist.Add(seven);
 		}
+		else if (gate == 11) {
+			Bit_clock* clock = new Bit_clock(CPoint(x, y));
+			clock->Draw(dc, G_way);
+			clock->way = G_way;
+			clock->isclock = true;
+			list.Add(*clock);
+			ptrlist.Add(clock);
+		}
+		else if (gate == 12) {
+			Out_switch* out_switch = new Out_switch(CPoint(x, y));
+			out_switch->Draw(dc, G_way);
+			out_switch->Drawstr(dc, G_way);
+			out_switch->way = G_way;
+			out_switch->isbit = true;
+			list.Add(*out_switch);
+			ptrlist.Add(out_switch);
+		}
 		current = -1;
 		move = false;
 		gate = -1;
@@ -482,6 +520,16 @@ void CLogicSim2View::OnRButtonDown(UINT nFlags, CPoint point)
 				list[i].bit_flag = true;
 				//Invalidate();		//스위치 재출력 코드 구현
 				//dc.TextOut(point.x - 14, point.y - 7, str);
+			}
+			else if (list[i].isclock) {
+				if (list[i].start_clock) {
+					list[i].start_clock = true;
+					SetTimer(0, 1000 / list[i].clock, NULL);
+				}
+				else {
+					list[i].start_clock = false;
+					KillTimer(0);
+				}
 			}
 
 		}
@@ -608,3 +656,43 @@ void CLogicSim2View::OnSevenSeg()
 	current = 1;
 	move = true;
 }
+
+
+void CLogicSim2View::OnBitClock()
+{
+	// TODO: 여기에 명령 처리기 코드를 추가합니다.
+
+	gate = 11;
+	current = 1;
+	move = true;
+}
+
+void CLogicSim2View::OnOutSwitch()
+{
+	// TODO: 여기에 명령 처리기 코드를 추가합니다.
+
+	gate = 12;
+	current = 1;
+	move = true;
+}
+
+void CLogicSim2View::OnTimer(UINT_PTR nIDEvent)
+{
+	// TODO: 여기에 메시지 처리기 코드를 추가 및/또는 기본값을 호출합니다.
+
+	for (int i = 0; i < list.GetCount(); i++) {
+		if(list[i].isclock){
+			if (list[i].bit_flag)
+				list[i].bit_flag = false;
+			else
+				list[i].bit_flag = true;
+		}
+	}
+
+	Invalidate();
+
+	CView::OnTimer(nIDEvent);
+}
+
+
+

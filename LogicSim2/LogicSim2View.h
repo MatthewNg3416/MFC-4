@@ -76,6 +76,9 @@ public:
 	afx_msg void OnFlopTFf();
 	afx_msg void OnInoutSwitch();
 	afx_msg void OnSevenSeg();
+	afx_msg void OnBitClock();
+	afx_msg void OnTimer(UINT_PTR nIDEvent);
+	afx_msg void OnOutSwitch();
 };
 
 #ifndef _DEBUG  // debug version in LogicSim2View.cpp

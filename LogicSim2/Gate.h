@@ -14,6 +14,9 @@ public:
 	int way;
 	bool isbit = false;
 	bool bit_flag = false;
+	bool isclock = false;
+	int clock = 1;
+	bool start_clock = false;
 
 	Gate() {
 		point = CPoint(0, 0);
@@ -535,5 +538,50 @@ public:
 		output[5] = CPoint(point.x + (a*int(cos(i)) - b*int(sin(i))), point.y + (a*int(sin(i)) + b*int(cos(i))));
 		a = 0; b = 50;
 		output[6] = CPoint(point.x + (a*int(cos(i)) - b*int(sin(i))), point.y + (a*int(sin(i)) + b*int(cos(i))));
+	}
+};
+
+class Bit_clock : public Gate {
+public:
+	//bool bit_flag = false;
+	//int clock=1;
+public:
+	Bit_clock(CPoint &point) {
+		this->point = point;
+	}
+	void Draw(CClientDC &dc, double i) {
+		dc.Rectangle(point.x - 20, point.y - 20, point.x, point.y + 20);
+		dc.MoveTo(point.x - 15, point.y + 15);
+		dc.LineTo(point.x - 10, point.y + 15);
+		dc.LineTo(point.x - 10, point.y + 5);
+		dc.LineTo(point.x - 5, point.y + 5);
+	}
+	void Drawstr(CClientDC &dc, double i) {
+		CString str;
+		if (bit_flag)
+			str.Format(_T("1"));
+		else
+			str.Format(_T("0"));
+		dc.TextOut(point.x - 14, point.y + 3, str);
+	}
+};
+
+class Out_switch : public Gate {
+public:
+	//bool bit_flag = false;
+public:
+	Out_switch(CPoint &point) {
+		this->point = point;
+	}
+	void Draw(CClientDC &dc, double i) {
+		dc.Ellipse(point.x, point.y - 10, point.x + 20, point.y + 10);
+	}
+	void Drawstr(CClientDC &dc, double i) {
+		CString str;
+		if (bit_flag)
+			str.Format(_T("1"));
+		else
+			str.Format(_T("0"));
+		dc.TextOut(point.x - 14, point.y - 7, str);
 	}
 };

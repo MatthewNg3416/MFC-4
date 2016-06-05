@@ -19,19 +19,22 @@
 #define ID_GATE_XOR                     32776
 #define ID_VIEW_GATETOOLBAR             32784
 #define ID_FLOP_D_FF                    32785
-#define ID_BUTTON32786                  32786
 #define ID_Seven_seg                    32786
 #define ID_FLOP_JK_FF                   32787
 #define ID_FLOP_T_FF                    32788
 #define ID_BUTTON32789                  32789
 #define ID_INOUT_SWITCH                 32789
+#define ID_IN_SWITCH                    32789
+#define ID_BIT_CLOCK                    32790
+#define ID_BUTTON32794                  32794
+#define ID_OUT_SWITCH                   32795
 
 // Next default values for new objects
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        314
-#define _APS_NEXT_COMMAND_VALUE         32787
+#define _APS_NEXT_COMMAND_VALUE         32796
 #define _APS_NEXT_CONTROL_VALUE         1000
 #define _APS_NEXT_SYMED_VALUE           312
 #endif

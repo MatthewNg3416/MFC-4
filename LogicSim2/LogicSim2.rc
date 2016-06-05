@@ -88,8 +88,10 @@ BEGIN
     BUTTON      ID_FLOP_D_FF
     BUTTON      ID_FLOP_JK_FF
     BUTTON      ID_FLOP_T_FF
-    BUTTON      ID_INOUT_SWITCH
+    BUTTON      ID_IN_SWITCH
+    BUTTON      ID_OUT_SWITCH
     BUTTON      ID_Seven_seg
+    BUTTON      ID_BIT_CLOCK
 END
 
 
