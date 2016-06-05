@@ -20,10 +20,10 @@ public:
 	bool c_flag = false;
 
 	Gate() {
-		point = CPoint(0, 0);
+		point = CPoint(-10, -10);
 		for (int i = 0; i < 7; i++) {
-			output[i] = (0, 0);
-			input[i] = (0, 0);
+			output[i] = (-10, -10);
+			input[i] = (-10, -10);
 		}
 		name = "";
 	}
