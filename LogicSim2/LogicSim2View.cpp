@@ -118,8 +118,8 @@ void CLogicSim2View::OnDraw(CDC* pDC)
 			Gate* temp = (Gate*)ptrlist.GetAt(i);
 			temp->Draw(dc, temp->way);
 			temp->Drawstr(dc, temp->way);
-			if (list[i].label!=_T("")) {
-				dc.TextOutW(list[i].point.x - 30, list[i].point.y - 40, list[i].label);
+			if (temp->label!=_T("")) {
+				dc.TextOutW(temp->point.x - 30, temp->point.y - 40, temp->label);
 			}
 			
 	}
@@ -337,11 +337,12 @@ void CLogicSim2View::OnLButtonDown(UINT nFlags, CPoint point)
 			lineStart = temp;
 		}
 		if (temp.x - 30 < point.x&&temp.x + 4 > point.x&&temp.y - 15 < point.y&&temp.y + 15 > point.y) {
+			Gate* li=(Gate*)ptrlist.GetAt(i);
 			pFrame->m_option->m_edit.SetWindowTextW(list[i].label);
 			pFrame->m_option->SetDlgItemTextW(IDC_STATIC4, list[i].name);
 			pFrame->m_option->temp = list[i];
+			li->label = list[i].label;
 			Invalidate();
-			dc.TextOutW(temp.x - 30, temp.y - 40,list[i].label);
 		}
 	}
 	for (int i = 0; i < line.GetCount(); i++) {
