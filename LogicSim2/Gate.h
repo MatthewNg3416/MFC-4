@@ -12,10 +12,13 @@ public:
 	CString name;
 	CString label=_T("");
 	int way;
+	bool isbit = false;
+	bool bit_flag = false;
 
 	Gate() {
 		point = CPoint(0, 0);
 		input[2] = { (0,0),(0,0) };
+		output[1] = { (0,0),(0,0) };
 		output[2] = { (0,0),(0,0) };
 		name = "";
 	}
@@ -24,6 +27,7 @@ public:
 	}
 public:
 	virtual void Draw(CClientDC &dc, double i){}
+	virtual void Drawstr(CClientDC &dc, double i){}
 };
 
 class AND : public Gate {
@@ -439,7 +443,7 @@ public:
 
 class Bit_switch : public Gate {
 public:
-	bool bit_flag = false;
+	//bool bit_flag = false;
 public:
 	Bit_switch(CPoint &point) {
 		this->point = point;

@@ -113,14 +113,15 @@ void CLogicSim2View::OnDraw(CDC* pDC)
 	pDC->TextOutW(200, 200, str);
 	for (int i = 0; i < ptrlist.GetCount(); i++) {
 			Gate* temp = (Gate*)ptrlist.GetAt(i);
-			temp->Draw(dc, G_way);
+			temp->Draw(dc, temp->way);
+			temp->Drawstr(dc, temp->way);
 			if (list[i].label!=_T("")) {
 				dc.TextOutW(list[i].point.x - 30, list[i].point.y - 40, list[i].label);
 			}
 			
 	}
 	if (!line.IsEmpty()) {
-		for (int k = 0; k + 1 < line.GetCount(); k++) {
+		for (int k = 0; k + 1 < line.GetCount(); k=k+2) {
 			CPen myPen(PS_SOLID, 2, RGB(200, 100, 100));
 			pDC->SelectObject(&myPen);
 			pDC->MoveTo(line[k]);
@@ -318,6 +319,7 @@ void CLogicSim2View::OnLButtonDown(UINT nFlags, CPoint point)
 			pFrame->m_option->m_edit.SetWindowTextW(list[i].label);
 			pFrame->m_option->SetDlgItemTextW(IDC_STATIC4, list[i].name);
 			pFrame->m_option->temp = list[i];
+			Invalidate();
 			dc.TextOutW(temp.x - 30, temp.y - 40,list[i].label);
 		}
 	}
@@ -419,6 +421,7 @@ void CLogicSim2View::OnLButtonUp(UINT nFlags, CPoint point)
 			bit_switch->Draw(dc, G_way);
 			bit_switch->Drawstr(dc, G_way);
 			bit_switch->way = G_way;
+			bit_switch->isbit = true;
 			list.Add(*bit_switch);
 			ptrlist.Add(bit_switch);
 		}
@@ -467,7 +470,23 @@ void CLogicSim2View::OnRButtonDown(UINT nFlags, CPoint point)
 			G_way = 0;
 		}
 	}
+	
+	CPoint temp;
 
+	for (int i = 0; i < list.GetCount(); i++) {
+		temp = list[i].point;
+		if (temp.x - 30 < point.x&&temp.x + 4 > point.x&&temp.y - 15 < point.y&&temp.y + 15 > point.y) {
+			if (list[i].isbit) {
+				CString str;
+				str = _T("str");
+				list[i].bit_flag = true;
+				//Invalidate();		//스위치 재출력 코드 구현
+				//dc.TextOut(point.x - 14, point.y - 7, str);
+			}
+
+		}
+	}
+	Invalidate();
 	CView::OnRButtonDown(nFlags, point);
 }
 
