@@ -21,9 +21,10 @@ public:
 
 	Gate() {
 		point = CPoint(0, 0);
-		input[2] = { (0,0),(0,0) };
-		output[1] = { (0,0),(0,0) };
-		output[2] = { (0,0),(0,0) };
+		for (int i = 0; i < 7; i++) {
+			output[i] = (0, 0);
+			input[i] = (0, 0);
+		}
 		name = "";
 	}
 	Gate(CPoint point) {
@@ -322,6 +323,7 @@ public:
 public:
 	JK_FF(CPoint &point) {
 		this->point = point;
+		name = _T("JK_FF");
 	}
 	void Draw(CClientDC &dc, double i) {
 		i = PI / 2 * i;
@@ -394,6 +396,7 @@ public:
 public:
 	T_FF(CPoint &point) {
 		this->point = point;
+		name = _T("T_FF");
 	}
 	void Draw(CClientDC &dc, double i) {
 		i = PI / 2 * i;
@@ -461,6 +464,7 @@ public:
 public:
 	Bit_switch(CPoint &point) {
 		this->point = point;
+		name = _T("SWITCH");
 	}
 	void Draw(CClientDC &dc, double i) {
 		dc.Rectangle(point.x - 20, point.y - 10, point.x, point.y + 10);
@@ -483,6 +487,7 @@ public:
 public:
 	Seven_seg(CPoint &point) {
 		this->point = point;
+		name = _T("7-SEGMENT");
 	}
 	void Draw(CClientDC &dc, double i) {
 		i = PI / 2 * i;
@@ -561,6 +566,7 @@ public:
 public:
 	Bit_clock(CPoint &point) {
 		this->point = point;
+		name = _T("CLOCK");
 	}
 	void Draw(CClientDC &dc, double i) {
 		dc.Rectangle(point.x - 20, point.y - 20, point.x, point.y + 20);
@@ -585,6 +591,7 @@ public:
 public:
 	Out_switch(CPoint &point) {
 		this->point = point;
+		name = _T("LAMP");
 	}
 	void Draw(CClientDC &dc, double i) {
 		dc.Ellipse(point.x, point.y - 10, point.x + 20, point.y + 10);

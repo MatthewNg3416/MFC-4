@@ -386,16 +386,25 @@ void CLogicSim2View::OnMouseMove(UINT nFlags, CPoint point)
 void CLogicSim2View::OnLButtonDown(UINT nFlags, CPoint point)
 {
 	CPoint temp;
+	Gate *ptr;
 	CMainFrame *pFrame = (CMainFrame *)AfxGetMainWnd();
 	CClientDC dc(this);
 
 	for (int i = 0; i < list.GetCount(); i++) {
 			temp = list[i].point;
-		if (temp.x - 4 < point.x&&temp.x + 4 > point.x&&temp.y - 4 < point.y&&temp.y + 4 > point.y) {
-			lineDraw = true;
-			isClicked = true;
-			lineStart = temp;
-		}
+			ptr = (Gate*)ptrlist.GetAt(i);
+			if (temp.x - 4 < point.x&&temp.x + 4 > point.x&&temp.y - 4 < point.y&&temp.y + 4 > point.y) {
+				lineDraw = true;
+				isClicked = true;
+				lineStart = temp;
+			}
+			if (ptr->name.Compare(_T("D_FF")) == 0 || ptr->name.Compare(_T("JK_FF")) == 0 || ptr->name.Compare(_T("T_FF")) == 0) {
+				if (ptr->output[1].x - 4 < point.x&&ptr->output[1].x + 4 > point.x&&ptr->output[1].y - 4 < point.y&&ptr->output[1].y + 4 > point.y) {
+					lineDraw = true;
+					isClicked = true;
+					lineStart = ptr->output[1];
+				}
+			}
 		if (temp.x - 30 < point.x&&temp.x + 4 > point.x&&temp.y - 15 < point.y&&temp.y + 15 > point.y) {
 			Gate* li=(Gate*)ptrlist.GetAt(i);
 			pFrame->m_option->m_edit.SetWindowTextW(list[i].label);

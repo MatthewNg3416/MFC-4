@@ -46,30 +46,30 @@ protected:
 	DECLARE_MESSAGE_MAP()
 public:
 	CArray<CPoint, CPoint> m_point;
-	afx_msg void OnMouseMove(UINT nFlags, CPoint point);
-	afx_msg void OnLButtonDown(UINT nFlags, CPoint point);
-	afx_msg void OnLButtonUp(UINT nFlags, CPoint point);
 	CPoint start;
 	CPoint old;
 	bool move;
 	int current;
 	CArray<Gate, Gate> list;
 	CPtrArray ptrlist;
-	afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);
 	int gate;
+	bool flag=false;
+	double pre;
+	CArray<CPoint, CPoint> line;
+	bool lineDraw;
+	bool isClicked;
+	CPoint lineStart;
+	CPoint lineEnd;
+	afx_msg void OnMouseMove(UINT nFlags, CPoint point);
+	afx_msg void OnLButtonDown(UINT nFlags, CPoint point);
+	afx_msg void OnLButtonUp(UINT nFlags, CPoint point);
+	afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);
 	afx_msg void OnGateAnd();
 	afx_msg void OnGateOr();
 	afx_msg void OnGateNot();
 	afx_msg void OnGateNand();
 	afx_msg void OnGateNor();
 	afx_msg void OnGateXor();
-//	afx_msg void OnLButtonDblClk(UINT nFlags, CPoint point);
-//	afx_msg void OnChar(UINT nChar, UINT nRepCnt, UINT nFlags);
-	CArray<CPoint, CPoint> line;
-	bool lineDraw;
-	bool isClicked;
-	CPoint lineStart;
-	CPoint lineEnd;
 	afx_msg void OnRButtonDown(UINT nFlags, CPoint point);
 	afx_msg void OnFlopDFf();
 	afx_msg void OnFlopJkFf();
@@ -81,8 +81,7 @@ public:
 	afx_msg void OnOutSwitch();
 	afx_msg void OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags);
 	afx_msg void OnLButtonDblClk(UINT nFlags, CPoint point);
-	bool flag=false;
-	double pre;
+	
 };
 
 #ifndef _DEBUG  // debug version in LogicSim2View.cpp
