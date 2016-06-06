@@ -48,6 +48,8 @@ public:
 	CList<CPoint, CPoint> *m_point;
 	bool move;
 	int current;
+	CPoint start;
+	CPoint old;
 	CArray<Gate, Gate> list, redo_list;
 	CPtrArray ptrlist, redo_ptrlist;
 	int gate;
