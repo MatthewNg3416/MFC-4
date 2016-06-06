@@ -646,6 +646,9 @@ void CLogicSim2View::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 		}
 		break;
 	case 'Z':
+		if (undo_num.GetCount() == 0) {
+			break;
+		}
 		i = undo_num.GetTail();
 		redo_num.AddTail(i);
 		undo_num.RemoveTail();
@@ -669,6 +672,9 @@ void CLogicSim2View::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 		Invalidate();
 		break;
 	case 'X':
+		if (redo_num.GetCount() == 0) {
+			break;
+		}
 		i = redo_num.GetTail();
 		undo_num.AddTail(i);
 		redo_num.RemoveTail();
