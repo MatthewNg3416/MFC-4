@@ -30,8 +30,8 @@ protected:
 	DECLARE_MESSAGE_MAP()
 public:
 	afx_msg void OnEnChangeEdit1();
-	CEdit m_edit;
 	Gate temp;
+	CEdit m_edit;
 };
 
 

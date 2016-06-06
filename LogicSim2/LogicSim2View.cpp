@@ -41,22 +41,20 @@ BEGIN_MESSAGE_MAP(CLogicSim2View, CView)
 	ON_COMMAND(ID_GATE_NAND, &CLogicSim2View::OnGateNand)
 	ON_COMMAND(ID_GATE_NOR, &CLogicSim2View::OnGateNor)
 	ON_COMMAND(ID_GATE_XOR, &CLogicSim2View::OnGateXor)
-//	ON_WM_LBUTTONDBLCLK()
-//	ON_WM_CHAR()
-ON_WM_RBUTTONDOWN()
-ON_COMMAND(ID_FLOP_D_FF, &CLogicSim2View::OnFlopDFf)
-ON_COMMAND(ID_FLOP_JK_FF, &CLogicSim2View::OnFlopJkFf)
-ON_COMMAND(ID_FLOP_T_FF, &CLogicSim2View::OnFlopTFf)
-ON_COMMAND(ID_INOUT_SWITCH, &CLogicSim2View::OnInoutSwitch)
-ON_COMMAND(ID_Seven_seg, &CLogicSim2View::OnSevenSeg)
-ON_COMMAND(ID_BIT_CLOCK, &CLogicSim2View::OnBitClock)
-ON_WM_TIMER()
-ON_COMMAND(ID_OUT_SWITCH, &CLogicSim2View::OnOutSwitch)
-ON_WM_KEYDOWN()
-ON_WM_LBUTTONDBLCLK()
-ON_COMMAND(ID_FILE_SAVE, &CLogicSim2View::OnFileSave)
-ON_COMMAND(ID_FILE_OPEN, &CLogicSim2View::OnFileOpen)
-ON_COMMAND(ID_FILE_NEW, &CLogicSim2View::OnFileNew)
+	ON_WM_RBUTTONDOWN()
+	ON_COMMAND(ID_FLOP_D_FF, &CLogicSim2View::OnFlopDFf)
+	ON_COMMAND(ID_FLOP_JK_FF, &CLogicSim2View::OnFlopJkFf)
+	ON_COMMAND(ID_FLOP_T_FF, &CLogicSim2View::OnFlopTFf)
+	ON_COMMAND(ID_INOUT_SWITCH, &CLogicSim2View::OnInoutSwitch)
+	ON_COMMAND(ID_Seven_seg, &CLogicSim2View::OnSevenSeg)
+	ON_COMMAND(ID_BIT_CLOCK, &CLogicSim2View::OnBitClock)
+	ON_WM_TIMER()
+	ON_COMMAND(ID_OUT_SWITCH, &CLogicSim2View::OnOutSwitch)
+	ON_WM_KEYDOWN()
+	ON_WM_LBUTTONDBLCLK()
+	ON_COMMAND(ID_FILE_SAVE, &CLogicSim2View::OnFileSave)
+	ON_COMMAND(ID_FILE_OPEN, &CLogicSim2View::OnFileOpen)
+	ON_COMMAND(ID_FILE_NEW, &CLogicSim2View::OnFileNew)
 END_MESSAGE_MAP()
 
 // CLogicSim2View construction/destruction
@@ -103,27 +101,24 @@ void MoveGate(T& gate,CClientDC& dc,CPoint& start,int x, int y,bool& flag,double
 }
 
 template<typename T>
-void CreateGate(T& gate, CClientDC& dc,double& G_way,CPtrArray& ptrlist,CArray<Gate,Gate>& list) 
+void CreateGate(T& gate, CClientDC& dc,double& G_way,CPtrArray& ptrlist) 
 {
 	gate->Draw(dc, G_way);
 	gate->way = G_way;
 	gate->isbit = true;
 	gate->isclock = true;
-	list.Add(*gate);
 	ptrlist.Add(gate);
 }
 
 template<typename T>
-void File(T& gate, CPtrArray& ptrlist, CArray<Gate, Gate>& list,int& t_way,CString& t_label) {
+void File(T& gate, CPtrArray& ptrlist,int& t_way,CString& t_label) {
 	gate->way = t_way;
 	gate->label = t_label;
-	list.Add(*gate);
 	ptrlist.Add(gate);
 }
 CLogicSim2View::CLogicSim2View()
-	: start(0)
-	, old(0)
-	, move(false)
+	: start(0),
+	move(false)
 	, current(0)
 	, gate(0)
 	, lineDraw(false)
@@ -133,7 +128,7 @@ CLogicSim2View::CLogicSim2View()
 	, flag(false)
 	, pre(-1)
 {
-	list.SetSize(0);
+	//list.SetSize(0);
 	line.SetSize(0);
 	ptrlist.SetSize(0);
 	lines.SetSize(0);
@@ -182,7 +177,7 @@ void CLogicSim2View::OnDraw(CDC* pDC)
 			Gate* temp = (Gate*)ptrlist.GetAt(i);
 			temp->Draw(dc, temp->way);
 			temp->Drawstr(dc, temp->way);
-			if (temp->label!=_T("")) {
+			if (!(temp->label.IsEmpty())) {
 				dc.TextOutW(temp->point.x - 30, temp->point.y - 40, temp->label);
 			}
 			
@@ -322,12 +317,12 @@ void CLogicSim2View::OnMouseMove(UINT nFlags, CPoint point)
 void CLogicSim2View::OnLButtonDown(UINT nFlags, CPoint point)
 {
 	CPoint temp;
-	Gate *ptr;
+	Gate *ptr=NULL;
 	CMainFrame *pFrame = (CMainFrame *)AfxGetMainWnd();
 	CClientDC dc(this);
 
-	for (int i = 0; i < list.GetCount(); i++) {
-			temp = list[i].point;
+	for (int i = 0; i < ptrlist.GetCount(); i++) {
+			//temp = list[i].point;
 			ptr = (Gate*)ptrlist.GetAt(i);			
 			for (int j = 0; j < 7; j++) {
 				if (ptr->input[j].x - 4 < point.x&&ptr->input[j].x + 4 > point.x&&ptr->input[j].y - 4 < point.y&&ptr->input[j].y + 4 > point.y) {
@@ -343,12 +338,10 @@ void CLogicSim2View::OnLButtonDown(UINT nFlags, CPoint point)
 
 			}
 						
-		if (temp.x - 30 < point.x&&temp.x + 4 > point.x&&temp.y - 15 < point.y&&temp.y + 15 > point.y) {
-			Gate* li=(Gate*)ptrlist.GetAt(i);
-			pFrame->m_option->m_edit.SetWindowTextW(list[i].label);
-			pFrame->m_option->SetDlgItemTextW(IDC_STATIC4, list[i].name);
-			pFrame->m_option->temp = list[i];
-			li->label = list[i].label;
+		if (ptr->point.x - 30 < point.x && ptr->point.x + 4 > point.x && ptr->point.y - 15 < point.y && ptr->point.y + 15 > point.y) {
+			pFrame->m_option->SetDlgItemTextW(IDC_STATIC4, ptr->name);
+			pFrame->m_option->temp = *ptr;
+			//pFrame->m_option->m_edit.SetWindowTextW(ptr->label);
 			Invalidate();
 		}
 	}
@@ -378,58 +371,60 @@ void CLogicSim2View::OnLButtonUp(UINT nFlags, CPoint point)
 
 		if (gate == 0) {
 			AND *and = new AND(CPoint(x,y),G_way);
-			CreateGate(and, dc, G_way, ptrlist, list);
+			CreateGate(and, dc, G_way, ptrlist);
 		}
 		else if (gate == 1) {
 			OR* or =new OR(CPoint(x, y), G_way);
-			CreateGate(or , dc, G_way, ptrlist, list);
+			CreateGate(or , dc, G_way, ptrlist);
 		}
 		else if (gate == 2) {
 			NOT* not= new NOT(CPoint(x, y));
-			CreateGate(not, dc, G_way, ptrlist, list);
+			CreateGate(not, dc, G_way, ptrlist);
 		}
 		else if (gate == 3) {
 			NAND* nand = new NAND(CPoint(x, y), G_way);
-			CreateGate(nand, dc, G_way, ptrlist, list);
+			CreateGate(nand, dc, G_way, ptrlist);
 		}
 		else if (gate == 4) {
 			NOR* nor = new NOR(CPoint(x, y), G_way);
-			CreateGate(nor, dc, G_way, ptrlist, list);
+			CreateGate(nor, dc, G_way, ptrlist);
 			}
 		else if (gate == 5) {
 			XOR* xor = new XOR(CPoint(x, y), G_way);
-			CreateGate(xor, dc, G_way, ptrlist, list);
+			CreateGate(xor, dc, G_way, ptrlist);
 			} 
 		else if (gate == 6) {
 			D_FF* d_ff = new D_FF(CPoint(x, y));
-			CreateGate(d_ff, dc, G_way, ptrlist, list);
+			CreateGate(d_ff, dc, G_way, ptrlist);
+			d_ff->Drawstr(dc, G_way);
 		}
 		else if (gate == 7) {
 			JK_FF* jk_ff=new JK_FF(CPoint(x, y));
-			CreateGate(jk_ff, dc, G_way, ptrlist, list);
+			CreateGate(jk_ff, dc, G_way, ptrlist);
+			jk_ff->Drawstr(dc, G_way);
 		}
 		else if (gate == 8) {
 			T_FF* t_ff=new T_FF(CPoint(x, y));
-			CreateGate(t_ff, dc, G_way, ptrlist, list);
+			CreateGate(t_ff, dc, G_way, ptrlist);
 			t_ff->Drawstr(dc, G_way);
 		}
 		else if (gate == 9) {
 			Bit_switch* bit_switch = new Bit_switch(CPoint(x, y));
-			CreateGate(bit_switch, dc, G_way, ptrlist, list);
+			CreateGate(bit_switch, dc, G_way, ptrlist);
 			bit_switch->Drawstr(dc, G_way);
 		}
 		else if (gate == 11) {
 			Seven_seg* seven = new Seven_seg(CPoint(x, y));
-			CreateGate(seven, dc, G_way, ptrlist, list);
+			CreateGate(seven, dc, G_way, ptrlist);
 		}
 		else if (gate == 12) {
 			Bit_clock* clock = new Bit_clock(CPoint(x, y));
-			CreateGate(clock, dc, G_way, ptrlist, list);
+			CreateGate(clock, dc, G_way, ptrlist);
 			clock->Drawstr(dc, G_way);
 		}
 		else if (gate == 10) {
 			Out_switch* out_switch = new Out_switch(CPoint(x, y));
-			CreateGate(out_switch, dc, G_way, ptrlist, list);
+			CreateGate(out_switch, dc, G_way, ptrlist);
 			out_switch->Drawstr(dc, G_way);
 		}
 		current = -1;
@@ -496,18 +491,18 @@ void CLogicSim2View::OnLButtonDblClk(UINT nFlags, CPoint point)
 {
 	// TODO: 여기에 메시지 처리기 코드를 추가 및/또는 기본값을 호출합니다.
 
-	CPoint temp;
+	Gate *temp;
 
-	for (int i = 0; i < list.GetCount(); i++) {
-		temp = list[i].point;
-		if (temp.x - 30 < point.x&&temp.x + 4 > point.x&&temp.y - 15 < point.y&&temp.y + 15 > point.y) {
-			if (list[i].isclock) {
+	for (int i = 0; i < ptrlist.GetCount(); i++) {
+		temp = (Gate*)ptrlist.GetAt(i);
+		if (temp->point.x - 30 < point.x && temp->point.x + 4 > point.x&& temp->point.y - 15 < point.y && temp->point.y + 15 > point.y) {
+			if (temp->isclock) {
 				clock_Dlg dlg;
-				dlg.i = list[i].clock;
+				dlg.i = temp->clock;
 
 				int result = dlg.DoModal();
 				if (result == IDOK) {
-					list[i].clock = dlg.i;
+					temp->clock = dlg.i;
 				}
 				//Invalidate();
 			}
@@ -545,9 +540,9 @@ void CLogicSim2View::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 		if (i == 0) {
 			i = ptrlist.GetCount();
 			redo_ptrlist.Add(ptrlist.GetAt(i - 1));
-			redo_list.Add(list.GetAt(i - 1));
+			//redo_list.Add(list.GetAt(i - 1));
 			ptrlist.RemoveAt(i-1);
-			list.RemoveAt(i-1);
+		//	list.RemoveAt(i-1);
 		}
 		else if (i == 1) {
 			i = line.GetCount();
@@ -571,9 +566,9 @@ void CLogicSim2View::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 		if (i == 0) {
 			i = redo_ptrlist.GetCount();
 			ptrlist.Add(redo_ptrlist.GetAt(i - 1));
-			list.Add(redo_list.GetAt(i - 1));
+		//	list.Add(redo_list.GetAt(i - 1));
 			redo_ptrlist.RemoveAt(i - 1);
-			redo_list.RemoveAt(i - 1);
+			///redo_list.RemoveAt(i - 1);
 		}
 		else if (i == 1) {
 			i = redo_line.GetCount();
@@ -590,6 +585,197 @@ void CLogicSim2View::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 	}
 
 	CView::OnKeyDown(nChar, nRepCnt, nFlags);
+}
+void CLogicSim2View::OnFileNew()
+{
+	// TODO: Add your command handler code here
+
+	Save_dlg dlg;
+
+	int result = dlg.DoModal();
+
+	if (result == IDOK) {
+		OnFileSave();
+		ptrlist.RemoveAll();
+		//list.RemoveAll();
+		line.RemoveAll();
+
+		Invalidate();
+	}
+	else if (result == IDCANCEL) {
+		ptrlist.RemoveAll();
+		//list.RemoveAll();
+		line.RemoveAll();
+
+		Invalidate();
+	}
+	else {
+		;
+	}
+
+}
+
+void CLogicSim2View::OnTimer(UINT_PTR nIDEvent)
+{
+	// TODO: 여기에 메시지 처리기 코드를 추가 및/또는 기본값을 호출합니다.
+	CClientDC dc(this);
+	for (int i = 0; i < ptrlist.GetCount(); i++) {
+		Gate* temp = (Gate*)ptrlist.GetAt(i);
+		if(temp->isclock){
+			if (temp->bit_flag)
+				temp->bit_flag = false;
+			else
+				temp->bit_flag = true;
+			temp->Drawstr(dc, temp->way);
+		}
+	}
+	//Invalidate();
+
+	CView::OnTimer(nIDEvent);
+}
+
+void CLogicSim2View::OnFileSave()
+{
+	// TODO: Add your command handler code here
+
+	CFileDialog dlg(FALSE, _T("logic"), NULL, OFN_HIDEREADONLY, NULL);
+	if (IDOK == dlg.DoModal())
+	{
+		CString strPathName = dlg.GetPathName();
+
+		CFile fp;
+		CFileException e;
+		if (!fp.Open(strPathName, CFile::modeWrite | CFile::modeCreate, &e)) {
+			e.ReportError();
+			return;
+		}
+
+		CArchive ar(&fp, CArchive::store);
+
+		int i = ptrlist.GetCount();
+
+		ar << i;
+
+		for (i = 0; i < ptrlist.GetCount(); i++) {
+			Gate* temp = (Gate*)ptrlist.GetAt(i);
+			ar << temp->name;
+			ar << temp->point;
+			ar << temp->way;
+			ar << temp->label;
+		}
+
+		i = line.GetCount();
+
+		ar << i;
+
+		for (i = 0; i < line.GetCount(); i++) {
+			CPoint temp = line[i];
+			ar << temp;
+		}
+	}
+}
+
+void CLogicSim2View::OnFileOpen()
+{
+	// TODO: Add your command handler code here
+
+	//CFileDialog dlg(TRUE, _T("logic"), _T(""), OFN_HIDEREADONLY, _T("(*.logic) | All Files(*.*)|*.*||"));
+	CFileDialog dlg(TRUE, NULL, NULL, OFN_HIDEREADONLY, NULL);
+	if (IDOK == dlg.DoModal())
+	{
+		CString strPathName = dlg.GetPathName();
+		CFile fp;
+		CFileException e;
+		if (!fp.Open(strPathName, CFile::modeRead, &e)) {
+			e.ReportError();
+			return;
+		}
+
+		CArchive ar(&fp, CArchive::load);
+
+		int i;
+		CString t_name;
+		CPoint t_point;
+		int t_way;
+		CString t_label;
+
+		ptrlist.RemoveAll();
+
+		ar >> i;
+
+		for (int j = 0; j < i; j++) {
+			ar >> t_name;
+			ar >> t_point;
+			ar >> t_way;
+			ar >> t_label;
+
+			if ((t_name.Compare(_T("AND"))) == 0) {
+				AND *and = new AND(t_point, t_way);
+				File(and, ptrlist, t_way,t_label);
+			}
+			else if ((t_name.Compare(_T("OR"))) == 0) {
+				OR* or = new OR(t_point, t_way);
+				File(or , ptrlist, t_way, t_label);
+			}
+			else if ((t_name.Compare(_T("NOT"))) == 0) {
+				NOT * not= new NOT(t_point);
+				File(not, ptrlist, t_way, t_label);
+			}
+			else if ((t_name.Compare(_T("NAND"))) == 0) {
+				NAND* nand = new NAND(t_point, t_way);
+				File(nand, ptrlist, t_way, t_label);
+			}
+			else if ((t_name.Compare(_T("NOR"))) == 0) {
+				NOR* nor = new NOR(t_point, t_way);
+				File(nor, ptrlist, t_way, t_label);
+			}
+			else if ((t_name.Compare(_T("XOR"))) == 0) {
+				XOR* xor = new XOR(t_point, t_way);
+				File(xor, ptrlist, t_way, t_label);
+			}
+			else if ((t_name.Compare(_T("D_FF"))) == 0) {
+				D_FF* d_ff = new D_FF(t_point);
+				File(d_ff, ptrlist,  t_way, t_label);
+			}
+			else if ((t_name.Compare(_T("JK_FF"))) == 0) {
+				JK_FF* jk_ff = new JK_FF(t_point);
+				File(jk_ff, ptrlist,  t_way, t_label);
+			}
+			else if ((t_name.Compare(_T("T_FF"))) == 0) {
+				T_FF* t_ff = new T_FF(t_point);
+				File(t_ff, ptrlist,  t_way, t_label);
+			}
+			else if ((t_name.Compare(_T("SWITCH"))) == 0) {
+				Bit_switch* bit_switch = new Bit_switch(t_point);
+				bit_switch->isbit = true;
+				File(bit_switch, ptrlist, t_way, t_label);
+			}
+			else if ((t_name.Compare(_T("7-SEGMENT"))) == 0) {
+				Seven_seg* seven = new Seven_seg(t_point);
+				File(seven, ptrlist,  t_way, t_label);
+			}
+			else if ((t_name.Compare(_T("CLOCK"))) == 0) {
+				Bit_clock* clock = new Bit_clock(t_point);
+				clock->isclock = true;
+				File(clock, ptrlist, t_way, t_label);
+			}
+			else if ((t_name.Compare(_T("LAMP"))) == 0) {
+				Out_switch* out_switch = new Out_switch(t_point);
+				out_switch->isbit = true;
+				File(out_switch, ptrlist, t_way, t_label);
+			}
+		}
+
+		ar >> i;
+
+		line.RemoveAll();
+		CPoint temp;
+		for (int k = 0; k < i; k++) {
+			ar >> temp;
+			line.Add(temp);
+		}
+	}
+	Invalidate();
 }
 
 int CLogicSim2View::OnCreate(LPCREATESTRUCT lpCreateStruct)
@@ -713,203 +899,4 @@ void CLogicSim2View::OnOutSwitch()
 	gate = 10;
 	current = 1;
 	move = true;
-}
-
-void CLogicSim2View::OnTimer(UINT_PTR nIDEvent)
-{
-	// TODO: 여기에 메시지 처리기 코드를 추가 및/또는 기본값을 호출합니다.
-	CClientDC dc(this);
-	for (int i = 0; i < ptrlist.GetCount(); i++) {
-		Gate* temp = (Gate*)ptrlist.GetAt(i);
-		if(temp->isclock){
-			if (temp->bit_flag)
-				temp->bit_flag = false;
-			else
-				temp->bit_flag = true;
-			temp->Drawstr(dc, temp->way);
-		}
-	}
-	//Invalidate();
-
-	CView::OnTimer(nIDEvent);
-}
-
-
-
-
-
-
-void CLogicSim2View::OnFileSave()
-{
-	// TODO: Add your command handler code here
-
-	CFileDialog dlg(FALSE, _T("logic"), NULL, OFN_HIDEREADONLY, NULL);
-	if (IDOK == dlg.DoModal())
-	{
-		CString strPathName = dlg.GetPathName();
-
-		CFile fp;
-		CFileException e;
-		if (!fp.Open(strPathName, CFile::modeWrite | CFile::modeCreate, &e)) {
-			e.ReportError();
-			return;
-		}
-
-		CArchive ar(&fp, CArchive::store);
-
-		int i = ptrlist.GetCount();
-
-		ar << i;
-
-		for (i = 0; i < ptrlist.GetCount(); i++) {
-			Gate* temp = (Gate*)ptrlist.GetAt(i);
-			ar << temp->name;
-			ar << temp->point;
-			ar << temp->way;
-			ar << temp->label;
-		}
-
-		i = line.GetCount();
-
-		ar << i;
-
-		for (i = 0; i < line.GetCount(); i++) {
-			CPoint temp = line[i];
-			ar << temp;
-		}
-	}
-}
-
-
-void CLogicSim2View::OnFileOpen()
-{
-	// TODO: Add your command handler code here
-
-	//CFileDialog dlg(TRUE, _T("logic"), _T(""), OFN_HIDEREADONLY, _T("(*.logic) | All Files(*.*)|*.*||"));
-	CFileDialog dlg(TRUE, NULL, NULL, OFN_HIDEREADONLY, NULL);
-	if (IDOK == dlg.DoModal())
-	{
-		CString strPathName = dlg.GetPathName();
-		CFile fp;
-		CFileException e;
-		if (!fp.Open(strPathName, CFile::modeRead, &e)) {
-			e.ReportError();
-			return;
-		}
-
-		CArchive ar(&fp, CArchive::load);
-
-		int i;
-		CString t_name;
-		CPoint t_point;
-		int t_way;
-		CString t_label;
-
-		ptrlist.RemoveAll();
-		list.RemoveAll();
-
-		ar >> i;
-
-		for (int j = 0; j < i; j++) {
-			ar >> t_name;
-			ar >> t_point;
-			ar >> t_way;
-			ar >> t_label;
-
-			if ((t_name.Compare(_T("AND"))) == 0) {
-				AND *and = new AND(t_point, t_way);
-				File(and, ptrlist, list,t_way,t_label);
-			}
-			else if ((t_name.Compare(_T("OR"))) == 0) {
-				OR* or = new OR(t_point, t_way);
-				File(or , ptrlist, list, t_way, t_label);
-			}
-			else if ((t_name.Compare(_T("NOT"))) == 0) {
-				NOT * not= new NOT(t_point);
-				File(not, ptrlist, list, t_way, t_label);
-			}
-			else if ((t_name.Compare(_T("NAND"))) == 0) {
-				NAND* nand = new NAND(t_point, t_way);
-				File(nand, ptrlist, list, t_way, t_label);
-			}
-			else if ((t_name.Compare(_T("NOR"))) == 0) {
-				NOR* nor = new NOR(t_point, t_way);
-				File(nor, ptrlist, list, t_way, t_label);
-			}
-			else if ((t_name.Compare(_T("XOR"))) == 0) {
-				XOR* xor = new XOR(t_point, t_way);
-				File(xor, ptrlist, list, t_way, t_label);
-			}
-			else if ((t_name.Compare(_T("D_FF"))) == 0) {
-				D_FF* d_ff = new D_FF(t_point);
-				File(d_ff, ptrlist, list, t_way, t_label);
-			}
-			else if ((t_name.Compare(_T("JK_FF"))) == 0) {
-				JK_FF* jk_ff = new JK_FF(t_point);
-				File(jk_ff, ptrlist, list, t_way, t_label);
-			}
-			else if ((t_name.Compare(_T("T_FF"))) == 0) {
-				T_FF* t_ff = new T_FF(t_point);
-				File(t_ff, ptrlist, list, t_way, t_label);
-			}
-			else if ((t_name.Compare(_T("SWITCH"))) == 0) {
-				Bit_switch* bit_switch = new Bit_switch(t_point);
-				bit_switch->isbit = true;
-				File(bit_switch, ptrlist, list, t_way, t_label);
-			}
-			else if ((t_name.Compare(_T("7-SEGMENT"))) == 0) {
-				Seven_seg* seven = new Seven_seg(t_point);
-				File(seven, ptrlist, list, t_way, t_label);
-			}
-			else if ((t_name.Compare(_T("CLOCK"))) == 0) {
-				Bit_clock* clock = new Bit_clock(t_point);
-				clock->isclock = true;
-				File(clock, ptrlist, list, t_way, t_label);
-			}
-			else if ((t_name.Compare(_T("LAMP"))) == 0) {
-				Out_switch* out_switch = new Out_switch(t_point);
-				out_switch->isbit = true;
-				File(out_switch, ptrlist, list, t_way, t_label);
-			}
-		}
-
-		ar >> i;
-
-		line.RemoveAll();
-		CPoint temp;
-		for (int k = 0; k < i; k++) {
-			ar >> temp;
-			line.Add(temp);
-		}
-	}
-	Invalidate();
-}
-
-
-void CLogicSim2View::OnFileNew()
-{
-	// TODO: Add your command handler code here
-
-	Save_dlg dlg;
-
-	int result = dlg.DoModal();
-
-	if (result == IDOK) {
-		OnFileSave();
-		ptrlist.RemoveAll();
-		list.RemoveAll();
-		line.RemoveAll();
-
-		Invalidate();
-	}
-	else if (result == IDCANCEL) {
-		ptrlist.RemoveAll();
-		list.RemoveAll();
-		line.RemoveAll();
-
-		Invalidate();
-	}
-	else {
-		;
-	}
 }

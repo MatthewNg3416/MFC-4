@@ -49,8 +49,7 @@ public:
 	bool move;
 	int current;
 	CPoint start;
-	CPoint old;
-	CArray<Gate, Gate> list, redo_list;
+	CArray<Gate, Gate> redo_list;
 	CPtrArray ptrlist, redo_ptrlist;
 	int gate;
 	bool flag=false;

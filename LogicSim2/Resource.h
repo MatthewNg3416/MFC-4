@@ -12,7 +12,6 @@
 #define IDD_DIALOG1                     314
 #define IDD_DIALOG2                     316
 #define ID_BACK                         1001
-#define IDC_COMBO1                      1002
 #define IDC_EDIT1                       1003
 #define IDC_STATIC4                     1008
 #define ID_GATE_AND                     32771

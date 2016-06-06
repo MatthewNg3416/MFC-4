@@ -10,7 +10,7 @@ public:
 	CPoint output[7];//연결되는 위치
 	CPoint point;//마우스 포인터의 위치
 	CString name;//게이트 종류의 이름
-	CString label=_T("");//각 게이트의 고유 이름
+	CString label = NULL;//각 게이트의 고유 이름
 	//값이 0이면 false, 1이면 true;
 	int input_value[7];
 	int output_value[7];
@@ -535,35 +535,16 @@ public:
 			dc.Rectangle(point.x + (a*int(cos(i)) - b*int(sin(i))), point.y + (a*int(sin(i)) + b*int(cos(i))), point.x + (c*int(cos(i)) - d*int(sin(i))), point.y + (c*int(sin(i)) + d*int(cos(i))));
 		}
 		//black_brush.DeleteObject();
-
 		a = -40; b = -10;
-		input[0] = CPoint(point.x + (a*int(cos(i)) - b*int(sin(i))), point.y + (a*int(sin(i)) + b*int(cos(i))));
-		a = -40; b = 0;
-		input[1] = CPoint(point.x + (a*int(cos(i)) - b*int(sin(i))), point.y + (a*int(sin(i)) + b*int(cos(i))));
-		a = -40; b = 10;
-		input[2] = CPoint(point.x + (a*int(cos(i)) - b*int(sin(i))), point.y + (a*int(sin(i)) + b*int(cos(i))));
-		a = -40; b = 20;
-		input[3] = CPoint(point.x + (a*int(cos(i)) - b*int(sin(i))), point.y + (a*int(sin(i)) + b*int(cos(i))));
-		a = -40; b = 30;
-		input[4] = CPoint(point.x + (a*int(cos(i)) - b*int(sin(i))), point.y + (a*int(sin(i)) + b*int(cos(i))));
-		a = -40; b = 40;
-		input[5] = CPoint(point.x + (a*int(cos(i)) - b*int(sin(i))), point.y + (a*int(sin(i)) + b*int(cos(i))));
-		a = -40; b = 50;
-		input[6] = CPoint(point.x + (a*int(cos(i)) - b*int(sin(i))), point.y + (a*int(sin(i)) + b*int(cos(i))));
-
+		for(int j=0;j<7;j++){
+			input[j] = CPoint(point.x + (a*int(cos(i)) - b*int(sin(i))), point.y + (a*int(sin(i)) + b*int(cos(i))));
+			b += 10;
+		}
 		a = 0; b = -10;
-		output[0] = CPoint(point.x + (a*int(cos(i)) - b*int(sin(i))), point.y + (a*int(sin(i)) + b*int(cos(i))));
-		output[1] = point;
-		a = 0; b = 10;
-		output[2] = CPoint(point.x + (a*int(cos(i)) - b*int(sin(i))), point.y + (a*int(sin(i)) + b*int(cos(i))));
-		a = 0; b = 20;
-		output[3] = CPoint(point.x + (a*int(cos(i)) - b*int(sin(i))), point.y + (a*int(sin(i)) + b*int(cos(i))));
-		a = 0; b = 30;
-		output[4] = CPoint(point.x + (a*int(cos(i)) - b*int(sin(i))), point.y + (a*int(sin(i)) + b*int(cos(i))));
-		a = 0; b = 40;
-		output[5] = CPoint(point.x + (a*int(cos(i)) - b*int(sin(i))), point.y + (a*int(sin(i)) + b*int(cos(i))));
-		a = 0; b = 50;
-		output[6] = CPoint(point.x + (a*int(cos(i)) - b*int(sin(i))), point.y + (a*int(sin(i)) + b*int(cos(i))));
+		for (int j = 0; j<7; j++) {
+			output[j] = CPoint(point.x + (a*int(cos(i)) - b*int(sin(i))), point.y + (a*int(sin(i)) + b*int(cos(i))));
+			b += 10;
+		}
 	}
 };
 

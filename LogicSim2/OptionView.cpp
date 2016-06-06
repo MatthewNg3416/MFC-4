@@ -57,14 +57,18 @@ void OptionView::OnEnChangeEdit1()
 	// send this notification unless you override the CFormView::OnInitDialog()
 	// function and call CRichEditCtrl().SetEventMask()
 	// with the ENM_CHANGE flag ORed into the mask.
-	CString str;
-	m_edit.GetWindowText(str);
-	temp.label = str;
+	
+	CString str = NULL;
+	m_edit.GetWindowTextW(str);
+	temp.label.SetString(str);
 	CMainFrame *pFrame = (CMainFrame *)AfxGetMainWnd();
-	int count = pFrame->m_main->list.GetCount();
+	Gate *te;
+	int count = pFrame->m_main->ptrlist.GetCount();
+
 	for (int i = 0; i < count; i++) {
-		if (temp.point == pFrame->m_main->list[i].point) {
-			pFrame->m_main->list[i].label = temp.label;
-		}
-	}
+		 te= (Gate*)pFrame->m_main->ptrlist.GetAt(i);
+		if (temp.point == te->point) {
+			te->label.SetString(temp.label);
+			}
+		};
 }
