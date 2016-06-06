@@ -101,6 +101,17 @@ void MoveGate(T& gate,CClientDC& dc,CPoint& start,int x, int y,bool& flag,double
 	start.y = y;
 	gate.Draw(dc, G_way);
 }
+
+template<typename T>
+void CreateGate(T& gate, CClientDC& dc,double& G_way,CPtrArray& ptrlist,CArray<Gate,Gate>& list) 
+{
+	gate->Draw(dc, G_way);
+	gate->way = G_way;
+	gate->isbit = true;
+	gate->isclock = true;
+	list.Add(*gate);
+	ptrlist.Add(gate);
+}
 CLogicSim2View::CLogicSim2View()
 	: start(0)
 	, old(0)
@@ -241,9 +252,7 @@ void CLogicSim2View::OnMouseMove(UINT nFlags, CPoint point)
 			if (gate == 0) {
 				AND and (CPoint(start.x, start.y), G_way);
 				MoveGate(and,dc,start,x,y,flag,pre,G_way,point);
-				
 			}
-		
 			else if (gate == 1) {
 				OR or (CPoint(start.x, start.y),G_way);
 				MoveGate(or , dc, start, x, y, flag, pre, G_way, point);
@@ -352,8 +361,6 @@ void CLogicSim2View::OnLButtonUp(UINT nFlags, CPoint point)
 	CClientDC dc(this);
 	int x = point.x / 10;
 	int y = point.y / 10;
-	static int i = 0;
-	static int j = 0;
 	x = x * 10;
 	y = y * 10;
 	// TODO: Add your message handler code here and/or call default
@@ -363,102 +370,59 @@ void CLogicSim2View::OnLButtonUp(UINT nFlags, CPoint point)
 
 		if (gate == 0) {
 			AND *and = new AND(CPoint(x,y),G_way);
-			and->Draw(dc, G_way);
-			and->way = G_way;
-			list.Add(*and);
-			ptrlist.Add(and);
+			CreateGate(and, dc, G_way, ptrlist, list);
 		}
 		else if (gate == 1) {
 			OR* or =new OR(CPoint(x, y), G_way);
-			or ->Draw(dc, G_way);
-			or->way = G_way;
-			list.Add(*or );
-			ptrlist.Add(or);
+			CreateGate(or , dc, G_way, ptrlist, list);
 		}
 		else if (gate == 2) {
 			NOT* not= new NOT(CPoint(x, y));
-			not->Draw(dc, G_way);
-			not->way = G_way;
-			list.Add(*not);
-			ptrlist.Add(not);
+			CreateGate(not, dc, G_way, ptrlist, list);
 		}
 		else if (gate == 3) {
 			NAND* nand = new NAND(CPoint(x, y), G_way);
-			nand->Draw(dc, G_way);
-			nand->way = G_way;
-			list.Add(*nand);
-			ptrlist.Add(nand);
+			CreateGate(nand, dc, G_way, ptrlist, list);
 		}
 		else if (gate == 4) {
 			NOR* nor = new NOR(CPoint(x, y), G_way);
-			nor->Draw(dc, G_way);
-			nor->way = G_way;
-			list.Add(*nor);
-			ptrlist.Add(nor);
+			CreateGate(nor, dc, G_way, ptrlist, list);
 			}
 		else if (gate == 5) {
 			XOR* xor = new XOR(CPoint(x, y), G_way);
-			xor->Draw(dc, G_way);
-			xor->way = G_way;
-			list.Add(*xor);
-			ptrlist.Add(xor);
+			CreateGate(xor, dc, G_way, ptrlist, list);
 			} 
 		else if (gate == 6) {
 			D_FF* d_ff = new D_FF(CPoint(x, y));
-			d_ff->Draw(dc, G_way);
-			d_ff->Drawstr(dc, G_way);
-			d_ff->way = G_way;
-			list.Add(*d_ff);
-			ptrlist.Add(d_ff);
+			CreateGate(d_ff, dc, G_way, ptrlist, list);
 		}
 		else if (gate == 7) {
 			JK_FF* jk_ff=new JK_FF(CPoint(x, y));
-			jk_ff->Draw(dc, G_way);
-			jk_ff->Drawstr(dc, G_way);
-			jk_ff->way = G_way;
-			list.Add(*jk_ff);
-			ptrlist.Add(jk_ff);
+			CreateGate(jk_ff, dc, G_way, ptrlist, list);
 		}
 		else if (gate == 8) {
 			T_FF* t_ff=new T_FF(CPoint(x, y));
-			t_ff->Draw(dc, G_way);
+			CreateGate(t_ff, dc, G_way, ptrlist, list);
 			t_ff->Drawstr(dc, G_way);
-			t_ff->way = G_way;
-			list.Add(*t_ff);
-			ptrlist.Add(t_ff);
 		}
 		else if (gate == 9) {
 			Bit_switch* bit_switch = new Bit_switch(CPoint(x, y));
-			bit_switch->Draw(dc, G_way);
+			CreateGate(bit_switch, dc, G_way, ptrlist, list);
 			bit_switch->Drawstr(dc, G_way);
-			bit_switch->way = G_way;
-			bit_switch->isbit = true;
-			list.Add(*bit_switch);
-			ptrlist.Add(bit_switch);
 		}
 		else if (gate == 11) {
 			Seven_seg* seven = new Seven_seg(CPoint(x, y));
-			seven->Draw(dc, G_way);
-			seven->way = G_way;
-			list.Add(*seven);
-			ptrlist.Add(seven);
+			CreateGate(seven, dc, G_way, ptrlist, list);
 		}
 		else if (gate == 12) {
 			Bit_clock* clock = new Bit_clock(CPoint(x, y));
-			clock->Draw(dc, G_way);
-			clock->way = G_way;
-			clock->isclock = true;
-			list.Add(*clock);
-			ptrlist.Add(clock);
+			CreateGate(clock, dc, G_way, ptrlist, list);
+			clock->Drawstr(dc, G_way);
 		}
 		else if (gate == 10) {
 			Out_switch* out_switch = new Out_switch(CPoint(x, y));
-			out_switch->Draw(dc, G_way);
+			CreateGate(out_switch, dc, G_way, ptrlist, list);
 			out_switch->Drawstr(dc, G_way);
-			out_switch->way = G_way;
-			out_switch->isbit = true;
-			list.Add(*out_switch);
-			ptrlist.Add(out_switch);
 		}
 		current = -1;
 		move = false;
