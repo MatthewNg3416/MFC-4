@@ -290,6 +290,7 @@ void CLogicSim2View::OnMouseMove(UINT nFlags, CPoint point)
 			else if (gate == 10) {
 				gate_t = new Out_switch (CPoint(start.x, start.y));
 			}
+			if(gate!=-1)
 			MoveGate(*gate_t, dc, start, x, y, flag, pre, G_way, point);
 	}
 	lineEnd = CPoint(x, y);
@@ -400,7 +401,8 @@ void CLogicSim2View::OnLButtonUp(UINT nFlags, CPoint point)
 			gate_t = new Out_switch(CPoint(x, y));
 			gate_t->Drawstr(dc, G_way);
 		}
-		CreateGate(gate_t, dc, G_way, ptrlist);
+		if(gate!=-1)
+			CreateGate(gate_t, dc, G_way, ptrlist);
 		current = -1;
 		move = false;
 		gate = -1;
