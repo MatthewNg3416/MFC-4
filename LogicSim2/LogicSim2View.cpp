@@ -84,6 +84,23 @@ BOOL IsConnected(Gate& first, Gate& second, CPtrArray& lines) {
 	}
 	return false;
 }
+template <typename T>
+void MoveGate(T& gate,CClientDC& dc,CPoint& start,int x, int y,bool& flag,double& pre,double& G_way,CPoint& point) 
+{
+	if (flag) {
+		gate.c_flag = true;
+		gate.Draw(dc, pre);
+		gate.Draw(dc, G_way);
+		flag = false;
+		gate.c_flag = false;
+	}
+	gate.Draw(dc, G_way);
+	gate.point.x += x - start.x;
+	gate.point.y += y - start.y;
+	start.x = x;
+	start.y = y;
+	gate.Draw(dc, G_way);
+}
 CLogicSim2View::CLogicSim2View()
 	: start(0)
 	, old(0)
@@ -222,179 +239,58 @@ void CLogicSim2View::OnMouseMove(UINT nFlags, CPoint point)
 		dc.SelectStockObject(NULL_BRUSH);
 		dc.SetROP2(R2_NOT);
 			if (gate == 0) {
-				AND and (CPoint(start.x, start.y),G_way);
-				if (flag) {
-					and.Draw(dc, pre);
-					and.Draw(dc, G_way);
-					flag = false;
-				}
-				and.Draw(dc, G_way);
-				and.point.x += x - start.x;
-				and.point.y += y-start.y;
-				start.x = x;
-				start.y = y;
-				and.Draw(dc, G_way);
+				AND and (CPoint(start.x, start.y), G_way);
+				MoveGate(and,dc,start,x,y,flag,pre,G_way,point);
+				
 			}
 		
 			else if (gate == 1) {
 				OR or (CPoint(start.x, start.y),G_way);
-				if (flag) {
-					or.Draw(dc, pre);
-					or.Draw(dc, G_way);
-					flag = false;
-				}
-				or .Draw(dc, G_way);
-				or .point.x += x - start.x;
-				or .point.y += y - start.y;
-				start.x = x;
-				start.y = y;
-				or .Draw(dc, G_way);
+				MoveGate(or , dc, start, x, y, flag, pre, G_way, point);
 			}
 			else if (gate == 2) {
 				NOT not (CPoint(start.x, start.y));
-				if (flag) {
-					not.Draw(dc, pre);
-					not.Draw(dc, G_way);
-					flag = false;
-				}
-				not.Draw(dc, G_way);
-				not.point.x += x - start.x;
-				not.point.y += y - start.y;
-				start.x = x;
-				start.y = y;
-				not.Draw(dc, G_way);
+				MoveGate(not, dc, start, x, y, flag, pre, G_way, point);
 			}
 			else if (gate == 3) {
 				NAND nand(CPoint(start.x, start.y), G_way);
-				if (flag) {
-					nand.c_flag = true;
-					nand.Draw(dc, pre);
-					nand.Draw(dc, G_way);
-					flag = false;
-					nand.c_flag = false;
-				}
-				nand.Draw(dc, G_way);
-				nand.point.x += x - start.x;
-				nand.point.y += y - start.y;
-				start.x = x;
-				start.y = y;
-				nand.Draw(dc, G_way);
+				MoveGate(nand, dc, start, x, y, flag, pre, G_way, point);
 			}
 			else if (gate == 4) {
 				NOR nor(CPoint(start.x, start.y), G_way);
-				if (flag) {
-					nor.Draw(dc, pre);
-					nor.Draw(dc, G_way);
-					flag = false;
-				}
-				nor.Draw(dc, G_way);
-				nor.point.x += x - start.x;
-				nor.point.y += y - start.y;
-				start.x = x;
-				start.y = y;
-				nor.Draw(dc, G_way);
+				MoveGate(nor, dc, start, x, y, flag, pre, G_way, point);
 			}
 			else if (gate == 5) {
 				XOR xor (CPoint(start.x, start.y), G_way);
-				if (flag) {
-					xor.Draw(dc, pre);
-					xor.Draw(dc, G_way);
-					flag = false;
-				}
-				xor.Draw(dc, G_way);
-				xor.point.x += x - start.x;
-				xor.point.y += y - start.y;
-				start.x = x;
-				start.y = y;
-				xor.Draw(dc, G_way);
+				MoveGate(xor, dc, start, x, y, flag, pre, G_way, point);
 			}
 			else if (gate == 6) {
 				D_FF d_ff(CPoint(start.x, start.y));
-				if (flag) {
-					d_ff.Draw(dc, pre);
-					d_ff.Draw(dc, G_way);
-					flag = false;
-				}
-				d_ff.Draw(dc, G_way);
-				d_ff.point.x += x - start.x;
-				d_ff.point.y += y - start.y;
-				start.x = x;
-				start.y = y;
-				d_ff.Draw(dc, G_way);
+				MoveGate(d_ff, dc, start, x, y, flag, pre, G_way, point);
 			}
 			else if (gate == 7) {
 				JK_FF jk_ff(CPoint(start.x, start.y));
-				if (flag) {
-					jk_ff.Draw(dc, pre);
-					jk_ff.Draw(dc, G_way);
-					flag = false;
-				}
-				jk_ff.Draw(dc, G_way);
-				jk_ff.point.x += x - start.x;
-				jk_ff.point.y += y - start.y;
-				start.x = x;
-				start.y = y;
-				jk_ff.Draw(dc, G_way);
+				MoveGate(jk_ff, dc, start, x, y, flag, pre, G_way, point);
 			}
 			else if (gate == 8) {
 				T_FF t_ff(CPoint(start.x, start.y));
-				if (flag) {
-					t_ff.Draw(dc, pre);
-					t_ff.Draw(dc, G_way);
-					flag = false;
-				}
-				t_ff.Draw(dc, G_way);
-				t_ff.point.x += x - start.x;
-				t_ff.point.y += y - start.y;
-				start.x = x;
-				start.y = y;
-				t_ff.Draw(dc, G_way);
+				MoveGate(t_ff, dc, start, x, y, flag, pre, G_way, point);
 			}
 			else if (gate == 9) {
 				Bit_switch bit_switch(CPoint(start.x, start.y));
-				if (flag) {
-					bit_switch.Draw(dc, pre);
-					bit_switch.Draw(dc, G_way);
-					flag = false;
-				}
-				bit_switch.Draw(dc, G_way);
-				bit_switch.point.x += x - start.x;
-				bit_switch.point.y += y - start.y;
-				start.x = x;
-				start.y = y;
-				bit_switch.Draw(dc, G_way);
+				MoveGate(bit_switch, dc, start, x, y, flag, pre, G_way, point);
 			}
 			else if (gate == 11) {
 				Seven_seg seven(CPoint(start.x, start.y));
-				if (flag) {
-					seven.Draw(dc, pre);
-					seven.Draw(dc, G_way);
-					flag = false;
-				}
-				seven.Draw(dc, G_way);
-				seven.point.x += x - start.x;
-				seven.point.y += y - start.y;
-				start.x = x;
-				start.y = y;
-				seven.Draw(dc, G_way);
+				MoveGate(seven, dc, start, x, y, flag, pre, G_way, point);
 			}
 			else if (gate == 12) {
 				Bit_clock clock(CPoint(start.x, start.y));
-				clock.Draw(dc, G_way);
-				clock.point.x += x - start.x;
-				clock.point.y += y - start.y;
-				start.x = x;
-				start.y = y;
-				clock.Draw(dc, G_way);
+				MoveGate(clock, dc, start, x, y, flag, pre, G_way, point);
 			}
 			else if (gate == 10) {
 				Out_switch out_switch(CPoint(start.x, start.y));
-				out_switch.Draw(dc, G_way);
-				out_switch.point.x += x - start.x;
-				out_switch.point.y += y - start.y;
-				start.x = x;
-				start.y = y;
-				out_switch.Draw(dc, G_way);
+				MoveGate(out_switch, dc, start, x, y, flag, pre, G_way, point);
 			}
 	}
 	lineEnd = CPoint(x, y);
