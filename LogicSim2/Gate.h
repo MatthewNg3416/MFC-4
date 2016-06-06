@@ -558,21 +558,46 @@ public:
 		name = _T("CLOCK");
 	}
 	void Draw(CClientDC &dc, double i) {
-		dc.Rectangle(point.x - 20, point.y - 20, point.x, point.y + 20);
-		dc.MoveTo(point.x - 15, point.y + 15);
-		dc.LineTo(point.x - 10, point.y + 15);
-		dc.LineTo(point.x - 10, point.y + 5);
-		dc.LineTo(point.x - 5, point.y + 5);
+		i = PI / 2 * i;
+		int a, b, c, d;
+
+		a = -20; b = -20; c = 0; d = 20;
+		dc.Rectangle(point.x + (a*int(cos(i)) - b*int(sin(i))), point.y + (a*int(sin(i)) + b*int(cos(i))), point.x + (c*int(cos(i)) - d*int(sin(i))), point.y + (c*int(sin(i)) + d*int(cos(i))));
+		a = -15; b = 15;
+		dc.MoveTo(point.x + (a*int(cos(i)) - b*int(sin(i))), point.y + (a*int(sin(i)) + b*int(cos(i))));
+		a = -10; b = 15;
+		dc.LineTo(point.x + (a*int(cos(i)) - b*int(sin(i))), point.y + (a*int(sin(i)) + b*int(cos(i))));
+		a = -10; b = 5;
+		dc.LineTo(point.x + (a*int(cos(i)) - b*int(sin(i))), point.y + (a*int(sin(i)) + b*int(cos(i))));
+		a = -5; b = 5;
+		dc.LineTo(point.x + (a*int(cos(i)) - b*int(sin(i))), point.y + (a*int(sin(i)) + b*int(cos(i))));
 
 		output[0] = CPoint(point.x, point.y);
 	}
 	void Drawstr(CClientDC &dc, double i) {
 		CString str;
+		int a, b;
 		if (bit_flag)
 			str.Format(_T("1"));
 		else
 			str.Format(_T("0"));
-		dc.TextOut(point.x - 14, point.y - 7, str);
+
+		int str_x = 0, str_y = 0;
+		if (i == 1) {
+			str_x = 4;
+			str_y = -17;
+		}
+		else if (i == 2) {
+			str_x = 5;
+			str_y = 0;
+		}
+		else if (i == 3) {
+			str_x = -10;
+			str_y = 2;
+		}
+
+		a = -14; b = -15;
+		dc.TextOut(point.x + (a*int(cos(i)) - b*int(sin(i))) + str_x, point.y + (a*int(sin(i)) + b*int(cos(i))) + str_y, str);
 	}
 };
 

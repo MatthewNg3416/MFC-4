@@ -105,8 +105,6 @@ void CreateGate(T& gate, CClientDC& dc,double& G_way,CPtrArray& ptrlist)
 {
 	gate->Draw(dc, G_way);
 	gate->way = G_way;
-	gate->isbit = true;
-	gate->isclock = true;
 	ptrlist.Add(gate);
 }
 
@@ -394,6 +392,7 @@ void CLogicSim2View::OnLButtonUp(UINT nFlags, CPoint point)
 			}
 			else if (gate == 9) {
 				gate_t = new Bit_switch(CPoint(x, y));
+				gate_t->isbit = true;
 				gate_t->Drawstr(dc, G_way);
 			}
 			else if (gate == 11) {
@@ -401,6 +400,7 @@ void CLogicSim2View::OnLButtonUp(UINT nFlags, CPoint point)
 			}
 			else if (gate == 12) {
 				gate_t = new Bit_clock(CPoint(x, y));
+				gate_t->isclock = true;
 				gate_t->Drawstr(dc, G_way);
 			}
 			else if (gate == 10) {
