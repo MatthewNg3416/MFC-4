@@ -6,11 +6,14 @@
 
 class Gate {
 public:
-	CPoint input[7];
-	CPoint output[7];
-	CPoint point;
-	CString name;
-	CString label=_T("");
+	CPoint input[7];//연결되는 위치
+	CPoint output[7];//연결되는 위치
+	CPoint point;//마우스 포인터의 위치
+	CString name;//게이트 종류의 이름
+	CString label=_T("");//각 게이트의 고유 이름
+	//값이 0이면 false, 1이면 true;
+	int input_value[7];
+	int output_value[7];
 	int way;
 	bool isbit = false;
 	bool bit_flag = false;
@@ -24,6 +27,8 @@ public:
 		for (int i = 0; i < 7; i++) {
 			output[i] = (-10, -10);
 			input[i] = (-10, -10);
+			input_value[i] = -1;
+			output_value[i] = -1;
 		}
 		name = "";
 	}

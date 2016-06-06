@@ -24,12 +24,10 @@ void OptionView::DoDataExchange(CDataExchange* pDX)
 {
 	CFormView::DoDataExchange(pDX);
 	DDX_Control(pDX, IDC_EDIT1, m_edit);
-	DDX_Control(pDX, IDC_COMBO1, m_combo);
 }
 
 BEGIN_MESSAGE_MAP(OptionView, CFormView)
 	ON_EN_CHANGE(IDC_EDIT1, &OptionView::OnEnChangeEdit1)
-	ON_CBN_SELCHANGE(IDC_COMBO1, &OptionView::OnCbnSelchangeCombo1)
 END_MESSAGE_MAP()
 
 
@@ -69,35 +67,4 @@ void OptionView::OnEnChangeEdit1()
 			pFrame->m_main->list[i].label = temp.label;
 		}
 	}
-}
-
-
-void OptionView::OnCbnSelchangeCombo1()
-{
-
-	// TODO: Add your control notification handler code here
-	CMainFrame *pFrame = (CMainFrame *)AfxGetMainWnd();
-	int nIndex = m_combo.GetCurSel();
-	if (nIndex != CB_ERR) {
-		CString str;
-		m_combo.GetLBText(nIndex, str);
-	}
-	int count = pFrame->m_main->list.GetCount();
-	for (int i = 0; i < count; i++) {
-		if (temp.point == pFrame->m_main->list[i].point) {
-		//	pFrame->m_main->list[i].g
-		}
-	}
-}
-
-
-void OptionView::OnInitialUpdate()
-{
-	CFormView::OnInitialUpdate();
-	m_combo.AddString(_T("µ¿"));
-	m_combo.AddString(_T("¼­"));
-	m_combo.AddString(_T("³²"));
-	m_combo.AddString(_T("ºÏ"));
-	m_combo.SetMinVisibleItems(10);
-	// TODO: Add your specialized code here and/or call the base class
 }

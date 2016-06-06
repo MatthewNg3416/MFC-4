@@ -98,15 +98,12 @@ void CLogicSim2View::OnDraw(CDC* pDC)
 	ASSERT_VALID(pDoc);
 	CRect rect;
 	GetWindowRect(&rect);
-	m_point.SetSize(20000);
 	CClientDC dc(this);
-	CString str;
-
+	
 	for (int i = 10; i < rect.Width(); i += 10) {
 
 		for (int j = 10; j < rect.Height(); j += 10) {
 			pDC->SetPixelV(i, j, RGB(0, 0, 0));
-			m_point.Add(CPoint(i, j));
 		}
 	}
 	if (lineDraw == true && isClicked == true) {
@@ -183,7 +180,6 @@ CLogicSim2Doc* CLogicSim2View::GetDocument() const // non-debug version is inlin
 
 
 // CLogicSim2View message handlers
-
 
 void CLogicSim2View::OnMouseMove(UINT nFlags, CPoint point)
 {
@@ -382,7 +378,6 @@ void CLogicSim2View::OnMouseMove(UINT nFlags, CPoint point)
 	CView::OnMouseMove(nFlags, point);
 }
 
-
 void CLogicSim2View::OnLButtonDown(UINT nFlags, CPoint point)
 {
 	CPoint temp;
@@ -427,7 +422,6 @@ void CLogicSim2View::OnLButtonDown(UINT nFlags, CPoint point)
 	// TODO: Add your message handler code here and/or call default
 	CView::OnLButtonDown(nFlags, point);
 }
-
 
 void CLogicSim2View::OnLButtonUp(UINT nFlags, CPoint point)
 {
@@ -568,7 +562,6 @@ void CLogicSim2View::OnLButtonUp(UINT nFlags, CPoint point)
 	CView::OnLButtonUp(nFlags, point);
 }
 
-
 void CLogicSim2View::OnRButtonDown(UINT nFlags, CPoint point)
 {
 	// TODO: 여기에 메시지 처리기 코드를 추가 및/또는 기본값을 호출합니다.
@@ -603,7 +596,52 @@ void CLogicSim2View::OnRButtonDown(UINT nFlags, CPoint point)
 	CView::OnRButtonDown(nFlags, point);
 }
 
+void CLogicSim2View::OnLButtonDblClk(UINT nFlags, CPoint point)
+{
+	// TODO: 여기에 메시지 처리기 코드를 추가 및/또는 기본값을 호출합니다.
 
+	CPoint temp;
+
+	for (int i = 0; i < list.GetCount(); i++) {
+		temp = list[i].point;
+		if (temp.x - 30 < point.x&&temp.x + 4 > point.x&&temp.y - 15 < point.y&&temp.y + 15 > point.y) {
+			if (list[i].isclock) {
+				clock_Dlg dlg;
+				dlg.i = list[i].clock;
+
+				int result = dlg.DoModal();
+				if (result == IDOK) {
+					list[i].clock = dlg.i;
+				}
+				//Invalidate();
+			}
+		}
+	}
+	Invalidate();
+
+	CView::OnLButtonDblClk(nFlags, point);
+}
+
+void CLogicSim2View::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
+{
+	// TODO: 여기에 메시지 처리기 코드를 추가 및/또는 기본값을 호출합니다.
+
+	switch (nChar) {
+	case 'C':
+		if (current != -1 && move) {
+			flag = true;
+			pre = G_way;
+			if (G_way < 3) {
+				G_way++;	//게이트방향 전환
+			}
+			else {
+				G_way = 0;
+			}
+		}
+	}
+
+	CView::OnKeyDown(nChar, nRepCnt, nFlags);
+}
 
 int CLogicSim2View::OnCreate(LPCREATESTRUCT lpCreateStruct)
 {
@@ -617,7 +655,6 @@ int CLogicSim2View::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	return 0;
 }
 
-
 void CLogicSim2View::OnGateAnd()
 {
 	// TODO: Add your command handler code here
@@ -625,7 +662,6 @@ void CLogicSim2View::OnGateAnd()
 	current = 1;
 	move = true;
 }
-
 
 void CLogicSim2View::OnGateOr()
 {
@@ -635,7 +671,6 @@ void CLogicSim2View::OnGateOr()
 	move = true;
 }
 
-
 void CLogicSim2View::OnGateNot()
 {
 	// TODO: Add your command handler code here
@@ -643,7 +678,6 @@ void CLogicSim2View::OnGateNot()
 	current = 1;
 	move = true;
 }
-
 
 void CLogicSim2View::OnGateNand()
 {
@@ -653,7 +687,6 @@ void CLogicSim2View::OnGateNand()
 	move = true;
 }
 
-
 void CLogicSim2View::OnGateNor()
 {
 	// TODO: Add your command handler code here
@@ -662,7 +695,6 @@ void CLogicSim2View::OnGateNor()
 	move = true;
 }
 
-
 void CLogicSim2View::OnGateXor()
 {
 	// TODO: Add your command handler code here
@@ -670,8 +702,6 @@ void CLogicSim2View::OnGateXor()
 	current = 1;
 	move = true;
 }
-
-
 
 void CLogicSim2View::OnFlopDFf()
 {
@@ -682,7 +712,6 @@ void CLogicSim2View::OnFlopDFf()
 	move = true;
 }
 
-
 void CLogicSim2View::OnFlopJkFf()
 {
 	// TODO: 여기에 명령 처리기 코드를 추가합니다.
@@ -691,7 +720,6 @@ void CLogicSim2View::OnFlopJkFf()
 	current = 1;
 	move = true;
 }
-
 
 void CLogicSim2View::OnFlopTFf()
 {
@@ -702,7 +730,6 @@ void CLogicSim2View::OnFlopTFf()
 	move = true;
 }
 
-
 void CLogicSim2View::OnInoutSwitch()
 {
 	// TODO: 여기에 명령 처리기 코드를 추가합니다.
@@ -712,7 +739,6 @@ void CLogicSim2View::OnInoutSwitch()
 	move = true;
 }
 
-
 void CLogicSim2View::OnSevenSeg()
 {
 	// TODO: 여기에 명령 처리기 코드를 추가합니다.
@@ -721,7 +747,6 @@ void CLogicSim2View::OnSevenSeg()
 	current = 1;
 	move = true;
 }
-
 
 void CLogicSim2View::OnBitClock()
 {
@@ -763,51 +788,3 @@ void CLogicSim2View::OnTimer(UINT_PTR nIDEvent)
 
 
 
-
-void CLogicSim2View::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
-{
-	// TODO: 여기에 메시지 처리기 코드를 추가 및/또는 기본값을 호출합니다.
-
-	switch (nChar) {
-	case 'C':
-		if (current != -1 && move) {
-			flag = true;
-			pre = G_way;
-			if (G_way < 3) {
-				G_way++;	//게이트방향 전환
-			}
-			else {
-				G_way = 0;
-			}
-		}
-	}
-
-	CView::OnKeyDown(nChar, nRepCnt, nFlags);
-}
-
-
-void CLogicSim2View::OnLButtonDblClk(UINT nFlags, CPoint point)
-{
-	// TODO: 여기에 메시지 처리기 코드를 추가 및/또는 기본값을 호출합니다.
-
-	CPoint temp;
-
-	for (int i = 0; i < list.GetCount(); i++) {
-		temp = list[i].point;
-		if (temp.x - 30 < point.x&&temp.x + 4 > point.x&&temp.y - 15 < point.y&&temp.y + 15 > point.y) {
-			if (list[i].isclock) {
-				clock_Dlg dlg;
-				dlg.i = list[i].clock;
-
-				int result = dlg.DoModal();
-				if (result == IDOK) {
-					list[i].clock = dlg.i;
-				}
-				//Invalidate();
-			}
-		}
-	}
-	Invalidate();
-
-	CView::OnLButtonDblClk(nFlags, point);
-}
