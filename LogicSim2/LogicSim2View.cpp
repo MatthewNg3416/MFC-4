@@ -56,7 +56,30 @@ ON_WM_LBUTTONDBLCLK()
 END_MESSAGE_MAP()
 
 // CLogicSim2View construction/destruction
+CPtrArray lines;
 
+BOOL IsConnected(Gate& first, Gate& second, CPtrArray& lines) {
+	for (int i = 0; i < lines.GetCount(); i++) {
+		CList<CPoint, CPoint>* temp = (CList<CPoint, CPoint>*)lines.GetAt(i);
+		for (int j = 0; j < 7; j++) {
+			if (first.output[j] == temp->GetHead()) {
+				for (int k = 0; k < 7; k++) {
+					if (second.input[k] == temp->GetTail())
+						second.input_value[k] = first.output_value[j];
+						return TRUE;
+				}
+			}
+			if (second.input[j] == temp->GetHead()) {
+				for (int k = 0; k < 7; k++) {
+					if (first.output[k] == temp->GetTail())
+						second.input_value[j] = first.output_value[k];
+						return TRUE;
+				}
+			}
+		}
+	}
+	return false;
+}
 CLogicSim2View::CLogicSim2View()
 	: start(0)
 	, old(0)
@@ -73,6 +96,7 @@ CLogicSim2View::CLogicSim2View()
 	list.SetSize(0);
 	line.SetSize(0);
 	ptrlist.SetSize(0);
+	lines.SetSize(0);
 	// TODO: add construction code here
 
 }
@@ -131,6 +155,25 @@ void CLogicSim2View::OnDraw(CDC* pDC)
 			pDC->LineTo(line[k + 1].x, line[k].y);
 			pDC->MoveTo(line[k + 1].x, line[k].y);
 			pDC->LineTo(line[k + 1]);
+		}
+	}
+	CString str;
+	CString str2;
+	CPoint tem;
+	int flag = false;
+	if (!lines.IsEmpty()) {
+		for (int i = 0; i < ptrlist.GetCount(); i++) {
+			for (int j = i + 1; j < ptrlist.GetCount()-1; j++) {
+				Gate*temp1 = (Gate*)ptrlist.GetAt(i);
+				Gate*temp2 = (Gate*)ptrlist.GetAt(j);
+				flag = IsConnected(*temp1, *temp2, lines);
+				str2.Format(_T("%d"), flag);
+				dc.TextOutW(500, 500, str2);
+				if (flag == 1) {
+					str.Format(_T("%d"), temp2->input_value[0]);
+					dc.TextOutW(450, 450, str);
+				}
+			}
 		}
 	}
 	if (!pDoc)
@@ -547,18 +590,16 @@ void CLogicSim2View::OnLButtonUp(UINT nFlags, CPoint point)
 		line.Add(lineStart);
 		line.Add(lineEnd);
 		lineDraw = false;
+		m_point = new CList<CPoint, CPoint>();
+		m_point->AddTail(lineStart);
+		if (lineStart.x != lineEnd.x && lineStart.y != lineEnd.y) {
+			m_point->AddTail(CPoint(lineEnd.x, lineStart.y));
+		}
+		m_point->AddTail(lineEnd);
+		lines.Add(m_point);
 		Invalidate(FALSE);
 	}
 
-	if (isClicked==true) {
-		CPen myPen(PS_SOLID, 2, RGB(200, 100, 100));
-		dc.SelectObject(&myPen);
-		dc.MoveTo(lineStart);
-		dc.LineTo(lineEnd.x, lineStart.y);
-		dc.MoveTo(lineEnd.x, lineStart.y);
-		dc.LineTo(lineEnd);
-		isClicked = false;
-	}
 	CView::OnLButtonUp(nFlags, point);
 }
 

@@ -473,14 +473,17 @@ public:
 	}
 	void Draw(CClientDC &dc, double i) {
 		dc.Rectangle(point.x - 20, point.y - 10, point.x, point.y + 10);
+		output[0] = CPoint(point.x, point.y);
 	}
 	void Drawstr(CClientDC &dc, double i) {
 		CString str;
 		if (bit_flag) {
 			str.Format(_T("1"));
+			output_value[0] = 1;
 		}
 		else {
 			str.Format(_T("0"));
+			output_value[0] = 0;
 		}
 		dc.TextOut(point.x - 14, point.y - 7, str);
 	}
@@ -600,13 +603,18 @@ public:
 	}
 	void Draw(CClientDC &dc, double i) {
 		dc.Ellipse(point.x, point.y - 10, point.x + 20, point.y + 10);
+		input[0] = CPoint(point.x, point.y);
 	}
 	void Drawstr(CClientDC &dc, double i) {
 		CString str;
-		if (bit_flag)
+		if (bit_flag) {
 			str.Format(_T("1"));
-		else
+			input_value[0] = 1;
+		}
+		else {
 			str.Format(_T("0"));
+			input_value[0] = 0;
+		}
 		dc.TextOut(point.x + 6, point.y - 7, str);
 	}
 };

@@ -45,7 +45,7 @@ protected:
 protected:
 	DECLARE_MESSAGE_MAP()
 public:
-	CArray<CPoint, CPoint> m_point;
+	CList<CPoint, CPoint> *m_point;
 	CPoint start;
 	CPoint old;
 	bool move;
