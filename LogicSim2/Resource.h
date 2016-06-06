@@ -2,6 +2,7 @@
 // Microsoft Visual C++ generated include file.
 // Used by LogicSim2.rc
 //
+#define IDCANCEL2                       3
 #define IDD_ABOUTBOX                    100
 #define IDR_MAINFRAME                   128
 #define IDR_LogicSim2TYPE               130
@@ -9,6 +10,8 @@
 #define IDD_OPTIONVIEW                  311
 #define IDB_BITMAP1                     312
 #define IDD_DIALOG1                     314
+#define IDD_DIALOG2                     316
+#define ID_BACK                         1001
 #define IDC_COMBO1                      1002
 #define IDC_EDIT1                       1003
 #define IDC_STATIC4                     1008
@@ -33,9 +36,9 @@
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        316
+#define _APS_NEXT_RESOURCE_VALUE        318
 #define _APS_NEXT_COMMAND_VALUE         32796
-#define _APS_NEXT_CONTROL_VALUE         1000
+#define _APS_NEXT_CONTROL_VALUE         1002
 #define _APS_NEXT_SYMED_VALUE           312
 #endif
 #endif

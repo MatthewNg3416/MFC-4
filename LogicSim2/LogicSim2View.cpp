@@ -15,6 +15,7 @@
 #include <afxtempl.h>
 #include "MainFrm.h"
 #include "clock_Dlg.h"
+#include "Save_dlg.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -797,7 +798,7 @@ void CLogicSim2View::OnFileSave()
 {
 	// TODO: Add your command handler code here
 
-	CFileDialog dlg(FALSE, _T("cfg"), _T("pcmon"), OFN_HIDEREADONLY, _T("PCMON (*.CFG) | All Files(*.*)|*.*||"));
+	CFileDialog dlg(FALSE, _T("logic"), _T(""), OFN_HIDEREADONLY, _T("(*.logic) | All Files(*.*)|*.*||"));
 	if (IDOK == dlg.DoModal())
 	{
 		CString strPathName = dlg.GetPathName();
@@ -839,7 +840,8 @@ void CLogicSim2View::OnFileOpen()
 {
 	// TODO: Add your command handler code here
 
-	CFileDialog dlg(TRUE, _T("cfg"), _T("pcmon"), OFN_HIDEREADONLY, _T("PCMON (*.CFG) | All Files(*.*)|*.*||"));
+	//CFileDialog dlg(TRUE, _T("logic"), _T(""), OFN_HIDEREADONLY, _T("(*.logic) | All Files(*.*)|*.*||"));
+	CFileDialog dlg(TRUE, NULL, NULL, OFN_HIDEREADONLY, NULL);
 	if (IDOK == dlg.DoModal())
 	{
 		CString strPathName = dlg.GetPathName();
@@ -969,9 +971,26 @@ void CLogicSim2View::OnFileNew()
 {
 	// TODO: Add your command handler code here
 
-	ptrlist.RemoveAll();
-	list.RemoveAll();
-	line.RemoveAll();
+	Save_dlg dlg;
 
-	Invalidate();
+	int result = dlg.DoModal();
+
+	if (result == IDOK) {
+		OnFileSave();
+		ptrlist.RemoveAll();
+		list.RemoveAll();
+		line.RemoveAll();
+
+		Invalidate();
+	}
+	else if (result == IDCANCEL) {
+		ptrlist.RemoveAll();
+		list.RemoveAll();
+		line.RemoveAll();
+
+		Invalidate();
+	}
+	else {
+		;
+	}
 }
