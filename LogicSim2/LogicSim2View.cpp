@@ -112,6 +112,14 @@ void CreateGate(T& gate, CClientDC& dc,double& G_way,CPtrArray& ptrlist,CArray<G
 	list.Add(*gate);
 	ptrlist.Add(gate);
 }
+
+template<typename T>
+void File(T& gate, CPtrArray& ptrlist, CArray<Gate, Gate>& list,int& t_way,CString& t_label) {
+	gate->way = t_way;
+	gate->label = t_label;
+	list.Add(*gate);
+	ptrlist.Add(gate);
+}
 CLogicSim2View::CLogicSim2View()
 	: start(0)
 	, old(0)
@@ -810,97 +818,58 @@ void CLogicSim2View::OnFileOpen()
 
 			if ((t_name.Compare(_T("AND"))) == 0) {
 				AND *and = new AND(t_point, t_way);
-				and->way = t_way;
-				and->label = t_label;
-				list.Add(*and);
-				ptrlist.Add(and);
+				File(and, ptrlist, list,t_way,t_label);
 			}
 			else if ((t_name.Compare(_T("OR"))) == 0) {
 				OR* or = new OR(t_point, t_way);
-				or ->way = t_way;
-				or ->label = t_label;
-				list.Add(*or );
-				ptrlist.Add(or );
+				File(or , ptrlist, list, t_way, t_label);
 			}
 			else if ((t_name.Compare(_T("NOT"))) == 0) {
 				NOT * not= new NOT(t_point);
-				not->way = t_way;
-				not->label = t_label;
-				list.Add(*not);
-				ptrlist.Add(not);
+				File(not, ptrlist, list, t_way, t_label);
 			}
 			else if ((t_name.Compare(_T("NAND"))) == 0) {
 				NAND* nand = new NAND(t_point, t_way);
-				nand->way = t_way;
-				nand->label = t_label;
-				list.Add(*nand);
-				ptrlist.Add(nand);
+				File(nand, ptrlist, list, t_way, t_label);
 			}
 			else if ((t_name.Compare(_T("NOR"))) == 0) {
 				NOR* nor = new NOR(t_point, t_way);
-				nor->way = t_way;
-				nor->label = t_label;
-				list.Add(*nor);
-				ptrlist.Add(nor);
+				File(nor, ptrlist, list, t_way, t_label);
 			}
 			else if ((t_name.Compare(_T("XOR"))) == 0) {
 				XOR* xor = new XOR(t_point, t_way);
-				xor->way = t_way;
-				xor->label = t_label;
-				list.Add(*xor);
-				ptrlist.Add(xor);
+				File(xor, ptrlist, list, t_way, t_label);
 			}
 			else if ((t_name.Compare(_T("D_FF"))) == 0) {
 				D_FF* d_ff = new D_FF(t_point);
-				d_ff->way = t_way;
-				d_ff->label = t_label;
-				list.Add(*d_ff);
-				ptrlist.Add(d_ff);
+				File(d_ff, ptrlist, list, t_way, t_label);
 			}
 			else if ((t_name.Compare(_T("JK_FF"))) == 0) {
 				JK_FF* jk_ff = new JK_FF(t_point);
-				jk_ff->way = t_way;
-				jk_ff->label = t_label;
-				list.Add(*jk_ff);
-				ptrlist.Add(jk_ff);
+				File(jk_ff, ptrlist, list, t_way, t_label);
 			}
 			else if ((t_name.Compare(_T("T_FF"))) == 0) {
 				T_FF* t_ff = new T_FF(t_point);
-				t_ff->way = t_way;
-				t_ff->label = t_label;
-				list.Add(*t_ff);
-				ptrlist.Add(t_ff);
+				File(t_ff, ptrlist, list, t_way, t_label);
 			}
 			else if ((t_name.Compare(_T("SWITCH"))) == 0) {
 				Bit_switch* bit_switch = new Bit_switch(t_point);
-				bit_switch->way = t_way;
-				bit_switch->label = t_label;
 				bit_switch->isbit = true;
-				list.Add(*bit_switch);
-				ptrlist.Add(bit_switch);
+				File(bit_switch, ptrlist, list, t_way, t_label);
 			}
 			else if ((t_name.Compare(_T("7-SEGMENT"))) == 0) {
 				Seven_seg* seven = new Seven_seg(t_point);
-				seven->way = t_way;
-				seven->label = t_label;
-				list.Add(*seven);
-				ptrlist.Add(seven);
-			}
-			else if ((t_name.Compare(_T("clock"))) == 0) {
-				Bit_clock* clock = new Bit_clock(t_point);
-				clock->way = t_way;
-				clock->label = t_label;
-				clock->isclock = true;
-				list.Add(*clock);
-				ptrlist.Add(clock);
+				File(seven, ptrlist, list, t_way, t_label);
 			}
 			else if ((t_name.Compare(_T("CLOCK"))) == 0) {
+				Bit_clock* clock = new Bit_clock(t_point);
+				clock->isclock = true;
+				File(clock, ptrlist, list, t_way, t_label);
+			}
+			else if ((t_name.Compare(_T("LAMP"))) == 0) {
 				Out_switch* out_switch = new Out_switch(t_point);
-				out_switch->way = t_way;
-				out_switch->label = t_label;
 				out_switch->isbit = true;
-				list.Add(*out_switch);
-				ptrlist.Add(out_switch);
+				File(out_switch, ptrlist, list, t_way, t_label);
 			}
 		}
 
