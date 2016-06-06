@@ -46,8 +46,6 @@ protected:
 	DECLARE_MESSAGE_MAP()
 public:
 	CList<CPoint, CPoint> *m_point;
-	CPoint start;
-	CPoint old;
 	bool move;
 	int current;
 	CArray<Gate, Gate> list, redo_list;

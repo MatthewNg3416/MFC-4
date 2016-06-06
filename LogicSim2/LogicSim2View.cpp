@@ -161,25 +161,6 @@ void CLogicSim2View::OnDraw(CDC* pDC)
 			pDC->LineTo(line[k + 1]);
 		}
 	}
-	CString str;
-	CString str2;
-	CPoint tem;
-	int flag = false;
-	if (!lines.IsEmpty()) {
-		for (int i = 0; i < ptrlist.GetCount(); i++) {
-			for (int j = i + 1; j < ptrlist.GetCount()-1; j++) {
-				Gate*temp1 = (Gate*)ptrlist.GetAt(i);
-				Gate*temp2 = (Gate*)ptrlist.GetAt(j);
-				flag = IsConnected(*temp1, *temp2, lines);
-				str2.Format(_T("%d"), flag);
-				dc.TextOutW(500, 500, str2);
-				if (flag == 1) {
-					str.Format(_T("%d"), temp2->input_value[0]);
-					dc.TextOutW(450, 450, str);
-				}
-			}
-		}
-	}
 	if (!pDoc)
 		return;
 	// TODO: add draw code for native data here
