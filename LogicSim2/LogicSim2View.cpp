@@ -246,52 +246,56 @@ void CLogicSim2View::OnMouseMove(UINT nFlags, CPoint point)
 	int x = point.x / 10;
 	int y = point.y / 10;
 	Gate *gate_t;
+	CRect rect;
+	GetWindowRect(&rect);
 	x = x * 10;
 	y = y * 10;
-	if (current!=-1 && move) {
-		dc.SelectStockObject(NULL_BRUSH);
-		dc.SetROP2(R2_NOT);
+	if (point.x < rect.Width() - 80 && point.y - 80 < rect.Height() && point.x > 60 && point.y>60) {
+		if (current != -1 && move) {
+			dc.SelectStockObject(NULL_BRUSH);
+			dc.SetROP2(R2_NOT);
 			if (gate == 0) {
-				gate_t =new AND(CPoint(start.x, start.y), G_way);
+				gate_t = new AND(CPoint(start.x, start.y), G_way);
 			}
 			else if (gate == 1) {
-				gate_t = new OR (CPoint(start.x, start.y),G_way);
+				gate_t = new OR(CPoint(start.x, start.y), G_way);
 			}
 			else if (gate == 2) {
-				gate_t = new NOT (CPoint(start.x, start.y));
+				gate_t = new NOT(CPoint(start.x, start.y));
 			}
 			else if (gate == 3) {
-				gate_t = new NAND (CPoint(start.x, start.y), G_way);
+				gate_t = new NAND(CPoint(start.x, start.y), G_way);
 			}
 			else if (gate == 4) {
-				gate_t = new NOR (CPoint(start.x, start.y), G_way);
+				gate_t = new NOR(CPoint(start.x, start.y), G_way);
 			}
 			else if (gate == 5) {
-				gate_t = new XOR (CPoint(start.x, start.y), G_way);
+				gate_t = new XOR(CPoint(start.x, start.y), G_way);
 			}
 			else if (gate == 6) {
-				gate_t = new D_FF (CPoint(start.x, start.y));
+				gate_t = new D_FF(CPoint(start.x, start.y));
 			}
 			else if (gate == 7) {
-				gate_t = new JK_FF (CPoint(start.x, start.y));
+				gate_t = new JK_FF(CPoint(start.x, start.y));
 			}
 			else if (gate == 8) {
-				gate_t = new T_FF (CPoint(start.x, start.y));
+				gate_t = new T_FF(CPoint(start.x, start.y));
 			}
 			else if (gate == 9) {
-				gate_t = new Bit_switch (CPoint(start.x, start.y));
+				gate_t = new Bit_switch(CPoint(start.x, start.y));
 			}
 			else if (gate == 11) {
-				gate_t = new Seven_seg (CPoint(start.x, start.y));
+				gate_t = new Seven_seg(CPoint(start.x, start.y));
 			}
 			else if (gate == 12) {
-				gate_t = new Bit_clock (CPoint(start.x, start.y));
+				gate_t = new Bit_clock(CPoint(start.x, start.y));
 			}
 			else if (gate == 10) {
-				gate_t = new Out_switch (CPoint(start.x, start.y));
+				gate_t = new Out_switch(CPoint(start.x, start.y));
 			}
-			if(gate!=-1)
-			MoveGate(*gate_t, dc, start, x, y, flag, pre, G_way, point);
+			if (gate != -1)
+				MoveGate(*gate_t, dc, start, x, y, flag, pre, G_way, point);
+		}
 	}
 	lineEnd = CPoint(x, y);
 	
@@ -351,64 +355,67 @@ void CLogicSim2View::OnLButtonUp(UINT nFlags, CPoint point)
 	x = x * 10;
 	y = y * 10;
 	Gate* gate_t;
+	CRect rect;
+	GetWindowRect(&rect);
 	// TODO: Add your message handler code here and/or call default
 	if (current != -1) {
 		dc.SelectStockObject(NULL_BRUSH);
 		dc.SetROP2(R2_COPYPEN);
-
-		if (gate == 0) {
-			gate_t = new AND(CPoint(x,y),G_way);
-		}
-		else if (gate == 1) {
-			gate_t =new OR(CPoint(x, y), G_way);	
-		}
-		else if (gate == 2) {
-			gate_t = new NOT(CPoint(x, y));
-		}
-		else if (gate == 3) {
-			gate_t = new NAND(CPoint(x, y), G_way);	
-		}
-		else if (gate == 4) {
-			gate_t = new NOR(CPoint(x, y), G_way);
+		if (point.x < rect.Width()-80 && point.y-80 < rect.Height() && point.x>60 && point.y>60) {
+			if (gate == 0) {
+				gate_t = new AND(CPoint(x, y), G_way);
 			}
-		else if (gate == 5) {
-			gate_t = new XOR(CPoint(x, y), G_way);
-			} 
-		else if (gate == 6) {
-			gate_t = new D_FF(CPoint(x, y));
-			gate_t->Drawstr(dc, G_way);
+			else if (gate == 1) {
+				gate_t = new OR(CPoint(x, y), G_way);
+			}
+			else if (gate == 2) {
+				gate_t = new NOT(CPoint(x, y));
+			}
+			else if (gate == 3) {
+				gate_t = new NAND(CPoint(x, y), G_way);
+			}
+			else if (gate == 4) {
+				gate_t = new NOR(CPoint(x, y), G_way);
+			}
+			else if (gate == 5) {
+				gate_t = new XOR(CPoint(x, y), G_way);
+			}
+			else if (gate == 6) {
+				gate_t = new D_FF(CPoint(x, y));
+				gate_t->Drawstr(dc, G_way);
+			}
+			else if (gate == 7) {
+				gate_t = new JK_FF(CPoint(x, y));
+				gate_t->Drawstr(dc, G_way);
+			}
+			else if (gate == 8) {
+				gate_t = new T_FF(CPoint(x, y));
+				gate_t->Drawstr(dc, G_way);
+			}
+			else if (gate == 9) {
+				gate_t = new Bit_switch(CPoint(x, y));
+				gate_t->Drawstr(dc, G_way);
+			}
+			else if (gate == 11) {
+				gate_t = new Seven_seg(CPoint(x, y));
+			}
+			else if (gate == 12) {
+				gate_t = new Bit_clock(CPoint(x, y));
+				gate_t->Drawstr(dc, G_way);
+			}
+			else if (gate == 10) {
+				gate_t = new Out_switch(CPoint(x, y));
+				gate_t->Drawstr(dc, G_way);
+			}
+			if (gate != -1)
+				CreateGate(gate_t, dc, G_way, ptrlist);
+			current = -1;
+			move = false;
+			gate = -1;
+			start.x = 0;
+			start.y = 0;
+			undo_num.AddTail(0);
 		}
-		else if (gate == 7) {
-			gate_t =new JK_FF(CPoint(x, y));
-			gate_t->Drawstr(dc, G_way);
-		}
-		else if (gate == 8) {
-			gate_t =new T_FF(CPoint(x, y));
-			gate_t->Drawstr(dc, G_way);
-		}
-		else if (gate == 9) {
-			gate_t = new Bit_switch(CPoint(x, y));
-			gate_t->Drawstr(dc, G_way);
-		}
-		else if (gate == 11) {
-			gate_t = new Seven_seg(CPoint(x, y));
-		}
-		else if (gate == 12) {
-			gate_t = new Bit_clock(CPoint(x, y));
-			gate_t->Drawstr(dc, G_way);
-		}
-		else if (gate == 10) {
-			gate_t = new Out_switch(CPoint(x, y));
-			gate_t->Drawstr(dc, G_way);
-		}
-		if(gate!=-1)
-			CreateGate(gate_t, dc, G_way, ptrlist);
-		current = -1;
-		move = false;
-		gate = -1;
-		start.x = 0;
-		start.y = 0;
-		undo_num.AddTail(0);
 	}
 	lineEnd = CPoint(x, y);
 	if (lineDraw) {
