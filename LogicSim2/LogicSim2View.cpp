@@ -128,7 +128,6 @@ CLogicSim2View::CLogicSim2View()
 	, flag(false)
 	, pre(-1)
 {
-	//list.SetSize(0);
 	line.SetSize(0);
 	ptrlist.SetSize(0);
 	lines.SetSize(0);
@@ -322,7 +321,6 @@ void CLogicSim2View::OnLButtonDown(UINT nFlags, CPoint point)
 	CClientDC dc(this);
 
 	for (int i = 0; i < ptrlist.GetCount(); i++) {
-			//temp = list[i].point;
 			ptr = (Gate*)ptrlist.GetAt(i);			
 			for (int j = 0; j < 7; j++) {
 				if (ptr->input[j].x - 4 < point.x&&ptr->input[j].x + 4 > point.x&&ptr->input[j].y - 4 < point.y&&ptr->input[j].y + 4 > point.y) {
@@ -341,7 +339,6 @@ void CLogicSim2View::OnLButtonDown(UINT nFlags, CPoint point)
 		if (ptr->point.x - 30 < point.x && ptr->point.x + 4 > point.x && ptr->point.y - 15 < point.y && ptr->point.y + 15 > point.y) {
 			pFrame->m_option->SetDlgItemTextW(IDC_STATIC4, ptr->name);
 			pFrame->m_option->temp = *ptr;
-			//pFrame->m_option->m_edit.SetWindowTextW(ptr->label);
 			Invalidate();
 		}
 	}
@@ -540,9 +537,7 @@ void CLogicSim2View::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 		if (i == 0) {
 			i = ptrlist.GetCount();
 			redo_ptrlist.Add(ptrlist.GetAt(i - 1));
-			//redo_list.Add(list.GetAt(i - 1));
 			ptrlist.RemoveAt(i-1);
-		//	list.RemoveAt(i-1);
 		}
 		else if (i == 1) {
 			i = line.GetCount();
@@ -566,9 +561,7 @@ void CLogicSim2View::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 		if (i == 0) {
 			i = redo_ptrlist.GetCount();
 			ptrlist.Add(redo_ptrlist.GetAt(i - 1));
-		//	list.Add(redo_list.GetAt(i - 1));
 			redo_ptrlist.RemoveAt(i - 1);
-			///redo_list.RemoveAt(i - 1);
 		}
 		else if (i == 1) {
 			i = redo_line.GetCount();
@@ -597,14 +590,12 @@ void CLogicSim2View::OnFileNew()
 	if (result == IDOK) {
 		OnFileSave();
 		ptrlist.RemoveAll();
-		//list.RemoveAll();
 		line.RemoveAll();
 
 		Invalidate();
 	}
 	else if (result == IDCANCEL) {
 		ptrlist.RemoveAll();
-		//list.RemoveAll();
 		line.RemoveAll();
 
 		Invalidate();
