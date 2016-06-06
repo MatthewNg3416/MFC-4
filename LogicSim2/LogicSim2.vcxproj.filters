@@ -51,6 +51,9 @@
     <ClInclude Include="clock_Dlg.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Save_dlg.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="LogicSim2.cpp">
@@ -75,6 +78,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="clock_Dlg.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Save_dlg.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

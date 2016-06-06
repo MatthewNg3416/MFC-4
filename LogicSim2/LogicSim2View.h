@@ -50,16 +50,17 @@ public:
 	CPoint old;
 	bool move;
 	int current;
-	CArray<Gate, Gate> list;
-	CPtrArray ptrlist;
+	CArray<Gate, Gate> list, redo_list;
+	CPtrArray ptrlist, redo_ptrlist;
 	int gate;
 	bool flag=false;
 	double pre;
-	CArray<CPoint, CPoint> line;
+	CArray<CPoint, CPoint> line, redo_line;
 	bool lineDraw;
 	bool isClicked;
 	CPoint lineStart;
 	CPoint lineEnd;
+	CList<int, int> undo_num, redo_num;
 	afx_msg void OnMouseMove(UINT nFlags, CPoint point);
 	afx_msg void OnLButtonDown(UINT nFlags, CPoint point);
 	afx_msg void OnLButtonUp(UINT nFlags, CPoint point);
@@ -82,6 +83,9 @@ public:
 	afx_msg void OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags);
 	afx_msg void OnLButtonDblClk(UINT nFlags, CPoint point);
 	
+	afx_msg void OnFileSave();
+	afx_msg void OnFileOpen();
+	afx_msg void OnFileNew();
 };
 
 #ifndef _DEBUG  // debug version in LogicSim2View.cpp

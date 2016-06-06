@@ -582,6 +582,8 @@ public:
 		dc.LineTo(point.x - 10, point.y + 15);
 		dc.LineTo(point.x - 10, point.y + 5);
 		dc.LineTo(point.x - 5, point.y + 5);
+
+		output[0] = CPoint(point.x, point.y);
 	}
 	void Drawstr(CClientDC &dc, double i) {
 		CString str;
