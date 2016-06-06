@@ -245,64 +245,52 @@ void CLogicSim2View::OnMouseMove(UINT nFlags, CPoint point)
 	CClientDC dc(this);
 	int x = point.x / 10;
 	int y = point.y / 10;
-
+	Gate *gate_t;
 	x = x * 10;
 	y = y * 10;
 	if (current!=-1 && move) {
 		dc.SelectStockObject(NULL_BRUSH);
 		dc.SetROP2(R2_NOT);
 			if (gate == 0) {
-				AND and (CPoint(start.x, start.y), G_way);
-				MoveGate(and,dc,start,x,y,flag,pre,G_way,point);
+				gate_t =new AND(CPoint(start.x, start.y), G_way);
 			}
 			else if (gate == 1) {
-				OR or (CPoint(start.x, start.y),G_way);
-				MoveGate(or , dc, start, x, y, flag, pre, G_way, point);
+				gate_t = new OR (CPoint(start.x, start.y),G_way);
 			}
 			else if (gate == 2) {
-				NOT not (CPoint(start.x, start.y));
-				MoveGate(not, dc, start, x, y, flag, pre, G_way, point);
+				gate_t = new NOT (CPoint(start.x, start.y));
 			}
 			else if (gate == 3) {
-				NAND nand(CPoint(start.x, start.y), G_way);
-				MoveGate(nand, dc, start, x, y, flag, pre, G_way, point);
+				gate_t = new NAND (CPoint(start.x, start.y), G_way);
 			}
 			else if (gate == 4) {
-				NOR nor(CPoint(start.x, start.y), G_way);
-				MoveGate(nor, dc, start, x, y, flag, pre, G_way, point);
+				gate_t = new NOR (CPoint(start.x, start.y), G_way);
 			}
 			else if (gate == 5) {
-				XOR xor (CPoint(start.x, start.y), G_way);
-				MoveGate(xor, dc, start, x, y, flag, pre, G_way, point);
+				gate_t = new XOR (CPoint(start.x, start.y), G_way);
 			}
 			else if (gate == 6) {
-				D_FF d_ff(CPoint(start.x, start.y));
-				MoveGate(d_ff, dc, start, x, y, flag, pre, G_way, point);
+				gate_t = new D_FF (CPoint(start.x, start.y));
 			}
 			else if (gate == 7) {
-				JK_FF jk_ff(CPoint(start.x, start.y));
-				MoveGate(jk_ff, dc, start, x, y, flag, pre, G_way, point);
+				gate_t = new JK_FF (CPoint(start.x, start.y));
 			}
 			else if (gate == 8) {
-				T_FF t_ff(CPoint(start.x, start.y));
-				MoveGate(t_ff, dc, start, x, y, flag, pre, G_way, point);
+				gate_t = new T_FF (CPoint(start.x, start.y));
 			}
 			else if (gate == 9) {
-				Bit_switch bit_switch(CPoint(start.x, start.y));
-				MoveGate(bit_switch, dc, start, x, y, flag, pre, G_way, point);
+				gate_t = new Bit_switch (CPoint(start.x, start.y));
 			}
 			else if (gate == 11) {
-				Seven_seg seven(CPoint(start.x, start.y));
-				MoveGate(seven, dc, start, x, y, flag, pre, G_way, point);
+				gate_t = new Seven_seg (CPoint(start.x, start.y));
 			}
 			else if (gate == 12) {
-				Bit_clock clock(CPoint(start.x, start.y));
-				MoveGate(clock, dc, start, x, y, flag, pre, G_way, point);
+				gate_t = new Bit_clock (CPoint(start.x, start.y));
 			}
 			else if (gate == 10) {
-				Out_switch out_switch(CPoint(start.x, start.y));
-				MoveGate(out_switch, dc, start, x, y, flag, pre, G_way, point);
+				gate_t = new Out_switch (CPoint(start.x, start.y));
 			}
+			MoveGate(*gate_t, dc, start, x, y, flag, pre, G_way, point);
 	}
 	lineEnd = CPoint(x, y);
 	
@@ -361,69 +349,58 @@ void CLogicSim2View::OnLButtonUp(UINT nFlags, CPoint point)
 	int y = point.y / 10;
 	x = x * 10;
 	y = y * 10;
+	Gate* gate_t;
 	// TODO: Add your message handler code here and/or call default
 	if (current != -1) {
 		dc.SelectStockObject(NULL_BRUSH);
 		dc.SetROP2(R2_COPYPEN);
 
 		if (gate == 0) {
-			AND *and = new AND(CPoint(x,y),G_way);
-			CreateGate(and, dc, G_way, ptrlist);
+			gate_t = new AND(CPoint(x,y),G_way);
 		}
 		else if (gate == 1) {
-			OR* or =new OR(CPoint(x, y), G_way);
-			CreateGate(or , dc, G_way, ptrlist);
+			gate_t =new OR(CPoint(x, y), G_way);	
 		}
 		else if (gate == 2) {
-			NOT* not= new NOT(CPoint(x, y));
-			CreateGate(not, dc, G_way, ptrlist);
+			gate_t = new NOT(CPoint(x, y));
 		}
 		else if (gate == 3) {
-			NAND* nand = new NAND(CPoint(x, y), G_way);
-			CreateGate(nand, dc, G_way, ptrlist);
+			gate_t = new NAND(CPoint(x, y), G_way);	
 		}
 		else if (gate == 4) {
-			NOR* nor = new NOR(CPoint(x, y), G_way);
-			CreateGate(nor, dc, G_way, ptrlist);
+			gate_t = new NOR(CPoint(x, y), G_way);
 			}
 		else if (gate == 5) {
-			XOR* xor = new XOR(CPoint(x, y), G_way);
-			CreateGate(xor, dc, G_way, ptrlist);
+			gate_t = new XOR(CPoint(x, y), G_way);
 			} 
 		else if (gate == 6) {
-			D_FF* d_ff = new D_FF(CPoint(x, y));
-			CreateGate(d_ff, dc, G_way, ptrlist);
-			d_ff->Drawstr(dc, G_way);
+			gate_t = new D_FF(CPoint(x, y));
+			gate_t->Drawstr(dc, G_way);
 		}
 		else if (gate == 7) {
-			JK_FF* jk_ff=new JK_FF(CPoint(x, y));
-			CreateGate(jk_ff, dc, G_way, ptrlist);
-			jk_ff->Drawstr(dc, G_way);
+			gate_t =new JK_FF(CPoint(x, y));
+			gate_t->Drawstr(dc, G_way);
 		}
 		else if (gate == 8) {
-			T_FF* t_ff=new T_FF(CPoint(x, y));
-			CreateGate(t_ff, dc, G_way, ptrlist);
-			t_ff->Drawstr(dc, G_way);
+			gate_t =new T_FF(CPoint(x, y));
+			gate_t->Drawstr(dc, G_way);
 		}
 		else if (gate == 9) {
-			Bit_switch* bit_switch = new Bit_switch(CPoint(x, y));
-			CreateGate(bit_switch, dc, G_way, ptrlist);
-			bit_switch->Drawstr(dc, G_way);
+			gate_t = new Bit_switch(CPoint(x, y));
+			gate_t->Drawstr(dc, G_way);
 		}
 		else if (gate == 11) {
-			Seven_seg* seven = new Seven_seg(CPoint(x, y));
-			CreateGate(seven, dc, G_way, ptrlist);
+			gate_t = new Seven_seg(CPoint(x, y));
 		}
 		else if (gate == 12) {
-			Bit_clock* clock = new Bit_clock(CPoint(x, y));
-			CreateGate(clock, dc, G_way, ptrlist);
-			clock->Drawstr(dc, G_way);
+			gate_t = new Bit_clock(CPoint(x, y));
+			gate_t->Drawstr(dc, G_way);
 		}
 		else if (gate == 10) {
-			Out_switch* out_switch = new Out_switch(CPoint(x, y));
-			CreateGate(out_switch, dc, G_way, ptrlist);
-			out_switch->Drawstr(dc, G_way);
+			gate_t = new Out_switch(CPoint(x, y));
+			gate_t->Drawstr(dc, G_way);
 		}
+		CreateGate(gate_t, dc, G_way, ptrlist);
 		current = -1;
 		move = false;
 		gate = -1;
@@ -672,6 +649,7 @@ void CLogicSim2View::OnFileOpen()
 
 	//CFileDialog dlg(TRUE, _T("logic"), _T(""), OFN_HIDEREADONLY, _T("(*.logic) | All Files(*.*)|*.*||"));
 	CFileDialog dlg(TRUE, NULL, NULL, OFN_HIDEREADONLY, NULL);
+	Gate * gate_t;
 	if (IDOK == dlg.DoModal())
 	{
 		CString strPathName = dlg.GetPathName();
@@ -701,60 +679,48 @@ void CLogicSim2View::OnFileOpen()
 			ar >> t_label;
 
 			if ((t_name.Compare(_T("AND"))) == 0) {
-				AND *and = new AND(t_point, t_way);
-				File(and, ptrlist, t_way,t_label);
+				gate_t = new AND(t_point, t_way);
 			}
 			else if ((t_name.Compare(_T("OR"))) == 0) {
-				OR* or = new OR(t_point, t_way);
-				File(or , ptrlist, t_way, t_label);
+				gate_t = new OR(t_point, t_way);
 			}
 			else if ((t_name.Compare(_T("NOT"))) == 0) {
-				NOT * not= new NOT(t_point);
-				File(not, ptrlist, t_way, t_label);
+				gate_t = new NOT(t_point);
 			}
 			else if ((t_name.Compare(_T("NAND"))) == 0) {
-				NAND* nand = new NAND(t_point, t_way);
-				File(nand, ptrlist, t_way, t_label);
+				gate_t = new NAND(t_point, t_way);
 			}
 			else if ((t_name.Compare(_T("NOR"))) == 0) {
-				NOR* nor = new NOR(t_point, t_way);
-				File(nor, ptrlist, t_way, t_label);
+				gate_t = new NOR(t_point, t_way);
 			}
 			else if ((t_name.Compare(_T("XOR"))) == 0) {
-				XOR* xor = new XOR(t_point, t_way);
-				File(xor, ptrlist, t_way, t_label);
+				gate_t = new XOR(t_point, t_way);
 			}
 			else if ((t_name.Compare(_T("D_FF"))) == 0) {
-				D_FF* d_ff = new D_FF(t_point);
-				File(d_ff, ptrlist,  t_way, t_label);
+				gate_t = new D_FF(t_point);
 			}
 			else if ((t_name.Compare(_T("JK_FF"))) == 0) {
-				JK_FF* jk_ff = new JK_FF(t_point);
-				File(jk_ff, ptrlist,  t_way, t_label);
+				gate_t = new JK_FF(t_point);
 			}
 			else if ((t_name.Compare(_T("T_FF"))) == 0) {
-				T_FF* t_ff = new T_FF(t_point);
-				File(t_ff, ptrlist,  t_way, t_label);
+				gate_t = new T_FF(t_point);
 			}
 			else if ((t_name.Compare(_T("SWITCH"))) == 0) {
-				Bit_switch* bit_switch = new Bit_switch(t_point);
-				bit_switch->isbit = true;
-				File(bit_switch, ptrlist, t_way, t_label);
+				gate_t = new Bit_switch(t_point);
+				gate_t->isbit = true;
 			}
 			else if ((t_name.Compare(_T("7-SEGMENT"))) == 0) {
-				Seven_seg* seven = new Seven_seg(t_point);
-				File(seven, ptrlist,  t_way, t_label);
+				gate_t = new Seven_seg(t_point);
 			}
 			else if ((t_name.Compare(_T("CLOCK"))) == 0) {
-				Bit_clock* clock = new Bit_clock(t_point);
-				clock->isclock = true;
-				File(clock, ptrlist, t_way, t_label);
+				gate_t = new Bit_clock(t_point);
+				gate_t->isclock = true;
 			}
 			else if ((t_name.Compare(_T("LAMP"))) == 0) {
-				Out_switch* out_switch = new Out_switch(t_point);
-				out_switch->isbit = true;
-				File(out_switch, ptrlist, t_way, t_label);
+				gate_t = new Out_switch(t_point);
+				gate_t->isbit = true;
 			}
+			File(gate_t, ptrlist, t_way, t_label);
 		}
 
 		ar >> i;

@@ -23,10 +23,10 @@ public:
 	bool c_flag = false;
 
 	Gate() {
-		point = CPoint(-10, -10);
+		point = CPoint(-100, -100);
 		for (int i = 0; i < 7; i++) {
-			output[i] = (-10, -10);
-			input[i] = (-10, -10);
+			output[i] = (-100, -100);
+			input[i] = (-100, -100);
 			input_value[i] = -1;
 			output_value[i] = -1;
 		}
