@@ -473,6 +473,7 @@ public:
 	}
 	void Draw(CClientDC &dc, double i) {
 		dc.Rectangle(point.x - 20, point.y - 10, point.x, point.y + 10);
+		output[0] = CPoint(point.x, point.y);
 	}
 	void Drawstr(CClientDC &dc, double i) {
 		CString str;
@@ -579,6 +580,8 @@ public:
 		dc.LineTo(point.x - 10, point.y + 15);
 		dc.LineTo(point.x - 10, point.y + 5);
 		dc.LineTo(point.x - 5, point.y + 5);
+
+		output[0] = CPoint(point.x, point.y);
 	}
 	void Drawstr(CClientDC &dc, double i) {
 		CString str;
@@ -600,6 +603,7 @@ public:
 	}
 	void Draw(CClientDC &dc, double i) {
 		dc.Ellipse(point.x, point.y - 10, point.x + 20, point.y + 10);
+		input[0] = CPoint(point.x, point.y);
 	}
 	void Drawstr(CClientDC &dc, double i) {
 		CString str;
