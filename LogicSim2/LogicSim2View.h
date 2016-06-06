@@ -82,6 +82,9 @@ public:
 	afx_msg void OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags);
 	afx_msg void OnLButtonDblClk(UINT nFlags, CPoint point);
 	
+	afx_msg void OnFileSave();
+	afx_msg void OnFileOpen();
+	afx_msg void OnFileNew();
 };
 
 #ifndef _DEBUG  // debug version in LogicSim2View.cpp
