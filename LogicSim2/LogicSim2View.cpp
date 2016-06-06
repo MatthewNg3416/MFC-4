@@ -545,6 +545,7 @@ void CLogicSim2View::OnLButtonUp(UINT nFlags, CPoint point)
 		gate = -1;
 		start.x = 0;
 		start.y = 0;
+		undo_num.AddTail(0);
 	}
 	lineEnd = CPoint(x, y);
 	if (lineDraw) {
@@ -552,6 +553,7 @@ void CLogicSim2View::OnLButtonUp(UINT nFlags, CPoint point)
 		line.Add(lineEnd);
 		lineDraw = false;
 		Invalidate(FALSE);
+		undo_num.AddTail(1);
 	}
 
 	if (isClicked==true) {
@@ -629,7 +631,7 @@ void CLogicSim2View::OnLButtonDblClk(UINT nFlags, CPoint point)
 void CLogicSim2View::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 {
 	// TODO: 여기에 메시지 처리기 코드를 추가 및/또는 기본값을 호출합니다.
-
+	int i;
 	switch (nChar) {
 	case 'C':
 		if (current != -1 && move) {
@@ -642,6 +644,53 @@ void CLogicSim2View::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 				G_way = 0;
 			}
 		}
+		break;
+	case 'Z':
+		i = undo_num.GetTail();
+		redo_num.AddTail(i);
+		undo_num.RemoveTail();
+		if (i == 0) {
+			i = ptrlist.GetCount();
+			redo_ptrlist.Add(ptrlist.GetAt(i - 1));
+			redo_list.Add(list.GetAt(i - 1));
+			ptrlist.RemoveAt(i-1);
+			list.RemoveAt(i-1);
+		}
+		else if (i == 1) {
+			i = line.GetCount();
+			redo_line.Add(line.GetAt(i - 2));
+			redo_line.Add(line.GetAt(i - 1));
+			line.RemoveAt(i - 1);
+			line.RemoveAt(i - 2);
+		}
+		else {
+			;
+		}
+		Invalidate();
+		break;
+	case 'X':
+		i = redo_num.GetTail();
+		undo_num.AddTail(i);
+		redo_num.RemoveTail();
+		if (i == 0) {
+			i = redo_ptrlist.GetCount();
+			ptrlist.Add(redo_ptrlist.GetAt(i - 1));
+			list.Add(redo_list.GetAt(i - 1));
+			redo_ptrlist.RemoveAt(i - 1);
+			redo_list.RemoveAt(i - 1);
+		}
+		else if (i == 1) {
+			i = redo_line.GetCount();
+			line.Add(redo_line.GetAt(i - 2));
+			line.Add(redo_line.GetAt(i - 1));
+			redo_line.RemoveAt(i - 1);
+			redo_line.RemoveAt(i - 2);
+		}
+		else {
+			;
+		}
+		Invalidate();
+		break;
 	}
 
 	CView::OnKeyDown(nChar, nRepCnt, nFlags);
